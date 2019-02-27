@@ -1,0 +1,1 @@
+This sql has all right reserved for MATHEUS LEANDRO FERREIRA
