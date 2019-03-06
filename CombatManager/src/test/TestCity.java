@@ -1,6 +1,6 @@
 package test;
 
-import model.City;
+import database.model.City;
 
 public class TestCity {
 	
