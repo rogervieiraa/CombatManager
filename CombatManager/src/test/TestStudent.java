@@ -1,7 +1,7 @@
 package test;
 
-import model.City;
-import model.Student;
+import database.model.City;
+import database.model.Student;
 
 public class TestStudent {
 	public static void main(String[] args) {

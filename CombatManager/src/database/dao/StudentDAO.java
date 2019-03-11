@@ -30,16 +30,18 @@ public class StudentDAO extends MasterDAO {
 		while(rst.next()) {
 			Student student = new Student();
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
-			student.setBirthday("");
-			student.setAdress("Avenida Brasil");
-			student.setCellPhoneNumber("(48) 00000-0000");
-			student.setCep("88800-000");
-			student.setHomeNumber("000");
-			student.setIndex(1);
-			student.setLocal("Bairo X");
-			student.setNote("Good Person");
-			student.setPhoneNumber("48 3000-0000");
-			student.setSex('M');
+			student.setName(rst.getString("aluno"));
+			student.setBirthday(rst.getString("data_nascimento"));
+			student.setAdress(rst.getString("endereco"));
+			student.setCellPhoneNumber(rst.getString("telefone"));
+			student.setEmail(rst.getString("email"));
+			student.setCep(rst.getString("cep"));
+			student.setHomeNumber(rst.getString("numero"));
+			student.setLocal(rst.getString("bairro"));
+			student.setExtraInformation(rst.getString("complemento"));
+			student.setNote(rst.getString("observacao"));
+			student.setPhoneNumber(rst.getString("celular"));
+			student.setSex((rst.getString("sexo").charAt(0)));
 			arlStudent.add(student);
 		}
 		
@@ -48,25 +50,25 @@ public class StudentDAO extends MasterDAO {
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 
 	@Override
 	public Object Update(Object parameter) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 
 	@Override
 	public Object Insert(Object parameter) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 
 	@Override
 	public Object Delete(Object parameter) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 

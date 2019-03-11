@@ -2,13 +2,16 @@ package database.model;
 
 public class Student {
 	private Integer index;
+	private String name;
 	private String birthday;
 	private char sex;
 	private String phoneNumber;
 	private String cellPhoneNumber;
+	private String email;
 	private String note; //anotacoes / observacoes
 	private String adress;
 	private String homeNumber; //numero da casa
+	private String extraInformation;
 	private String local; //bairro
 	private City city;
 	private String cep;
@@ -18,19 +21,22 @@ public class Student {
 	public Student() {
 	}
 
-	public Student(Integer index, String birthday, char sex, 
-					String phoneNumber, String cellPhoneNumber, 
-					String note, String adress, String homeNumber, 
+	public Student(Integer index, String name, String birthday, char sex, 
+					String phoneNumber, String cellPhoneNumber, String email, 
+					String note, String adress, String homeNumber, String extraInformation, 
 					String local, City city, String cep) {
 
 		this.index = index;
+		this.name = name;
 		this.birthday = birthday;
 		this.sex = sex;
 		this.phoneNumber = phoneNumber;
 		this.cellPhoneNumber = cellPhoneNumber;
+		this.email = email;
 		this.note = note;
 		this.adress = adress;
 		this.homeNumber = homeNumber;
+		this.extraInformation = extraInformation;
 		this.local = local;
 		this.city = city;
 		this.cep = cep;
@@ -43,6 +49,32 @@ public class Student {
 
 	public void setIndex(Integer index) {
 		this.index = index;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getExtraInformation() {
+		return extraInformation;
+	}
+
+	public void setExtraInformation(String extraInformation) {
+		this.extraInformation = extraInformation;
 	}
 
 	public String getBirthday() {
