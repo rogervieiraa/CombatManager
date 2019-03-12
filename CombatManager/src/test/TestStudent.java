@@ -1,7 +1,9 @@
 package test;
 
+
 import database.model.City;
 import database.model.Student;
+
 
 public class TestStudent {
 	public static void main(String[] args) {
@@ -15,7 +17,7 @@ public class TestStudent {
 		student.setAdress("Avenida Brasil");
 		student.setCellPhoneNumber("(48) 00000-0000");
 		student.setCep("88800-000");
-		student.setCity(new City("São Paulo", "São Paulo", "Brasil"));
+		student.setCity(new City("Sï¿½o Paulo", "Sï¿½o Paulo", "Brasil"));
 		student.setHomeNumber("000");
 		student.setIndex(1);
 		student.setLocal("Bairo X");
