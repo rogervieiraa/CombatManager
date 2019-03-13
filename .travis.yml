@@ -3,6 +3,8 @@ jdk:
    - openjdk7
    - oraclejdk8
 
+before_install: cd CombatManager
+
 branches:
   only:
     - master
