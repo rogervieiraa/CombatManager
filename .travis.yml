@@ -3,8 +3,8 @@ jdk:
    - openjdk7
    - oraclejdk8
 
-install: ant
+before_install: cd CombatManager
 
-script: 
-   - cd CombatManager
-   - ant build
+branches:
+  only:
+    - master
