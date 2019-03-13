@@ -24,4 +24,10 @@ public class Plan {
 	public void setMonth_value(float month_value) {
 		this.month_value = month_value;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "Plan [modality=" + modality + ", plan=" + plan + ", month_value=" + month_value + "]";
+	}
 }

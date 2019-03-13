@@ -17,4 +17,10 @@ public class Graduation {
 	public void setGraduation(String graduation) {
 		this.graduation = graduation;
 	}
+	@Override
+	public String toString() {
+		return "Graduation [modality=" + modality + ", graduation=" + graduation + "]";
+	}
+	
+	
 }

@@ -10,5 +10,12 @@ public class Modality {
 
 	public void setModality(String modality) {
 		this.modality = modality;
-	}	
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "Modality [modality=" + modality + "]";
+	}
 }

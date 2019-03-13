@@ -14,6 +14,9 @@ public class Attendance {
 	public String getEntry_date() {
 		return entry_date;
 	}
+	public void setEntry_date(Integer day, Integer month, Integer year) {
+		this.entry_date = day.toString() + '/' + month.toString() + '/' + year.toString();
+	}
 	public void setEntry_date(String entry_date) {
 		this.entry_date = entry_date;
 	}

@@ -39,4 +39,10 @@ public class Matriculation {
 	public void setClosing_day(String closing_day) {
 		this.closing_day = closing_day;
 	}
+	
+	@Override
+	public String toString() {
+		return "Matriculation [code=" + code + ", student_code=" + student_code + ", matriculation_date="
+				+ matriculation_date + ", due_date=" + due_date + ", closing_day=" + closing_day + "]";
+	}
 }

@@ -46,4 +46,14 @@ public class MatriculationModality {
 	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "MatriculationModality [matriculation_code=" + matriculation_code + ", modality=" + modality
+				+ ", graduation=" + graduation + ", plan=" + plan + ", begin_date=" + begin_date + ", end_date="
+				+ end_date + "]";
+	}
+	
+	
 }

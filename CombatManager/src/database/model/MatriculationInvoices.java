@@ -38,4 +38,13 @@ public class MatriculationInvoices {
 	public void setCancel_date(String cancel_date) {
 		this.cancel_date = cancel_date;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "MatriculationInvoices [matriculation_code=" + matriculation_code + ", due_date=" + due_date + ", value="
+				+ value + ", pay_date=" + pay_date + ", cancel_date=" + cancel_date + "]";
+	}
+	
+	
 }
