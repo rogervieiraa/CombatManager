@@ -1,0 +1,2 @@
+cd CombatManager/
+ant build
