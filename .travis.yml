@@ -4,7 +4,3 @@ jdk:
    - oraclejdk8
 
 install: ant
-
-script: 
-   - cd CombatManager
-   - ant build
