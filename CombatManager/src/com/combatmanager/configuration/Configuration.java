@@ -5,6 +5,14 @@ import com.combatmanager.database.model.User;
 public class Configuration {
 	
 	private User userLoged;
+	/*
+	 * We will use the prime numbers to identify who have access
+	 * 
+	 * If a window have access = 35
+	 * Every user that (35 % userPermission == 0) can access the window
+	 * 
+	 * */
+	private final int PRIME_NUMBER[] = {3,5,7,11,13,17,19,23,27};
 	
 	public Configuration(User userLoged) {
 		this.userLoged = userLoged;
@@ -20,7 +28,7 @@ public class Configuration {
 	
 	/**
 	 * @author Roger
-	 * @return the value of the user permission
+	 * @return the a prime value of the user permission
 	 */
 	public int getPermissionValue() {
 		
@@ -28,7 +36,7 @@ public class Configuration {
 		String[] permissionType = userLoged.getPermissionType();
 		for(int i=0;i<permissionType.length;i++) {
 			if(permission.equals(permissionType[i])) {
-				return i;
+				return PRIME_NUMBER[i];
 			}
 		}
 		

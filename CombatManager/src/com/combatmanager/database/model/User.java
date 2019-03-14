@@ -3,7 +3,7 @@ package com.combatmanager.database.model;
 public class User {
 	private String user;
 	private String profile;
-	private final String[] permissionType = {"Cadastral","Matricular","Financeiro","Completo"};
+	private final String[] PERMISSION_TYPE = {"Cadastral","Matricular","Financeiro","Completo"};
 	
 	public String getUser() {
 		return user;
@@ -18,8 +18,8 @@ public class User {
 	}
 
 	public void setProfile(String profile) {
-		for(int i=0;i<this.permissionType.length;i++) {
-			if(profile.equals(permissionType[i])) {
+		for(int i=0;i<this.PERMISSION_TYPE.length;i++) {
+			if(profile.equals(PERMISSION_TYPE[i])) {
 				this.profile = profile;
 				return;
 			}
@@ -28,7 +28,7 @@ public class User {
 	}
 
 	public String[] getPermissionType() {
-		return permissionType;
+		return PERMISSION_TYPE;
 	}
 
 	@Override
