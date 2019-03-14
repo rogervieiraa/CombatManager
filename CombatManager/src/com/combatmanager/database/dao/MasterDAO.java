@@ -1,4 +1,4 @@
-package database.dao;
+package com.combatmanager.database.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

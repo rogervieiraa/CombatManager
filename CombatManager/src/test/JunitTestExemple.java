@@ -1,6 +1,6 @@
 package test;
 
-import database.model.City;
+import com.combatmanager.database.model.City;
 
 public class JunitTestExemple {
 	

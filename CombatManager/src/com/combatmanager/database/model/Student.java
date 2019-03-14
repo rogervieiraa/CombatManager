@@ -1,4 +1,4 @@
-package database.model;
+package com.combatmanager.database.model;
 
 public class Student {
 	private Integer index;
@@ -8,10 +8,10 @@ public class Student {
 	private String phoneNumber;
 	private String cellPhoneNumber;
 	private String email;
-	private String note; //anotacoes / observacoes
+	private String note; // anotacoes / observacoes
 	private String adress;
-	private String homeNumber; //numero da casa
-	private String extraInformation;
+	private String homeNumber; // numero da casa
+	private String extraInformation; 
 	private String local; //bairro
 	private String city;
 	private String country;
@@ -25,16 +25,16 @@ public class Student {
 	}
 
 	private String cep;
-	
-	
-	
+
 	public Student() {
 	}
+
 
 	public Student(Integer index, String name, String birthday, char sex, 
 					String phoneNumber, String cellPhoneNumber, String email, 
 					String note, String adress, String homeNumber, String extraInformation, 
 					String local, String city,String country, String cep) {
+
 
 		this.index = index;
 		this.name = name;
@@ -51,7 +51,7 @@ public class Student {
 		this.city = city;
 		this.country = country;
 		this.cep = cep;
-		
+
 	}
 
 	public Integer getIndex() {
@@ -61,7 +61,7 @@ public class Student {
 	public void setIndex(Integer index) {
 		this.index = index;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -70,8 +70,6 @@ public class Student {
 		this.name = name;
 	}
 
-	
-	
 	public String getEmail() {
 		return email;
 	}
@@ -91,12 +89,12 @@ public class Student {
 	public String getBirthday() {
 		return birthday;
 	}
-	
-	//variation using integer
+
+	// variation using integer
 	public void setBirthday(Integer day, Integer month, Integer year) {
 		this.birthday = day.toString() + '/' + month.toString() + '/' + year.toString();
 	}
-	
+
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
@@ -179,7 +177,5 @@ public class Student {
 				+ ", cellPhoneNumber=" + cellPhoneNumber + ", note=" + note + ", adress=" + adress + ", homeNumber="
 				+ homeNumber + ", local=" + local + ", city=" + city + ", cep=" + cep + "]";
 	}
-	
-	
-	
+
 }

@@ -1,9 +1,8 @@
-package database.model;
+package com.combatmanager.database.model;
 
 public class Modality {
 	private String modality;
 
-	
 	public String getModality() {
 		return modality;
 	}
@@ -12,8 +11,6 @@ public class Modality {
 		this.modality = modality;
 	}
 
-	
-	
 	@Override
 	public String toString() {
 		return "Modality [modality=" + modality + "]";

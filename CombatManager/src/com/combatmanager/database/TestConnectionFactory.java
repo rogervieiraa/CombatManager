@@ -1,10 +1,10 @@
-package database;
+package com.combatmanager.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import database.dao.StudentDAO;
+import com.combatmanager.database.dao.StudentDAO;
 
 public class TestConnectionFactory {
 	
