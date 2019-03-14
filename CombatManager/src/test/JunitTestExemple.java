@@ -2,12 +2,13 @@ package test;
 
 import database.model.City;
 
-public class TestCity {
+public class JunitTestExemple {
 	
-	public static void main(String[] args) {
+	public String test() {
 		
 		City city = new City("Criciuma","SC", "Brasil");
-		System.out.println(city.toString());
+
+		return city.toString();
 		
 	}
 }
