@@ -3,7 +3,7 @@ package com.combatmanager.database.model;
 public class User {
 	private String user;
 	private String profile;
-	private final String[] PERMISSION_TYPE = {"Cadastral","Matricular","Financeiro","Completo"};
+	private final static String[] PERMISSION_TYPE = {"Cadastral","Matricular","Financeiro","Completo"};
 	
 	
 	public User () {
@@ -38,7 +38,7 @@ public class User {
 		// TO DO ERROR
 	}
 
-	public String[] getPermissionType() {
+	public static String[] getPermissionType() {
 		return PERMISSION_TYPE;
 	}
 

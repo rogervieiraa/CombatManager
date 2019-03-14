@@ -22,13 +22,13 @@ public class MainTest {
 		Configuration config = new Configuration(localUser);
 		ConfigucarionModelTest cmt = new ConfigucarionModelTest();
 		localUser.setProfile("Cadastral");
-		assertEquals(0, cmt.test(config));
-		localUser.setProfile("Matricular");
-		assertEquals(1, cmt.test(config));
-		localUser.setProfile("Financeiro");
-		assertEquals(2, cmt.test(config));
-		localUser.setProfile("Completo");
 		assertEquals(3, cmt.test(config));
+		localUser.setProfile("Matricular");
+		assertEquals(5, cmt.test(config));
+		localUser.setProfile("Financeiro");
+		assertEquals(7, cmt.test(config));
+		localUser.setProfile("Completo");
+		assertEquals(11, cmt.test(config));
 		
 	}
 	

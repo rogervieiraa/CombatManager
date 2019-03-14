@@ -17,7 +17,11 @@ public class Configuration {
 	public Configuration(User userLoged) {
 		this.userLoged = userLoged;
 	}
-
+	
+	public boolean hasUserLoged() {
+		return (this.userLoged != null);
+	}
+	
 	public User getUserLoged() {
 		return userLoged;
 	}
@@ -33,7 +37,7 @@ public class Configuration {
 	public int getPermissionValue() {
 		
 		String permission = userLoged.getProfile();
-		String[] permissionType = userLoged.getPermissionType();
+		String[] permissionType = User.getPermissionType();
 		for(int i=0;i<permissionType.length;i++) {
 			if(permission.equals(permissionType[i])) {
 				return PRIME_NUMBER[i];
