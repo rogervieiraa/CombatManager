@@ -7,3 +7,5 @@ before_install: cd CombatManager
 branches:
   only:
     - master
+
+script: ant build
