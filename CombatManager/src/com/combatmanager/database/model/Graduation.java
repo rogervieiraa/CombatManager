@@ -4,6 +4,16 @@ public class Graduation {
 	private String modality;
 	private String graduation;
 
+	public Graduation () {
+		
+	}
+	
+	public Graduation(String modality, String graduation) {
+		super();
+		this.modality = modality;
+		this.graduation = graduation;
+	}
+
 	public String getModality() {
 		return modality;
 	}

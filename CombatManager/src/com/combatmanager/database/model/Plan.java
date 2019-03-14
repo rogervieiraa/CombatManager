@@ -5,6 +5,17 @@ public class Plan {
 	private String plan;
 	private float month_value;
 
+	public Plan () {
+		
+	}
+	
+	public Plan(String modality, String plan, float month_value) {
+		super();
+		this.modality = modality;
+		this.plan = plan;
+		this.month_value = month_value;
+	}
+
 	public String getModality() {
 		return modality;
 	}

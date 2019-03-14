@@ -7,6 +7,20 @@ public class Matriculation {
 	private Integer due_date;
 	private String closing_day;
 
+	public Matriculation() {
+		
+	}
+	
+	public Matriculation(Integer code, Integer student_code, String matriculation_date, Integer due_date,
+			String closing_day) {
+		super();
+		this.code = code;
+		this.student_code = student_code;
+		this.matriculation_date = matriculation_date;
+		this.due_date = due_date;
+		this.closing_day = closing_day;
+	}
+
 	public Integer getCode() {
 		return code;
 	}

@@ -8,6 +8,21 @@ public class MatriculationModality {
 	private String begin_date;
 	private String end_date;
 
+	public MatriculationModality () {
+		
+	}
+	
+	public MatriculationModality(Integer matriculation_code, String modality, String graduation, String plan,
+			String begin_date, String end_date) {
+		super();
+		this.matriculation_code = matriculation_code;
+		this.modality = modality;
+		this.graduation = graduation;
+		this.plan = plan;
+		this.begin_date = begin_date;
+		this.end_date = end_date;
+	}
+
 	public Integer getMatriculation_code() {
 		return matriculation_code;
 	}

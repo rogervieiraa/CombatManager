@@ -5,6 +5,17 @@ public class User {
 	private String profile;
 	private final String[] PERMISSION_TYPE = {"Cadastral","Matricular","Financeiro","Completo"};
 	
+	
+	public User () {
+		
+	}
+	
+	public User(String user, String profile) {
+		super();
+		this.user = user;
+		this.profile = profile;
+	}
+
 	public String getUser() {
 		return user;
 	}

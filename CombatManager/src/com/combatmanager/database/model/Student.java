@@ -13,16 +13,8 @@ public class Student {
 	private String homeNumber; // numero da casa
 	private String extraInformation; 
 	private String local; //bairro
-	private String city;
-	private String country;
+	private City city;
 	
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
 
 	private String cep;
 
@@ -33,7 +25,7 @@ public class Student {
 	public Student(Integer index, String name, String birthday, char sex, 
 					String phoneNumber, String cellPhoneNumber, String email, 
 					String note, String adress, String homeNumber, String extraInformation, 
-					String local, String city,String country, String cep) {
+					String local, City city, String cep) {
 
 
 		this.index = index;
@@ -49,7 +41,6 @@ public class Student {
 		this.extraInformation = extraInformation;
 		this.local = local;
 		this.city = city;
-		this.country = country;
 		this.cep = cep;
 
 	}
@@ -155,11 +146,11 @@ public class Student {
 		this.local = local;
 	}
 
-	public String getCity() {
+	public City getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
 

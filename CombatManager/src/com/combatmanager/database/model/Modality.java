@@ -3,6 +3,16 @@ package com.combatmanager.database.model;
 public class Modality {
 	private String modality;
 
+	
+	public Modality () {
+		
+	}
+	
+	public Modality(String modality) {
+		super();
+		this.modality = modality;
+	}
+
 	public String getModality() {
 		return modality;
 	}

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.combatmanager.database.model.City;
 import com.combatmanager.database.model.Student;
 
 public class StudentDAO extends MasterDAO {
@@ -66,7 +67,8 @@ public class StudentDAO extends MasterDAO {
 	
 	
 	public List<Object> SelectAll() throws SQLException {
-		List<Object> arlStudent = new ArrayList<Object>(); 
+		List<Object> arlStudent = new ArrayList<Object>();
+		City city = new City ();
 		ResultSet rst= pst_selectAll.executeQuery();
 		
 		while(rst.next()) {
@@ -84,6 +86,15 @@ public class StudentDAO extends MasterDAO {
 			student.setNote(rst.getString("observacao"));
 			student.setPhoneNumber(rst.getString("celular"));
 			student.setSex((rst.getString("sexo").charAt(0)));
+			
+			//Creating city object
+			city.setName(rst.getString("cidade"));
+			city.setCountry(rst.getString("pais"));
+			city.setState(rst.getString("estado"));
+			//End
+			
+			student.setCity(city);
+			
 			arlStudent.add(student);
 		}
 		
@@ -113,9 +124,17 @@ public class StudentDAO extends MasterDAO {
 			student.setHomeNumber(rst.getString("numero"));
 			student.setExtraInformation(rst.getString("complemento"));
 			student.setLocal(rst.getString("bairro"));
-			student.setCity(rst.getString("cidade"));
+			
+			//Creating city object
+			City city = new City();
+			
+			city.setName(rst.getString("cidade"));
+			city.setCountry(rst.getString("pais"));
+			city.setState(rst.getString("estado"));
+			//End
+			
+			student.setCity(city);
 			student.setCep(rst.getString("cep"));
-			student.setCountry(rst.getString("pais"));
 			
 		}
 		
@@ -145,8 +164,18 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_insert, 9, student.getHomeNumber());
 		Set(pst_insert, 10, student.getExtraInformation());
 		Set(pst_insert, 11, student.getLocal());
-		Set(pst_insert, 12, student.getCity());
-		//Set(pst_insert, 1, student.get);
+		
+		//Creating city object
+		City city = new City();
+		
+		city = student.getCity();
+		//End
+		
+		Set(pst_insert, 12, city.getName());
+		Set(pst_insert, 13, city.getState());
+		Set(pst_insert, 14, city.getCountry());
+		Set(pst_insert, 15, student.getCep());
+
 		
 		return null;
 	}

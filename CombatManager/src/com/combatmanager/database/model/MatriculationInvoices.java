@@ -7,6 +7,20 @@ public class MatriculationInvoices {
 	private String pay_date;
 	private String cancel_date;
 
+	public MatriculationInvoices () {
+		
+	}
+	
+	public MatriculationInvoices(Integer matriculation_code, String due_date, float value, String pay_date,
+			String cancel_date) {
+		super();
+		this.matriculation_code = matriculation_code;
+		this.due_date = due_date;
+		this.value = value;
+		this.pay_date = pay_date;
+		this.cancel_date = cancel_date;
+	}
+
 	public Integer getMatriculation_code() {
 		return matriculation_code;
 	}

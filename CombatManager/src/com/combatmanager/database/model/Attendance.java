@@ -4,6 +4,16 @@ public class Attendance {
 	private Integer matriculation_code;
 	private String entry_date;
 
+	public Attendance () {
+		
+	}
+	
+	public Attendance(Integer matriculation_code, String entry_date) {
+		super();
+		this.matriculation_code = matriculation_code;
+		this.entry_date = entry_date;
+	}
+
 	public Integer getMatriculation_code() {
 		return matriculation_code;
 	}

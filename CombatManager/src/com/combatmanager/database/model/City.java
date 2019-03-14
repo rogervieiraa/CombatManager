@@ -5,6 +5,10 @@ public class City {
 	private String state;
 	private String country;
 
+	public City() {
+		
+	}
+	
 	public City(String name, String state, String country) {
 		this.name = name;
 		this.state = state;
