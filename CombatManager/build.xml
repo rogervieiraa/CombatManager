@@ -23,6 +23,13 @@
         <pathelement location="postgresql-42.2.5.jre7.jar"/>
         <path refid="JUnit 4.libraryclasspath"/>
     </path>
+    <path id="run.TestRunner.classpath">
+        <path refid="CombatManager.classpath"/>
+        <path refid="CombatImage.classpath"/>
+        <pathelement location="postgresql-42.2.5.jre7.jar"/>
+        <pathelement location="../../../../../../../snap/eclipse/29/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+        <pathelement location="../../../../../../../snap/eclipse/29/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>
     <path id="run.TestStudent.classpath">
         <path refid="CombatManager.classpath"/>
         <path refid="CombatImage.classpath"/>
@@ -38,13 +45,6 @@
         <pathelement location="../../../../../../../snap/eclipse/29/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
     </path>
     <path id="run.MainTest.classpath">
-        <path refid="CombatManager.classpath"/>
-        <path refid="CombatImage.classpath"/>
-        <pathelement location="postgresql-42.2.5.jre7.jar"/>
-        <pathelement location="../../../../../../../snap/eclipse/29/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="../../../../../../../snap/eclipse/29/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
-    </path>
-    <path id="run.TestRunner.classpath">
         <path refid="CombatManager.classpath"/>
         <path refid="CombatImage.classpath"/>
         <pathelement location="postgresql-42.2.5.jre7.jar"/>
@@ -94,6 +94,11 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="TestRunner">
+        <java classname="test.TestRunner" failonerror="true" fork="yes">
+            <classpath refid="run.TestRunner.classpath"/>
+        </java>
+    </target>
     <target name="TestStudent">
         <java classname="test.TestStudent" failonerror="true" fork="yes">
             <classpath refid="run.TestStudent.classpath"/>
@@ -116,11 +121,6 @@
             <jvmarg line="-ea"/>
             <classpath refid="run.MainTest.classpath"/>
         </junit>
-    </target>
-    <target name="TestRunner">
-        <java classname="test.TestRunner" failonerror="true" fork="yes">
-            <classpath refid="run.TestRunner.classpath"/>
-        </java>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">
