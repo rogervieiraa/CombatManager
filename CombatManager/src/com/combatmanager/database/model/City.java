@@ -1,10 +1,10 @@
-package database.model;
+package com.combatmanager.database.model;
 
 public class City {
 	private String name;
 	private String state;
 	private String country;
-	
+
 	public City(String name, String state, String country) {
 		this.name = name;
 		this.state = state;
@@ -39,7 +39,5 @@ public class City {
 	public String toString() {
 		return "City [name=" + name + ", state=" + state + ", country=" + country + "]";
 	}
-	
-	
-	
+
 }

@@ -24,7 +24,6 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -64,11 +63,6 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="TestStudent">
-        <java classname="test.TestStudent" failonerror="true" fork="yes">
-            <classpath refid="CombatManager.classpath"/>
-        </java>
-    </target>
     <target name="MainTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -77,6 +71,11 @@
             <jvmarg line="-ea"/>
             <classpath refid="CombatManager.classpath"/>
         </junit>
+    </target>
+    <target name="TestStudent">
+        <java classname="test.TestStudent" failonerror="true" fork="yes">
+            <classpath refid="CombatManager.classpath"/>
+        </java>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">

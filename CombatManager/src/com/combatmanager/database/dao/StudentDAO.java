@@ -1,4 +1,4 @@
-package database.dao;
+package com.combatmanager.database.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.model.Student;
+import com.combatmanager.database.model.Student;
 
 public class StudentDAO extends MasterDAO {
 	

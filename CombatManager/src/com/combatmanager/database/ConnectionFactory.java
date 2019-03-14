@@ -1,4 +1,4 @@
-package database;
+package com.combatmanager.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
