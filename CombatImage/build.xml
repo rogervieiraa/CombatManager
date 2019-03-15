@@ -7,8 +7,8 @@
     <property environment="env"/>
     <property name="CombatManager.location" value="../CombatManager"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="10"/>
-    <property name="source" value="10"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
     <path id="CombatImage.classpath">
         <pathelement location="bin"/>
     </path>
@@ -16,6 +16,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
