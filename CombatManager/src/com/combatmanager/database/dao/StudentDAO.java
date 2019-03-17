@@ -142,13 +142,13 @@ public class StudentDAO extends MasterDAO {
 	}
 
 	@Override
-	public Object Update(Object parameter) throws SQLException {
+	public void Update(Object parameter) throws SQLException {
 		//TO DO
-		return null;
+		
 	}
 
 	@Override
-	public Object Insert(Object parameter) throws SQLException {
+	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
 		
 		Student student = (Student)parameter;
@@ -177,13 +177,11 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_insert, 15, student.getCep());
 
 		
-		return null;
 	}
 
 	@Override
-	public Object Delete(Object parameter) throws SQLException {
+	public void Delete(Object parameter) throws SQLException {
 		// TODO
-		return null;
 	}
 
 }

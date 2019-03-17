@@ -17,15 +17,15 @@ public abstract class MasterDAO {
 		throws			SQLException;
 		
 	public abstract
-	Object 				Update(Object parameter)
+	void 				Update(Object parameter)
 		throws			SQLException;
 		
 	public abstract
-	Object 				Insert(Object parameter)
+	void 				Insert(Object parameter)
 		throws			SQLException;
 		
 	public abstract
-	Object 				Delete(Object parameter)
+	void 				Delete(Object parameter)
 		throws			SQLException;
 		
 	public void	 			Set(PreparedStatement pst, int position, Object value) throws SQLException {
