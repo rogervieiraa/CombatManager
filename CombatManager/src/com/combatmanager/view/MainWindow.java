@@ -1,4 +1,4 @@
-package view;
+package com.combatmanager.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -6,42 +6,30 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.combatmanager.configuration.Configuration;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
-public class MainScreen extends JFrame {
-
+public class MainWindow extends JFrame {
+	private Configuration config;
 	private JPanel contentPane;
-
+	
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainScreen frame = new MainScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
+	 * @author Romulo
 	 * Create the frame.
 	 */
-	public MainScreen() {
+	public MainWindow(Configuration config) {
+		this.config = config; //TO DO
 		setTitle("Combat Manager 1.0");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/img/combat.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/img/combat.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
@@ -52,33 +40,33 @@ public class MainScreen extends JFrame {
 		menuBar.add(mnSistema);
 		
 		JMenuItem mntmUsuarios = new JMenuItem("Usu\u00E1rios");
-		mntmUsuarios.setIcon(new ImageIcon(MainScreen.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		mntmUsuarios.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnSistema.add(mntmUsuarios);
 		
 		JMenuItem mntmSair = new JMenuItem("Sair");
-		mntmSair.setIcon(new ImageIcon(MainScreen.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
+		mntmSair.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
 		mnSistema.add(mntmSair);
 		
 		JMenu mnCadastros = new JMenu("Cadastros");
 		menuBar.add(mnCadastros);
 		
 		JMenuItem mntmAlunos = new JMenuItem("Alunos");
-		mntmAlunos.setIcon(new ImageIcon(MainScreen.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		mntmAlunos.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnCadastros.add(mntmAlunos);
 		
 		JMenuItem mntmModalidades = new JMenuItem("Modalidades");
-		mntmModalidades.setIcon(new ImageIcon(MainScreen.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
+		mntmModalidades.setIcon(new ImageIcon(MainWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
 		mnCadastros.add(mntmModalidades);
 		
 		JMenuItem mntmPlanos = new JMenuItem("Planos");
-		mntmPlanos.setIcon(new ImageIcon(MainScreen.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		mntmPlanos.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnCadastros.add(mntmPlanos);
 		
 		JMenu mnProcessos = new JMenu("Processos");
 		menuBar.add(mnProcessos);
 		
 		JMenu mnMatricular = new JMenu("Matricular");
-		mnMatricular.setIcon(new ImageIcon(MainScreen.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		mnMatricular.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnMatricular.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcessos.add(mnMatricular);
 		
@@ -86,7 +74,7 @@ public class MainScreen extends JFrame {
 		mnMatricular.add(mntmAluno);
 		
 		JMenu mnFaturamento = new JMenu("Faturamento");
-		mnFaturamento.setIcon(new ImageIcon(MainScreen.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		mnFaturamento.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnProcessos.add(mnFaturamento);
 		
 		JMenuItem mntmGerarFaturas = new JMenuItem("Gerar Faturas");
@@ -120,9 +108,9 @@ public class MainScreen extends JFrame {
 		setContentPane(contentPane);
 		
 		JLabel lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon(MainScreen.class.getResource("/img/combat.png")));
+		lblImg.setIcon(new ImageIcon(MainWindow.class.getResource("/img/combat.png")));
 		lblImg.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblImg, BorderLayout.CENTER);
 	}
-
+	
 }
