@@ -41,7 +41,7 @@ public class MainScreen extends JFrame {
 	 */
 	public MainScreen() {
 		setTitle("Combat Manager 1.0");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nicol\\Desktop\\combat.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/img/combat.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
@@ -120,7 +120,7 @@ public class MainScreen extends JFrame {
 		setContentPane(contentPane);
 		
 		JLabel lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon("C:\\Users\\nicol\\Desktop\\combat.png"));
+		lblImg.setIcon(new ImageIcon(MainScreen.class.getResource("/img/combat.png")));
 		lblImg.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblImg, BorderLayout.CENTER);
 	}
