@@ -57,6 +57,8 @@ public class StudentDAO extends MasterDAO {
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
 	
+	Connection io_connection;
+	
 	public  StudentDAO(Connection connection) throws SQLException{
 
 		pst_selectAll = connection.prepareStatement(selectAll);
@@ -107,7 +109,7 @@ public class StudentDAO extends MasterDAO {
 		Student student = null;
 		
 		Set(pst_select, 1, ((Student)parameter).getName());
-		Set(pst_select, 1, ((Student)parameter).getEmail());
+		Set(pst_select, 2, ((Student)parameter).getEmail());
 		
 		ResultSet rst = pst_select.executeQuery();
 		
@@ -176,6 +178,11 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_insert, 14, city.getCountry());
 		Set(pst_insert, 15, student.getCep());
 
+		pst_insert.execute();
+		
+		if (pst_insert.getUpdateCount() > 0) {
+			io_connection.commit();
+		}
 		
 	}
 
