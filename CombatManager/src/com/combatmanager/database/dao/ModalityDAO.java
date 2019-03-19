@@ -7,24 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.combatmanager.database.model.City;
+import com.combatmanager.database.model.Modality;
+import com.combatmanager.database.model.User;
 
-public class CityDAO extends MasterDAO {
-	
-	
-	
-	private String selectAll = "select * from cidades order by cidade";
-	private String select = "select * from cidades where cidade = ? and estado = ? order by cidade";
-	private String insert = "INSERT INTO cidades			"
+public class ModalityDAO extends MasterDAO{
+	private String selectAll = "select * from modalidades order by modalidade";
+	private String select = "select * from modalidades where modalidade = ? order by modalidade";
+	private String insert = "INSERT INTO modalidades			"
 								+"	(						" 
-								+"		cidade, 		"
-								+"		estado, 				"
-								+"		pais, 	"
+								+"		modalidade, 		"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
-								+"		?, 					"
-								+"		?, 					"
 								+"		?, 					"
 								+"	)";
 	
@@ -34,7 +28,7 @@ public class CityDAO extends MasterDAO {
 	
 	Connection io_connection;
 	
-	public  CityDAO(Connection connection) throws SQLException{
+	public  ModalityDAO(Connection connection) throws SQLException{
 
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
@@ -43,42 +37,37 @@ public class CityDAO extends MasterDAO {
 	}
 	
 	public List<Object> SelectAll() throws SQLException {
-		List<Object> arlCity = new ArrayList<Object>();
+		List<Object> arlModality = new ArrayList<Object>();
 		ResultSet rst= pst_selectAll.executeQuery();
 		
 		while(rst.next()) {
-			City city = new City();
-			city.setName(rst.getString("cidade"));
-			city.setState(rst.getString("estado"));
-			city.setCountry(rst.getString("pais"));
+			Modality modality = new Modality();
+			modality.setModality(rst.getString("modalidade"));
 			
 			
-			arlCity.add(city);
+			arlModality.add(modality);
 		}
 		
-		return arlCity;
+		return arlModality;
 	}
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
 		
-		City city = null;
+		Modality modality = null;
 		
-		Set(pst_select, 1, ((City)parameter).getName());
-		Set(pst_select, 2, ((City)parameter).getState());
+		Set(pst_select, 1, ((Modality)parameter).getModality());
 		
 		ResultSet rst = pst_select.executeQuery();
 		
 		if (rst.next()) {
-			city = new City();
-			city.setName(rst.getString("cidade"));
-			city.setState(rst.getString("estado"));
-			city.setCountry(rst.getString("pais"));
+			modality = new Modality();
+			modality.setModality(rst.getString("modalidade"));
 			
 			
 		}
 		
-		return city;
+		return modality;
 	}
 
 	@Override
@@ -91,13 +80,11 @@ public class CityDAO extends MasterDAO {
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
 		
-		City city = (City)parameter;
+		Modality modality = (Modality)parameter;
 		
-		Set(pst_insert, 1, city.getName());
-		Set(pst_insert, 2, city.getState());
-		Set(pst_insert, 3, city.getCountry());
+		Set(pst_insert, 1, modality.getModality());
 
-		pst_insert.execute();
+		pst_insert.execute();s
 		
 		if (pst_insert.getUpdateCount() > 0) {
 			io_connection.commit();
