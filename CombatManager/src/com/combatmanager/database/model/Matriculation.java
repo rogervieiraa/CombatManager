@@ -5,20 +5,20 @@ public class Matriculation {
 	private Integer student_code;
 	private String matriculation_date;
 	private Integer due_date;
-	private String closing_day;
+	private String closing_date;
 
 	public Matriculation() {
 		
 	}
 	
 	public Matriculation(Integer code, Integer student_code, String matriculation_date, Integer due_date,
-			String closing_day) {
+			String closing_date) {
 		super();
 		this.code = code;
 		this.student_code = student_code;
 		this.matriculation_date = matriculation_date;
 		this.due_date = due_date;
-		this.closing_day = closing_day;
+		this.closing_date = closing_date;
 	}
 
 	public Integer getCode() {
@@ -53,17 +53,17 @@ public class Matriculation {
 		this.due_date = due_date;
 	}
 
-	public String getClosing_day() {
-		return closing_day;
+	public String getClosing_date() {
+		return closing_date;
 	}
 
-	public void setClosing_day(String closing_day) {
-		this.closing_day = closing_day;
+	public void setClosing_date(String closing_date) {
+		this.closing_date = closing_date;
 	}
 
 	@Override
 	public String toString() {
 		return "Matriculation [code=" + code + ", student_code=" + student_code + ", matriculation_date="
-				+ matriculation_date + ", due_date=" + due_date + ", closing_day=" + closing_day + "]";
+				+ matriculation_date + ", due_date=" + due_date + ", closing_date=" + closing_date + "]";
 	}
 }
