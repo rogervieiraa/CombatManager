@@ -28,10 +28,6 @@ public class Configuration {
 	public User getUserLoged() {
 		return userLoged;
 	}
-
-	public void setUserLoged(User userLoged) {
-		this.userLoged = userLoged;
-	}
 	
 	/**
 	 * @author Roger

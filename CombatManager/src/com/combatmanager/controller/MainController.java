@@ -3,7 +3,7 @@ package com.combatmanager.controller;
 import java.awt.EventQueue;
 
 import com.combatmanager.database.model.User;
-import com.combatmanager.error.AcessException;
+import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 import com.combatmanager.security.ValidateAcess;
 import com.combatmanager.view.MainWindow;
@@ -20,17 +20,18 @@ public class MainController {
 			Configuration config = new Configuration(user);
 			MainWindow mw = new MainWindow(config);
 
-			if(ValidateAcess.canAcess(config, mw)) {
+			if(ValidateAcess.canAccess(config, mw)) {
 				mw.setVisible(true);
 			}		
 			
 		} catch (Exception exception) {
-			if(exception instanceof AcessException) {
-				AcessException acessE = (AcessException) exception; 
+			if(exception instanceof AccessException) {
+				AccessException acessE = (AccessException) exception; 
 				acessE.showAcessWindowDenied();
 			}
 			else {
 				exception.printStackTrace();
+				exception.getMessage();
 			}
 		}
 	}

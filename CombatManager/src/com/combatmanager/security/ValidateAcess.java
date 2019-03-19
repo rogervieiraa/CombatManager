@@ -1,5 +1,5 @@
 package com.combatmanager.security;
-import com.combatmanager.error.AcessException;
+import com.combatmanager.error.AccessException;
 import com.combatmanager.view.View;
 
 public class ValidateAcess {
@@ -7,13 +7,13 @@ public class ValidateAcess {
 	/**
 	 * @author Roger
 	 * @throws an AcessException
-	 * @return if have acess
+	 * @return if have access
 	 */
-	public static boolean canAcess(Configuration config,View view) throws AcessException {
+	public static boolean canAccess(Configuration config,View view) throws AccessException {
 		if(config.getPermissionValue() == 0) {
-			throw new AcessException(view.getName(), "Usuario indefinido, permissao 0.");
+			throw new AccessException(view.getName(), "Usuario indefinido, permissao 0.");
 		}
-		if(view.getAcess()%config.getPermissionValue() == 0) {
+		if(view.getAccess()%config.getPermissionValue() == 0) {
 			return true;
 		}
 		
@@ -24,14 +24,14 @@ public class ValidateAcess {
 	 * @author Roger
 	 * @throws an AcessException
 	 */
-	public static void tryToAcessView(Configuration config,View view) throws AcessException {
+	public static void tryToAcessView(Configuration config,View view) throws AccessException {
 		if(config.getPermissionValue() == 0) {
-			throw new AcessException(view.getName(), "Usuario indefinido, permissao 0.");
+			throw new AccessException(view.getName(), "Usuario indefinido, permissao 0.");
 		}
-		if(view.getAcess()%config.getPermissionValue() == 0) {
+		if(view.getAccess()%config.getPermissionValue() == 0) {
 			return;
 		}
-		throw new AcessException(view.getName(), "Acesso Negado");
+		throw new AccessException(view.getName(), "Acesso Negado");
 	}
 	
 }
