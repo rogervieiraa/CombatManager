@@ -20,17 +20,17 @@ public class MainController {
 			Configuration config = new Configuration(user);
 			MainWindow mw = new MainWindow(config);
 
-			if(ValidateAcess.acessWindow(config, mw)) {
+			if(ValidateAcess.canAcess(config, mw)) {
 				mw.setVisible(true);
-			}
-			
-			
-			
+			}		
 			
 		} catch (Exception exception) {
 			if(exception instanceof AcessException) {
 				AcessException acessE = (AcessException) exception; 
 				acessE.showAcessWindowDenied();
+			}
+			else {
+				exception.printStackTrace();
 			}
 		}
 	}

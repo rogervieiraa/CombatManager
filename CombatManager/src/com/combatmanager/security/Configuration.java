@@ -14,7 +14,10 @@ public class Configuration {
 	 * */
 	private final int PRIME_NUMBER[] = {3,5,7,11,13,17,19,23,27};
 	
-	public Configuration(User userLoged) {
+	public Configuration(User userLoged) throws Exception {
+		if(userLoged == null) {
+			throw new Exception("ERRO 000: Usuario nulo!");
+		}
 		this.userLoged = userLoged;
 	}
 	
@@ -45,7 +48,7 @@ public class Configuration {
 		}
 		
 		
-		return -1;
+		return 0;
 	}
 	
 }

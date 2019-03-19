@@ -18,17 +18,24 @@ public class MainTest {
 	public void testConfigurationModel() {
 		User localUser = new User();
 		localUser.setUser("Roger");
+
+		Configuration config;
+		try {
+			config = new Configuration(localUser);
+			ConfigucarionModelTest cmt = new ConfigucarionModelTest();
+			localUser.setProfile("Cadastral");
+			assertEquals(3, cmt.test(config));
+			localUser.setProfile("Matricular");
+			assertEquals(5, cmt.test(config));
+			localUser.setProfile("Financeiro");
+			assertEquals(7, cmt.test(config));
+			localUser.setProfile("Completo");
+			assertEquals(11, cmt.test(config));
+		} catch (Exception e) {
+
+			e.getMessage();
+		}
 		
-		Configuration config = new Configuration(localUser);
-		ConfigucarionModelTest cmt = new ConfigucarionModelTest();
-		localUser.setProfile("Cadastral");
-		assertEquals(3, cmt.test(config));
-		localUser.setProfile("Matricular");
-		assertEquals(5, cmt.test(config));
-		localUser.setProfile("Financeiro");
-		assertEquals(7, cmt.test(config));
-		localUser.setProfile("Completo");
-		assertEquals(11, cmt.test(config));
 		
 	}
 	
