@@ -22,12 +22,11 @@ public class MainWindow extends JFrame implements View {
 	private Configuration config;
 	private JPanel contentPane;
 	
-	private String NAME = "Tela Principal";
-	private int ACESS = 3*5*7*11;
+	private final String NAME = "Tela Principal";
+	private final int ACESS = 3*5*7*11;
 	
 	@Override
 	public int getAcess() {
-		
 		return this.ACESS;
 	}
 	

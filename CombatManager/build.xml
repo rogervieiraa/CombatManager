@@ -64,6 +64,11 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="MainController (1)">
+        <java classname="com.combatmanager.controller.MainController" failonerror="true" fork="yes">
+            <classpath refid="CombatManager.classpath"/>
+        </java>
+    </target>
     <target name="MainTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -72,11 +77,6 @@
             <jvmarg line="-ea"/>
             <classpath refid="CombatManager.classpath"/>
         </junit>
-    </target>
-    <target name="test.Main">
-        <java classname="test.Main" failonerror="true" fork="yes">
-            <classpath refid="CombatManager.classpath"/>
-        </java>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">

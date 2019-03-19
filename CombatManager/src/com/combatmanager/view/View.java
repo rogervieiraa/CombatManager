@@ -1,6 +1,6 @@
 package com.combatmanager.view;
 
 public interface View {
-	int getAcess();
-	String getName();
+	public abstract int getAcess();
+	public abstract String getName();
 }
