@@ -1,8 +1,8 @@
 package test;
 import org.junit.Test;
 
-import com.combatmanager.configuration.Configuration;
 import com.combatmanager.database.model.User;
+import com.combatmanager.security.Configuration;
 
 import static org.junit.Assert.assertEquals;
 

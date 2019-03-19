@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.combatmanager.configuration.Configuration;
+import com.combatmanager.security.Configuration;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -18,7 +18,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements View {
 	private Configuration config;
 	private JPanel contentPane;
 	
@@ -111,6 +111,17 @@ public class MainWindow extends JFrame {
 		lblImg.setIcon(new ImageIcon(MainWindow.class.getResource("/img/combat.png")));
 		lblImg.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblImg, BorderLayout.CENTER);
+	}
+
+	@Override
+	public int getAcess() {
+		
+		return 3*5*7*11;
+	}
+	
+	@Override
+	public String getName() {
+		return "Tela Principal";
 	}
 	
 }

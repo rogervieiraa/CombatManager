@@ -1,4 +1,4 @@
-package com.combatmanager.configuration;
+package com.combatmanager.security;
 
 import com.combatmanager.database.model.User;
 

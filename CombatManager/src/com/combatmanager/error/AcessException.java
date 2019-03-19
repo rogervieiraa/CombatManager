@@ -3,14 +3,15 @@ package com.combatmanager.error;
 import javax.swing.JOptionPane;
 
 public class AcessException extends Exception {
-	
-	
-	public void showAcessWindowDenied() {
-		JOptionPane.showMessageDialog(null, "Voce nao tem acesso a essa tela!");
+	private String origin;
+	private String description;
+	public AcessException(String origin, String description) {
+		this.origin = origin;
+		this.description = description;
 	}
 	
-	public void showButtonActivatedDenied() {
-		JOptionPane.showMessageDialog(null, "Voce nao tem permissao para utilizar esse botao!");
+	public void showAcessWindowDenied() {
+		JOptionPane.showMessageDialog(null, this.origin + " ->" + this.description);
 	}
 	
 }

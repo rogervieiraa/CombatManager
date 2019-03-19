@@ -1,6 +1,6 @@
 package test;
 
-import com.combatmanager.configuration.Configuration;
+import com.combatmanager.security.Configuration;
 
 public class ConfigucarionModelTest {
 	
