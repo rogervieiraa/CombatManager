@@ -84,7 +84,7 @@ public class ModalityDAO extends MasterDAO{
 		
 		Set(pst_insert, 1, modality.getModality());
 
-		pst_insert.execute();s
+		pst_insert.execute();
 		
 		if (pst_insert.getUpdateCount() > 0) {
 			io_connection.commit();
