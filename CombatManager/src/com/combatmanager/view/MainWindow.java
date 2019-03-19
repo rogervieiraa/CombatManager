@@ -22,6 +22,20 @@ public class MainWindow extends JFrame implements View {
 	private Configuration config;
 	private JPanel contentPane;
 	
+	private String NAME = "Tela Principal";
+	private int ACESS = 3*5*7*11;
+	
+	@Override
+	public int getAcess() {
+		
+		return this.ACESS;
+	}
+	
+	@Override
+	public String getName() {
+		return this.NAME;
+	}
+	
 	/**
 	 * @author Romulo
 	 * Create the frame.
@@ -40,33 +54,27 @@ public class MainWindow extends JFrame implements View {
 		menuBar.add(mnSistema);
 		
 		JMenuItem mntmUsuarios = new JMenuItem("Usu\u00E1rios");
-		mntmUsuarios.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnSistema.add(mntmUsuarios);
 		
 		JMenuItem mntmSair = new JMenuItem("Sair");
-		mntmSair.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
 		mnSistema.add(mntmSair);
 		
 		JMenu mnCadastros = new JMenu("Cadastros");
 		menuBar.add(mnCadastros);
 		
 		JMenuItem mntmAlunos = new JMenuItem("Alunos");
-		mntmAlunos.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnCadastros.add(mntmAlunos);
 		
 		JMenuItem mntmModalidades = new JMenuItem("Modalidades");
-		mntmModalidades.setIcon(new ImageIcon(MainWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
 		mnCadastros.add(mntmModalidades);
 		
 		JMenuItem mntmPlanos = new JMenuItem("Planos");
-		mntmPlanos.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnCadastros.add(mntmPlanos);
 		
 		JMenu mnProcessos = new JMenu("Processos");
 		menuBar.add(mnProcessos);
 		
 		JMenu mnMatricular = new JMenu("Matricular");
-		mnMatricular.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnMatricular.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcessos.add(mnMatricular);
 		
@@ -74,7 +82,6 @@ public class MainWindow extends JFrame implements View {
 		mnMatricular.add(mntmAluno);
 		
 		JMenu mnFaturamento = new JMenu("Faturamento");
-		mnFaturamento.setIcon(new ImageIcon(MainWindow.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mnProcessos.add(mnFaturamento);
 		
 		JMenuItem mntmGerarFaturas = new JMenuItem("Gerar Faturas");
@@ -113,15 +120,6 @@ public class MainWindow extends JFrame implements View {
 		contentPane.add(lblImg, BorderLayout.CENTER);
 	}
 
-	@Override
-	public int getAcess() {
-		
-		return 3*5*7*11;
-	}
 	
-	@Override
-	public String getName() {
-		return "Tela Principal";
-	}
 	
 }
