@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.combatmanager.database.model.Modality;
-import com.combatmanager.database.model.User;
 
 public class ModalityDAO extends MasterDAO{
 	private String selectAll = "select * from modalidades order by modalidade";
