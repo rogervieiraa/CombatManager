@@ -1,7 +1,5 @@
 package com.combatmanager.controller;
 
-import java.awt.EventQueue;
-
 import com.combatmanager.database.model.User;
 import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
@@ -16,7 +14,7 @@ public class MainController {
 	public static void main(String[] args) {
 		try {
 			//TO DO get user
-			User user = new User("Test","Completo");
+			User user = new User("Test","Completo","Senha");
 			Configuration config = new Configuration(user);
 			MainWindow mw = new MainWindow(config);
 

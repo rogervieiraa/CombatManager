@@ -7,7 +7,7 @@ public class ValidateAcess {
 	/**
 	 * @author Roger
 	 * @throws an AcessException
-	 * @return if have access
+	 * @return if a user configuration can access a view
 	 */
 	public static boolean canAccess(Configuration config,View view) throws AccessException {
 		if(config.getPermissionValue() == 0) {
