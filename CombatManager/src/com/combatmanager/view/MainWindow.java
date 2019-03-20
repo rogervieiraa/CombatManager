@@ -15,6 +15,8 @@ import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Container;
+
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
@@ -107,18 +109,23 @@ public class MainWindow extends JFrame implements View {
 		
 		JMenu mnAjuda = new JMenu("Ajuda");
 		menuBar.add(mnAjuda);
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.DARK_GRAY);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
 		
-		JLabel lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon(MainWindow.class.getResource("/img/combat.png")));
-		lblImg.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblImg, BorderLayout.CENTER);
+		this.CreateContentPane(new HomeWindow());
+		
+	}
+	
+	public Container CreateContentPane(View view) {
+		Container c = view.run();
+		setContentPane(c);
+		return c;
+		
+		
+		
 	}
 
-	
+	@Override
+	public JPanel run() {
+		return null;
+	}
 	
 }
