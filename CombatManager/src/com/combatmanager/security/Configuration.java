@@ -1,6 +1,10 @@
 package com.combatmanager.security;
 
+import java.sql.Connection;
+
+import com.combatmanager.database.ConnectionFactory;
 import com.combatmanager.database.model.User;
+import com.combatmanager.error.AccessException;
 
 public class Configuration {
 	
@@ -13,6 +17,11 @@ public class Configuration {
 	 * 
 	 * */
 	private final int PRIME_NUMBER[] = {3,5,7,11,13,17,19,23,27};
+	private final String DB_IP = null;
+	private final String DB_PORT = null;
+	private final String DB_NAME = "master";
+	private final String DB_USER_NAME = "admin";
+	private final String DB_PASSWORD = "admin";	
 	
 	public Configuration(User userLoged) throws Exception {
 		if(userLoged == null) {
@@ -43,8 +52,20 @@ public class Configuration {
 			}
 		}
 		
-		
 		return 0;
+	}
+	
+	public Connection getConnection() throws AccessException {
+		if(this.getPermissionValue() != 0) {
+			if(this.DB_IP != null) {
+				return ConnectionFactory.getConnection(this.DB_IP, this.DB_PORT, this.DB_NAME, this.DB_USER_NAME, this.DB_PASSWORD);
+			}
+			else {
+				return ConnectionFactory.getConnection(this.DB_NAME, this.DB_USER_NAME, this.DB_PASSWORD);
+			}
+		}
+		
+		throw new AccessException("Configuracao" , "Usuario indefinido, permissao 0.");
 	}
 	
 }
