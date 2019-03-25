@@ -28,11 +28,11 @@ import javax.swing.DebugGraphics;
 
 public class Users extends JPanel implements View {
 	private JTextField textUser;
-	private JLabel lblUsurio;
+	private JLabel lblUser;
 	private JTextField textPassword;
 	private JTextField textConfirmPassword;
 
-	private final String NAME = "Tela Principal";
+	private final String NAME = "Tela Usuários";
 	private final int ACCESS = 0;
 
 	@Override
@@ -72,14 +72,14 @@ public class Users extends JPanel implements View {
 		profile.addItem("Completo");
 		contentPane.add(profile);
 		
-		lblUsurio = new JLabel("Usu\u00E1rio: ");
-		springLayout.putConstraint(SpringLayout.WEST, textUser, 68, SpringLayout.EAST, lblUsurio);
-		springLayout.putConstraint(SpringLayout.NORTH, lblUsurio, 99, SpringLayout.NORTH, contentPane);
-		lblUsurio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblUsurio.setRequestFocusEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, textUser, -3, SpringLayout.NORTH, lblUsurio);
-		springLayout.putConstraint(SpringLayout.WEST, lblUsurio, 10, SpringLayout.WEST, contentPane);
-		contentPane.add(lblUsurio);
+		lblUser = new JLabel("Usu\u00E1rio: ");
+		springLayout.putConstraint(SpringLayout.WEST, textUser, 68, SpringLayout.EAST, lblUser);
+		springLayout.putConstraint(SpringLayout.NORTH, lblUser, 99, SpringLayout.NORTH, contentPane);
+		lblUser.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUser.setRequestFocusEnabled(false);
+		springLayout.putConstraint(SpringLayout.NORTH, textUser, -3, SpringLayout.NORTH, lblUser);
+		springLayout.putConstraint(SpringLayout.WEST, lblUser, 10, SpringLayout.WEST, contentPane);
+		contentPane.add(lblUser);
 		
 		textPassword = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, textPassword, 18, SpringLayout.SOUTH, textUser);
@@ -93,27 +93,27 @@ public class Users extends JPanel implements View {
 		textConfirmPassword.setColumns(10);
 		contentPane.add(textConfirmPassword);
 		
-		JLabel lblSenha = new JLabel("Senha: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblSenha, 10, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, textPassword, 77, SpringLayout.EAST, lblSenha);
-		springLayout.putConstraint(SpringLayout.NORTH, lblSenha, 18, SpringLayout.SOUTH, lblUsurio);
-		lblSenha.setRequestFocusEnabled(false);
-		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblSenha);
+		JLabel lblPassword = new JLabel("Senha: ");
+		springLayout.putConstraint(SpringLayout.WEST, lblPassword, 10, SpringLayout.WEST, contentPane);
+		springLayout.putConstraint(SpringLayout.WEST, textPassword, 77, SpringLayout.EAST, lblPassword);
+		springLayout.putConstraint(SpringLayout.NORTH, lblPassword, 18, SpringLayout.SOUTH, lblUser);
+		lblPassword.setRequestFocusEnabled(false);
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		contentPane.add(lblPassword);
 		
-		JLabel lblConfirmarSenha = new JLabel("Confirmar senha: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblConfirmarSenha, 10, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, textConfirmPassword, 6, SpringLayout.EAST, lblConfirmarSenha);
-		springLayout.putConstraint(SpringLayout.NORTH, lblConfirmarSenha, 19, SpringLayout.SOUTH, lblSenha);
-		lblConfirmarSenha.setRequestFocusEnabled(false);
-		lblConfirmarSenha.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblConfirmarSenha);
+		JLabel lblConfirmPassword = new JLabel("Confirmar senha: ");
+		springLayout.putConstraint(SpringLayout.WEST, lblConfirmPassword, 10, SpringLayout.WEST, contentPane);
+		springLayout.putConstraint(SpringLayout.WEST, textConfirmPassword, 6, SpringLayout.EAST, lblConfirmPassword);
+		springLayout.putConstraint(SpringLayout.NORTH, lblConfirmPassword, 19, SpringLayout.SOUTH, lblPassword);
+		lblConfirmPassword.setRequestFocusEnabled(false);
+		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		contentPane.add(lblConfirmPassword);
 		
 		JLabel lblProfile = new JLabel("Perfil: ");
 		springLayout.putConstraint(SpringLayout.WEST, lblProfile, 10, SpringLayout.WEST, contentPane);
 		springLayout.putConstraint(SpringLayout.NORTH, profile, 0, SpringLayout.NORTH, lblProfile);
 		springLayout.putConstraint(SpringLayout.WEST, profile, 86, SpringLayout.EAST, lblProfile);
-		springLayout.putConstraint(SpringLayout.NORTH, lblProfile, 21, SpringLayout.SOUTH, lblConfirmarSenha);
+		springLayout.putConstraint(SpringLayout.NORTH, lblProfile, 21, SpringLayout.SOUTH, lblConfirmPassword);
 		lblProfile.setRequestFocusEnabled(false);
 		lblProfile.setFont(new Font("Tahoma", Font.BOLD, 14));
 		contentPane.add(lblProfile);
@@ -122,7 +122,7 @@ public class Users extends JPanel implements View {
 		toolBar.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		toolBar.setPreferredSize(new Dimension(17, 7));
 		springLayout.putConstraint(SpringLayout.NORTH, toolBar, 10, SpringLayout.NORTH, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, toolBar, 0, SpringLayout.WEST, lblUsurio);
+		springLayout.putConstraint(SpringLayout.WEST, toolBar, 0, SpringLayout.WEST, lblUser);
 		springLayout.putConstraint(SpringLayout.SOUTH, toolBar, 68, SpringLayout.NORTH, contentPane);
 		springLayout.putConstraint(SpringLayout.EAST, toolBar, 0, SpringLayout.EAST, textUser);
 		contentPane.add(toolBar);
