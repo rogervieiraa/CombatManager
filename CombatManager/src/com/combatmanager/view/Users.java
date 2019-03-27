@@ -32,7 +32,7 @@ public class Users extends JPanel implements View {
 	private JTextField textPassword;
 	private JTextField textConfirmPassword;
 
-	private final String NAME = "Tela Usuários";
+	private final String NAME = "Tela Usuarios";
 	private final int ACCESS = 0;
 
 	@Override
