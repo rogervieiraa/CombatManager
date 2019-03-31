@@ -1,168 +1,143 @@
 package com.combatmanager.view;
 
 import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
-import javax.swing.SpringLayout;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import java.awt.Component;
-import java.awt.Color;
-import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
-import java.awt.Dimension;
+import javax.swing.border.MatteBorder;
+
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
-import javax.swing.DebugGraphics;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 
 public class Users extends JPanel implements View {
-	private JTextField textUser;
-	private JLabel lblUser;
-	private JTextField textPassword;
-	private JTextField textConfirmPassword;
-
-	private final String NAME = "Tela Usuarios";
+	public Users() {
+	}
+	
+	private final String NAME = "Tela Principal";
 	private final int ACCESS = 0;
-
+	
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
 	}
-
+	
 	@Override
 	public String getName() {
 		return this.NAME;
 	}
 	
-
-	/**
-	 * @author Romulo Create the frame.
-	 */
+	private JTextField textField;
+	private JPasswordField pwdPassword;
+	private JPasswordField pwdConfirmPassword;
+	private JInternalFrame internalFrame;
 	
 	/**
 	 * Create the panel.
 	 */
 	public JPanel run() {
 		JPanel contentPane= new JPanel();
-		SpringLayout springLayout = new SpringLayout();
-		contentPane.setLayout(springLayout);
-		
-		textUser = new JTextField();
-		springLayout.putConstraint(SpringLayout.EAST, textUser, -10, SpringLayout.EAST, contentPane);
-		contentPane.add(textUser);
-		textUser.setColumns(10);
-		
-		JComboBox profile = new JComboBox();
-		springLayout.putConstraint(SpringLayout.EAST, profile, -10, SpringLayout.EAST, contentPane);
-		profile.addItem("--Selecione--");
-		profile.addItem("Cadastrar");
-		profile.addItem("Matricular");
-		profile.addItem("Financeiro");
-		profile.addItem("Completo");
-		contentPane.add(profile);
-		
-		lblUser = new JLabel("Usu\u00E1rio: ");
-		springLayout.putConstraint(SpringLayout.WEST, textUser, 68, SpringLayout.EAST, lblUser);
-		springLayout.putConstraint(SpringLayout.NORTH, lblUser, 99, SpringLayout.NORTH, contentPane);
-		lblUser.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblUser.setRequestFocusEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, textUser, -3, SpringLayout.NORTH, lblUser);
-		springLayout.putConstraint(SpringLayout.WEST, lblUser, 10, SpringLayout.WEST, contentPane);
-		contentPane.add(lblUser);
-		
-		textPassword = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textPassword, 18, SpringLayout.SOUTH, textUser);
-		springLayout.putConstraint(SpringLayout.EAST, textPassword, -10, SpringLayout.EAST, contentPane);
-		textPassword.setColumns(10);
-		contentPane.add(textPassword);
-		
-		textConfirmPassword = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textConfirmPassword, 16, SpringLayout.SOUTH, textPassword);
-		springLayout.putConstraint(SpringLayout.EAST, textConfirmPassword, -10, SpringLayout.EAST, contentPane);
-		textConfirmPassword.setColumns(10);
-		contentPane.add(textConfirmPassword);
-		
-		JLabel lblPassword = new JLabel("Senha: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblPassword, 10, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, textPassword, 77, SpringLayout.EAST, lblPassword);
-		springLayout.putConstraint(SpringLayout.NORTH, lblPassword, 18, SpringLayout.SOUTH, lblUser);
-		lblPassword.setRequestFocusEnabled(false);
-		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblPassword);
-		
-		JLabel lblConfirmPassword = new JLabel("Confirmar senha: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblConfirmPassword, 10, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, textConfirmPassword, 6, SpringLayout.EAST, lblConfirmPassword);
-		springLayout.putConstraint(SpringLayout.NORTH, lblConfirmPassword, 19, SpringLayout.SOUTH, lblPassword);
-		lblConfirmPassword.setRequestFocusEnabled(false);
-		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblConfirmPassword);
-		
-		JLabel lblProfile = new JLabel("Perfil: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblProfile, 10, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.NORTH, profile, 0, SpringLayout.NORTH, lblProfile);
-		springLayout.putConstraint(SpringLayout.WEST, profile, 86, SpringLayout.EAST, lblProfile);
-		springLayout.putConstraint(SpringLayout.NORTH, lblProfile, 21, SpringLayout.SOUTH, lblConfirmPassword);
-		lblProfile.setRequestFocusEnabled(false);
-		lblProfile.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblProfile);
-		
+		contentPane.setLayout(null);
+	
+		internalFrame = new JInternalFrame("Tela Usuarios");
+		internalFrame.setClosable(true);
+	
+		internalFrame.setBounds(0, 0, 450, 300);
+		contentPane.add(internalFrame);
+		internalFrame.setVisible(true);
+		internalFrame.getContentPane().setLayout(null);
 		JToolBar toolBar = new JToolBar();
 		toolBar.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		toolBar.setPreferredSize(new Dimension(17, 7));
-		springLayout.putConstraint(SpringLayout.NORTH, toolBar, 10, SpringLayout.NORTH, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, toolBar, 0, SpringLayout.WEST, lblUser);
-		springLayout.putConstraint(SpringLayout.SOUTH, toolBar, 68, SpringLayout.NORTH, contentPane);
-		springLayout.putConstraint(SpringLayout.EAST, toolBar, 0, SpringLayout.EAST, textUser);
-		contentPane.add(toolBar);
+		toolBar.setBounds(10, 11, 414, 50);
+		internalFrame.getContentPane().add(toolBar);
 		
 		JButton btnSearch = new JButton("Buscar");
-		btnSearch.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnSearch.setMaximumSize(new Dimension(100, 40));
 		btnSearch.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnSearch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnSearch.setForeground(Color.BLACK);
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnSearch.setMaximumSize(new Dimension(65, 40));
 		toolBar.add(btnSearch);
+		btnSearch.setPreferredSize(new Dimension(65, 40));
+		btnSearch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
 		
 		JButton btnAdd = new JButton("Adicionar");
+		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnAdd.setPreferredSize(new Dimension(65, 40));
+		btnAdd.setMaximumSize(new Dimension(65, 40));
 		btnAdd.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnAdd.setMaximumSize(new Dimension(100, 40));
-		btnAdd.setSize(new Dimension(50, 60));
 		toolBar.add(btnAdd);
 		
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
 		JButton btnRemove = new JButton("Remover");
+		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnRemove.setPreferredSize(new Dimension(65, 40));
+		btnRemove.setMaximumSize(new Dimension(65, 40));
 		btnRemove.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnRemove.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnRemove);
 		
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
 		JButton btnSave = new JButton("Salvar");
+		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnSave.setPreferredSize(new Dimension(65, 40));
+		btnSave.setMaximumSize(new Dimension(65, 40));
 		btnSave.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnSave.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnSave);
+		
+		textField = new JTextField();
+		textField.setBounds(150, 90, 274, 20);
+		internalFrame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblUser = new JLabel("Usuario:");
+		lblUser.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUser.setBounds(20, 91, 63, 14);
+		internalFrame.getContentPane().add(lblUser);
+		
+		pwdPassword = new JPasswordField();
+		pwdPassword.setBounds(150, 129, 274, 20);
+		internalFrame.getContentPane().add(pwdPassword);
+		
+		JLabel lblPassword = new JLabel("Senha: ");
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPassword.setBounds(20, 130, 63, 14);
+		internalFrame.getContentPane().add(lblPassword);
+		
+		pwdConfirmPassword = new JPasswordField();
+		pwdConfirmPassword.setBounds(150, 172, 274, 20);
+		internalFrame.getContentPane().add(pwdConfirmPassword);
+		
+		JLabel lblConfirmPassword = new JLabel("Confirmar Senha:");
+		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblConfirmPassword.setBounds(20, 173, 133, 14);
+		internalFrame.getContentPane().add(lblConfirmPassword);
+		
+		JLabel lblProfile = new JLabel("Perfil:");
+		lblProfile.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblProfile.setBounds(20, 214, 133, 14);
+		internalFrame.getContentPane().add(lblProfile);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--selecione--", "Cadastrar", "Matricular", "Financeiro", "Completo"}));
+		comboBox.setBounds(153, 213, 271, 20);
+		internalFrame.getContentPane().add(comboBox);
+		
 		return contentPane;
+		
 	}
 }

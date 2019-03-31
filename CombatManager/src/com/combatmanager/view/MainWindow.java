@@ -48,7 +48,7 @@ public class MainWindow extends JFrame implements View {
 		setTitle("Combat Manager 1.0");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/img/combat.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(1920, 1080);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -131,8 +131,8 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnHelp = new JMenu("Ajuda");
 		menuBar.add(mnHelp);
 
-		this.CreateContentPane(new HomeWindow());
-
+		Container contentPane= this.CreateContentPane(new HomeWindow());
+		
 	}
 
 	public Container CreateContentPane(View view) {
