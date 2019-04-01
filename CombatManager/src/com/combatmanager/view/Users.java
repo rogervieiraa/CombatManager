@@ -25,7 +25,7 @@ public class Users extends JPanel implements View {
 	public Users() {
 	}
 	
-	private final String NAME = "Tela Principal";
+	private final String NAME = "Tela Usuarios";
 	private final int ACCESS = 0;
 	
 	@Override

@@ -31,8 +31,9 @@ import javax.swing.JSlider;
 import javax.swing.JTree;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
 
-public class Students extends JPanel {
+public class Students extends JPanel implements View {
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
 	private JTextField textFieldObs;
@@ -47,14 +48,34 @@ public class Students extends JPanel {
 	private JTextField textField_7;
 	private JTextField textField_4;
 
+	
+	private final String NAME = "Tela Estudantes";
+	private final int ACCESS = 0;
+
+	@Override
+	public int getAccess() {
+		return this.ACCESS;
+	}
+
+	@Override
+	public String getName() {
+		return this.NAME;
+	}
+	
+
+	/**
+	 * @author Romulo Create the frame.
+	 */
+	
 	/**
 	 * Create the panel.
 	 */
-	public Students() {
-		setLayout(null);
-		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
+	public JPanel run() {
+		JPanel contentPane= new JPanel();
+		contentPane.setLayout(null);
+		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");0
 		internalFrame.setBounds(0, 0, 546, 520);
-		add(internalFrame);
+		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
 		JToolBar toolBar = new JToolBar();
@@ -108,11 +129,11 @@ public class Students extends JPanel {
 		internalFrame.getContentPane().add(textFieldStudent);
 		textFieldStudent.setColumns(10);
 		
-		MaskFormatter maskFormatter = new MaskFormatter("##/##/##");
+		//MaskFormatter maskFormatter = new MaskFormatter("##/##/##");
 	
 		
 		JFormattedTextField formattedTextFieldDate = new JFormattedTextField();
-		formattedTextFieldDate.setFormatterFactory(maskFormatter);
+		//formattedTextFieldDate.setFormatterFactory(tf);
 		formattedTextFieldDate.setLocation(143, 92);
 		formattedTextFieldDate.setSize(new Dimension(148, 20));
 
@@ -271,6 +292,7 @@ public class Students extends JPanel {
 		textFieldCellPhone.setColumns(10);
 		textFieldCellPhone.setBounds(372, 123, 148, 20);
 		internalFrame.getContentPane().add(textFieldCellPhone);
-
+		
+		return contentPane;
 	}
 }

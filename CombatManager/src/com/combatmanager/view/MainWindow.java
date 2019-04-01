@@ -83,7 +83,16 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnRegisted = new JMenu("Cadastros");
 		menuBar.add(mnRegisted);
 
-		JMenuItem mntmStudents = new JMenuItem("Alunos");
+		JMenuItem mntmStudents = new JMenuItem(new AbstractAction("Alunos"){
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new Students());
+				revalidate();
+			}
+				
+		});
 		mnRegisted.add(mntmStudents);
 
 		JMenuItem mntmModalities = new JMenuItem("Modalidades");
