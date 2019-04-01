@@ -48,22 +48,7 @@ public class MainWindow extends JFrame implements View {
 	 */
 	public MainWindow(Configuration config) {
 
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		    	if ("Winows".equals(info.getName())) {
-		        	
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (Exception e) {
-		    // If Nimbus is not available, fall back to cross-platform
-		    try {
-		        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		    } catch (Exception ex) {
-		        // not worth my time
-		    }
-		}
+		
 		
 		this.config = config; // TO DO
 		setTitle("Combat Manager 1.0");
