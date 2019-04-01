@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 public class HomeWindow extends JPanel implements View{
 
-	private final String NAME = "Tela Principal";
+	private final String NAME = "Tela Inicial";
 	private final int ACCESS = 3*5*7*11;
 	
 	@Override

@@ -6,16 +6,21 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -49,54 +54,74 @@ public class Users extends JPanel implements View {
 	public JPanel run() {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
-	
+		contentPane.setBackground(Color.DARK_GRAY);
 		internalFrame = new JInternalFrame("Tela Usuarios");
-		internalFrame.setClosable(true);
-	
+		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combat.png")));		
 		internalFrame.setBounds(0, 0, 450, 300);
 		contentPane.add(internalFrame);
 		internalFrame.setVisible(true);
 		internalFrame.getContentPane().setLayout(null);
+		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combatvinte.png")));
+		
+		BasicInternalFrameUI ui = (BasicInternalFrameUI)internalFrame.getUI();
+
+		Component north = ui.getNorthPane();
+		MouseMotionListener[] actions =
+		(MouseMotionListener[])north.getListeners(MouseMotionListener.class);
+
+		for (int i = 0; i < actions.length; i++)
+		north.removeMouseMotionListener( actions[i] );
+		
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+	
+		Dimension jInternalFrameSize = internalFrame.getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		internalFrame.setLocation(width, height);
+		
+		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		toolBar.setBounds(10, 11, 414, 50);
+		toolBar.setFloatable(false);
 		internalFrame.getContentPane().add(toolBar);
 		
 		JButton btnSearch = new JButton("Buscar");
+		btnSearch.setIcon(new ImageIcon(Modality.class.getResource("/img22/localizar.png")));
 		btnSearch.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnSearch.setMaximumSize(new Dimension(65, 40));
+		btnSearch.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnSearch);
-		btnSearch.setPreferredSize(new Dimension(65, 40));
-		btnSearch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
 		
 		JButton btnAdd = new JButton("Adicionar");
+		btnAdd.setIcon(new ImageIcon(Modality.class.getResource("/img22/adicionar.png")));
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnAdd.setPreferredSize(new Dimension(65, 40));
-		btnAdd.setMaximumSize(new Dimension(65, 40));
-		btnAdd.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnAdd.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnAdd);
 		
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
 		JButton btnRemove = new JButton("Remover");
+		btnRemove.setIcon(new ImageIcon(Modality.class.getResource("/img22/remover.png")));
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnRemove.setPreferredSize(new Dimension(65, 40));
-		btnRemove.setMaximumSize(new Dimension(65, 40));
-		btnRemove.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnRemove.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnRemove);
 		
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
 		JButton btnSave = new JButton("Salvar");
+		btnSave.setIcon(new ImageIcon(Modality.class.getResource("/img22/salvar.png")));
 		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnSave.setPreferredSize(new Dimension(65, 40));
-		btnSave.setMaximumSize(new Dimension(65, 40));
-		btnSave.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnSave.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnSave);
 		
 		textField = new JTextField();

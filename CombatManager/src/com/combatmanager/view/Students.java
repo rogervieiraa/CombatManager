@@ -12,8 +12,12 @@ import java.awt.Dimension;
 import javax.swing.border.MatteBorder;
 import javax.swing.text.MaskFormatter;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
@@ -73,18 +77,32 @@ public class Students extends JPanel implements View {
 	public JPanel run() {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
-		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");0
+		contentPane.setBackground(Color.DARK_GRAY);
+		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
+		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combat.png")));
 		internalFrame.setBounds(0, 0, 546, 520);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
+		contentPane.add(internalFrame, BorderLayout.CENTER);
+		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combatvinte.png")));
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+	
+		Dimension jInternalFrameSize = internalFrame.getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		internalFrame.setLocation(width, height);
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBounds(10, 11, 424, 39);
+		toolBar.setFloatable(false);
 		internalFrame.getContentPane().add(toolBar);
 		
 		JButton btnSearch = new JButton("Buscar");
-		btnSearch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnSearch.setMaximumSize(new Dimension(65, 80));
+		btnSearch.setIcon(new ImageIcon(Modality.class.getResource("/img22/localizar.png")));
+		btnSearch.setMaximumSize(new Dimension(100, 80));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -92,6 +110,7 @@ public class Students extends JPanel implements View {
 		toolBar.add(btnSearch);
 		
 		JButton btnAdd = new JButton("Adicionar");
+		btnAdd.setIcon(new ImageIcon(Modality.class.getResource("/img22/adicionar.png")));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -99,24 +118,25 @@ public class Students extends JPanel implements View {
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
-		btnAdd.setMaximumSize(new Dimension(65, 80));
-		btnAdd.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnAdd.setMaximumSize(new Dimension(100, 80));
 		toolBar.add(btnAdd);
 		
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
 		JButton btnRemove = new JButton("Remover");
-		btnRemove.setMaximumSize(new Dimension(65, 80));
-		btnRemove.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnRemove.setIcon(new ImageIcon(Modality.class.getResource("/img22/remover.png")));
+		btnRemove.setMaximumSize(new Dimension(100, 80));
+		
 		toolBar.add(btnRemove);
 		
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
 		JButton btnSave = new JButton("Salvar");
-		btnSave.setMaximumSize(new Dimension(65, 80));
-		btnSave.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnSave.setIcon(new ImageIcon(Modality.class.getResource("/img22/salvar.png")));
+		btnSave.setMaximumSize(new Dimension(100, 80));
+	
 		toolBar.add(btnSave);
 		
 		JLabel lblStudent = new JLabel("Aluno:");
