@@ -64,7 +64,7 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnSystem = new JMenu("Sistema");
 		menuBar.add(mnSystem);
 
-		JMenuItem mntmUsers = new JMenuItem( new AbstractAction("Usuários") {
+		JMenuItem mntmUsers = new JMenuItem( new AbstractAction("Usuarios") {
 		
 			public void actionPerformed(ActionEvent e)
 			{

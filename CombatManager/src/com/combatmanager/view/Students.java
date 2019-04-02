@@ -212,7 +212,7 @@ public class Students extends JPanel implements View {
 		internalFrame.setVisible(true);
 
 		JPanel addressPanel = new JPanel();
-		tabbedPaneAddress.addTab("Endereço", null, addressPanel, null);
+		tabbedPaneAddress.addTab("Endereco", null, addressPanel, null);
 		addressPanel.setLayout(null);
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
