@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.combatmanager.security.Configuration;
+
 public class HomeWindow extends JPanel implements View{
 
 	private final String NAME = "Tela Inicial";
@@ -27,7 +29,7 @@ public class HomeWindow extends JPanel implements View{
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run() {
+	public JPanel run(Configuration config) {
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);

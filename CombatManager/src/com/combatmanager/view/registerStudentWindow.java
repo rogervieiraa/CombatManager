@@ -19,7 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class registerStudent extends JPanel {
+import com.combatmanager.security.Configuration;
+
+public class registerStudentWindow extends JPanel {
 	private JTextField textFieldRegistration;
 	private JTextField textFieldF9;
 	private JTextField textFieldStudent;
@@ -30,11 +32,11 @@ public class registerStudent extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public registerStudent() {
+	public registerStudentWindow(Configuration config) {
 		setLayout(null);
 		
 		JInternalFrame internalFrame = new JInternalFrame("Matricular Aluno");
-		internalFrame.setFrameIcon(new ImageIcon(registerStudent.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(new ImageIcon(registerStudentWindow.class.getResource("/img/combatvinte.png")));
 		internalFrame.setBounds(0, 0, 526, 396);
 		add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
@@ -46,7 +48,7 @@ public class registerStudent extends JPanel {
 		internalFrame.getContentPane().add(toolBar);
 		
 		JButton btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(Modality.class.getResource("/img22/localizar.png")));
+		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 	
 		btnSearch.setMaximumSize(new Dimension(98, 80));
 		btnSearch.addActionListener(new ActionListener() {
@@ -56,7 +58,7 @@ public class registerStudent extends JPanel {
 		toolBar.add(btnSearch);
 		
 		JButton btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(Modality.class.getResource("/img22/adicionar.png")));
+		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -71,7 +73,7 @@ public class registerStudent extends JPanel {
 		toolBar.add(space2);
 		
 		JButton btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(Modality.class.getResource("/img22/remover.png")));
+		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setMaximumSize(new Dimension(98, 80));
 		
 		toolBar.add(btnRemove);
@@ -80,7 +82,7 @@ public class registerStudent extends JPanel {
 		toolBar.add(space3);
 		
 		JButton btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(Modality.class.getResource("/img22/salvar.png")));
+		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setMaximumSize(new Dimension(98, 80));
 	
 		toolBar.add(btnSave);

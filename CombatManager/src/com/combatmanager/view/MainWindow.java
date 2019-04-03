@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.combatmanager.security.Configuration;
 
+import controller.CombatImage;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -69,12 +71,12 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				CreateContentPane(new Users());
+				CreateContentPane(new UsersWindow());
 				revalidate();
 			}
 				
 		});
-		mntmUsers.setIcon(new ImageIcon(Modality.class.getResource("/img16/aplicacao.png")));
+		mntmUsers.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnSystem.add(mntmUsers);
 
 		JMenuItem mntmExit = new JMenuItem( new AbstractAction("Sair") {
@@ -86,7 +88,7 @@ public class MainWindow extends JFrame implements View {
 				
 		});
 		
-		mntmExit.setIcon(new ImageIcon(Modality.class.getResource("/img16/sair.png")));
+		mntmExit.setIcon(CombatImage.alterar_16x16); //COMO USAR AS IMAGENS
 		mnSystem.add(mntmExit);
 
 		JMenu mnRegisted = new JMenu("Cadastros");
@@ -97,12 +99,12 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				CreateContentPane(new Students());
+				CreateContentPane(new StudentsWindow());
 				revalidate();
 			}
 				
 		});
-		mntmStudents.setIcon(new ImageIcon(Modality.class.getResource("/img16/aplicacao.png")));
+		mntmStudents.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnRegisted.add(mntmStudents);
 
 		JMenuItem mntmModalities = new JMenuItem(new AbstractAction("Modalidades"){
@@ -110,12 +112,12 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				CreateContentPane(new Modality());
+				CreateContentPane(new ModalityWindow());
 				revalidate();
 			}
 				
 		});
-		mntmModalities.setIcon(new ImageIcon(Modality.class.getResource("/img16/aplicacao.png")));
+		mntmModalities.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnRegisted.add(mntmModalities);
 		
 		JMenuItem mntmPlans = new JMenuItem(new AbstractAction("Planos"){
@@ -123,13 +125,13 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				CreateContentPane(new Plans());
+				CreateContentPane(new PlansWindow());
 				revalidate();
 			}
 				
 		});
 		
-		mntmPlans.setIcon(new ImageIcon(Modality.class.getResource("/img16/aplicacao.png")));
+		mntmPlans.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnRegisted.add(mntmPlans);
 
 		JMenu mnProcesses = new JMenu("Processos");
@@ -137,7 +139,7 @@ public class MainWindow extends JFrame implements View {
 
 		;
 		JMenu mnRegister = new JMenu("Matricular");
-		mnRegister.setIcon(new ImageIcon(Modality.class.getResource("/img16/aplicacao.png")));
+		mnRegister.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnRegister.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcesses.add(mnRegister);
 
@@ -145,7 +147,7 @@ public class MainWindow extends JFrame implements View {
 		mnRegister.add(mntmStudent);
 
 		JMenu mnBilling = new JMenu("Faturamento");
-		mnBilling.setIcon(new ImageIcon(Modality.class.getResource("/img16/aplicacao.png")));
+		mnBilling.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnProcesses.add(mnBilling);
 
 		JMenuItem mntmGenerateBill = new JMenuItem("Gerar Faturas");
@@ -178,14 +180,14 @@ public class MainWindow extends JFrame implements View {
 	}
 
 	public Container CreateContentPane(View view) {
-		Container c = view.run();
+		Container c = view.run(this.config);
 		setContentPane(c);
 		return c;
 
 	}
 
 	@Override
-	public JPanel run() {
+	public JPanel run(Configuration config) {
 		return null;
 	}
 

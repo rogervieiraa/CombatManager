@@ -12,6 +12,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -23,6 +24,14 @@ import javax.swing.JDesktopPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import com.combatmanager.database.dao.GraduationDAO;
+import com.combatmanager.database.dao.ModalityDAO;
+import com.combatmanager.database.model.Graduation;
+import com.combatmanager.database.model.Modality;
+import com.combatmanager.error.AccessException;
+import com.combatmanager.security.Configuration;
+
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Component;
@@ -30,12 +39,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import java.awt.ComponentOrientation;
 
-public class Modality extends JPanel implements View{
-	public Modality() {
+public class ModalityWindow extends JPanel implements View{
+	public ModalityWindow() {
 	}
 	private JTextField textFieldModality;
 	private JTextField textFieldGraduation;
+	DefaultTableModel model;
 	private JTable table;
+	private JButton btnRemove;
+	private JButton btnAdd;
+	private JButton btnSave;
+	private JButton btnSearch;
+	private JButton btnOk;
 
 	private final String NAME = "Tela Modalidades";
 	private final int ACCESS = 0;
@@ -59,12 +74,12 @@ public class Modality extends JPanel implements View{
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run() {
+	public JPanel run(Configuration config) {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Modalidades e Gradua\u00E7\u00F5es");
-		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(new ImageIcon(ModalityWindow.class.getResource("/img/combatvinte.png")));
 		internalFrame.setBounds(0, 0, 450, 344);
 	
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -86,22 +101,16 @@ public class Modality extends JPanel implements View{
 		toolBar.setFloatable(false);
 		internalFrame.getContentPane().add(toolBar);
 		
-		JButton btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(Modality.class.getResource("/img22/localizar.png")));
+		btnSearch = new JButton("Buscar");
+		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 	
 		btnSearch.setMaximumSize(new Dimension(98, 80));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
 		toolBar.add(btnSearch);
 		
-		JButton btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(Modality.class.getResource("/img22/adicionar.png")));
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnAdd = new JButton("Adicionar");
+		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
+		
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
@@ -111,8 +120,8 @@ public class Modality extends JPanel implements View{
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
-		JButton btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(Modality.class.getResource("/img22/remover.png")));
+		btnRemove = new JButton("Remover");
+		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setMaximumSize(new Dimension(98, 80));
 		
 		toolBar.add(btnRemove);
@@ -120,10 +129,10 @@ public class Modality extends JPanel implements View{
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
-		JButton btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(Modality.class.getResource("/img22/salvar.png")));
+		btnSave = new JButton("Salvar");
+		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setMaximumSize(new Dimension(98, 80));
-	
+		
 		toolBar.add(btnSave);
 		
 		JLabel lblModality = new JLabel("Modalidade: ");
@@ -136,6 +145,7 @@ public class Modality extends JPanel implements View{
 		internalFrame.getContentPane().add(textFieldModality);
 		textFieldModality.setColumns(10);
 		
+		
 		JLabel lblGraduation = new JLabel("Gradua\u00E7\u00E3o:  ");
 		lblGraduation.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblGraduation.setBounds(10, 100, 78, 14);
@@ -144,11 +154,13 @@ public class Modality extends JPanel implements View{
 		textFieldGraduation = new JTextField();
 		textFieldGraduation.setColumns(10);
 		textFieldGraduation.setBounds(98, 98, 266, 20);
+		
 		internalFrame.getContentPane().add(textFieldGraduation);
 		
-		JButton btnOk = new JButton("OK");
+		btnOk = new JButton("OK");
 		btnOk.setBounds(370, 92, 53, 29);
 		internalFrame.getContentPane().add(btnOk);
+		
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
@@ -163,29 +175,104 @@ public class Modality extends JPanel implements View{
 		internalFrame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"Faixa Preta"},
-				{"Faixa Azul"},
-				{"Feixa Amarela"},
-			},
-			new String[] {
-				"Graduacao"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		model = new DefaultTableModel();
+		model.addColumn("Graduacao");
+		table.setModel(model);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.setFont(new Font("Tahoma", Font.BOLD, 11));
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		scrollPane.setColumnHeaderView(lblNewLabel);
+		
+		//seta os defualt para startar a window
+		resetWindow();
+		
+		/* ACTIONS */
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				textFieldGraduation.setEnabled(true);
+				textFieldModality.setEnabled(true);
+				btnSave.setEnabled(true);
+				btnOk.setEnabled(true);
+				
+				
+				
+			}
+		});
+		
+		btnOk.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				String local_graduation = textFieldGraduation.getText();
+				model.addRow(new Object[] {local_graduation});
+				
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				ModalityDAO modalityDao = null;
+				GraduationDAO graduationDao = null;
+				try {
+					if(!config.getDebug()) {
+						modalityDao = new ModalityDAO(config.getConnection());
+					}
+					
+					Modality local_modality = new Modality();
+					local_modality.setModality(textFieldModality.getText());
+					if(!config.getDebug()) {
+						modalityDao.Insert(local_modality);
+					}
+					System.out.println(local_modality.toString());
+					if(!config.getDebug()) {
+						graduationDao = new GraduationDAO(config.getConnection());
+					}
+					for(int i=0;i<model.getRowCount();i++) {
+						Graduation local_gradual = new Graduation();
+						
+						local_gradual.setModality(local_modality.getModality());
+						local_gradual.setGraduation((String) model.getValueAt(i, 0));
+						System.out.println(local_gradual.toString());
+						if(!config.getDebug()) {
+							graduationDao.Insert(local_gradual);
+						}
+						
+					}
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					e1.printStackTrace();
+				}
+				
+				
+				resetWindow();
+			}
+
+			
+		});
+		
 		return contentPane;
+	}
+	private void resetWindow() {
+		textFieldGraduation.setText("");
+		textFieldModality.setText("");
+		btnOk.setEnabled(false);
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(false);
+		textFieldModality.setEnabled(false);
+		textFieldGraduation.setEnabled(false);
+		while(model.getRowCount() > 0) {
+			model.removeRow(0);
+		}
 	}
 }

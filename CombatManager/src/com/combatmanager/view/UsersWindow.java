@@ -8,6 +8,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
+import com.combatmanager.security.Configuration;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -26,8 +28,8 @@ import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 
-public class Users extends JPanel implements View {
-	public Users() {
+public class UsersWindow extends JPanel implements View {
+	public UsersWindow() {
 	}
 	
 	private final String NAME = "Tela Usuarios";
@@ -51,17 +53,17 @@ public class Users extends JPanel implements View {
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run() {
+	public JPanel run(Configuration config) {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		internalFrame = new JInternalFrame("Tela Usuarios");
-		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combat.png")));		
+		internalFrame.setFrameIcon(new ImageIcon(ModalityWindow.class.getResource("/img/combat.png")));		
 		internalFrame.setBounds(0, 0, 450, 300);
 		contentPane.add(internalFrame);
 		internalFrame.setVisible(true);
 		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setFrameIcon(new ImageIcon(Modality.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(new ImageIcon(ModalityWindow.class.getResource("/img/combatvinte.png")));
 		
 		BasicInternalFrameUI ui = (BasicInternalFrameUI)internalFrame.getUI();
 
@@ -90,7 +92,7 @@ public class Users extends JPanel implements View {
 		internalFrame.getContentPane().add(toolBar);
 		
 		JButton btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(Modality.class.getResource("/img22/localizar.png")));
+		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 		btnSearch.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSearch.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnSearch);
@@ -101,7 +103,7 @@ public class Users extends JPanel implements View {
 		toolBar.add(space1);
 		
 		JButton btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(Modality.class.getResource("/img22/adicionar.png")));
+		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnAdd.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnAdd);
@@ -110,7 +112,7 @@ public class Users extends JPanel implements View {
 		toolBar.add(space2);
 		
 		JButton btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(Modality.class.getResource("/img22/remover.png")));
+		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnRemove.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnRemove);
@@ -119,7 +121,7 @@ public class Users extends JPanel implements View {
 		toolBar.add(space3);
 		
 		JButton btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(Modality.class.getResource("/img22/salvar.png")));
+		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSave.setMaximumSize(new Dimension(100, 40));
 		toolBar.add(btnSave);

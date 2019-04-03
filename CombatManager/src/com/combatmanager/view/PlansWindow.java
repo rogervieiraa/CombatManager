@@ -21,7 +21,9 @@ import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 
-public class Plans extends JPanel implements View{
+import com.combatmanager.security.Configuration;
+
+public class PlansWindow extends JPanel implements View{
 	private JTextField textFieldPlans;
 	private JTextField textFieldPrice;
 	
@@ -47,12 +49,12 @@ public class Plans extends JPanel implements View{
 	 * Create the panel.
 	 */
 	
-	public JPanel run() {
+	public JPanel run(Configuration config) {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Planos");
-		internalFrame.setFrameIcon(new ImageIcon(Plans.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(new ImageIcon(PlansWindow.class.getResource("/img/combatvinte.png")));
 		internalFrame.setBounds(0, 0, 450, 200);
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -73,7 +75,7 @@ public class Plans extends JPanel implements View{
 		internalFrame.getContentPane().add(toolBar);
 		
 		JButton btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(Modality.class.getResource("/img22/localizar.png")));
+		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 	
 		btnSearch.setMaximumSize(new Dimension(98, 80));
 		btnSearch.addActionListener(new ActionListener() {
@@ -83,7 +85,7 @@ public class Plans extends JPanel implements View{
 		toolBar.add(btnSearch);
 		
 		JButton btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(Modality.class.getResource("/img22/adicionar.png")));
+		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -98,7 +100,7 @@ public class Plans extends JPanel implements View{
 		toolBar.add(space2);
 		
 		JButton btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(Modality.class.getResource("/img22/remover.png")));
+		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setMaximumSize(new Dimension(98, 80));
 		
 		toolBar.add(btnRemove);
@@ -107,7 +109,7 @@ public class Plans extends JPanel implements View{
 		toolBar.add(space3);
 		
 		JButton btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(Modality.class.getResource("/img22/salvar.png")));
+		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setMaximumSize(new Dimension(98, 80));
 	
 		toolBar.add(btnSave);
