@@ -44,13 +44,13 @@ public class Students extends JPanel implements View {
 	private JTextField textFieldPhone;
 	private JTextField textFieldCellPhone;
 	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldComplement;
+	private JTextField textFieldPhoneAddress;
 	private JTextField textField_3;
 	private JTextField txtTeclarF;
 	private JTextField textField_5;
-	private JTextField textField_7;
-	private JTextField textField_4;
+	private JTextField textFieldState;
+	private JTextField textFieldTextF9;
 
 	
 	private final String NAME = "Tela Estudantes";
@@ -230,15 +230,15 @@ public class Students extends JPanel implements View {
 		lblComplemento.setBounds(10, 42, 93, 15);
 		addressPanel.add(lblComplemento);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(109, 40, 386, 20);
-		addressPanel.add(textField_1);
+		textFieldComplement = new JTextField();
+		textFieldComplement.setColumns(10);
+		textFieldComplement.setBounds(109, 40, 386, 20);
+		addressPanel.add(textFieldComplement);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(350, 9, 145, 20);
-		addressPanel.add(textField_2);
+		textFieldPhoneAddress = new JTextField();
+		textFieldPhoneAddress.setColumns(10);
+		textFieldPhoneAddress.setBounds(350, 9, 145, 20);
+		addressPanel.add(textFieldPhoneAddress);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -265,11 +265,11 @@ public class Students extends JPanel implements View {
 		textField_5.setBounds(109, 102, 145, 20);
 		addressPanel.add(textField_5);
 		
-		textField_4 = new JTextField();
-		textField_4.setEnabled(false);
-		textField_4.setColumns(10);
-		textField_4.setBounds(350, 102, 145, 20);
-		addressPanel.add(textField_4);
+		textFieldTextF9 = new JTextField();
+		textFieldTextF9.setEnabled(false);
+		textFieldTextF9.setColumns(10);
+		textFieldTextF9.setBounds(350, 102, 145, 20);
+		addressPanel.add(textFieldTextF9);
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -293,10 +293,10 @@ public class Students extends JPanel implements View {
 		lblEstado.setBounds(10, 105, 93, 15);
 		addressPanel.add(lblEstado);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(109, 133, 145, 20);
-		addressPanel.add(textField_7);
+		textFieldState = new JTextField();
+		textFieldState.setColumns(10);
+		textFieldState.setBounds(109, 133, 145, 20);
+		addressPanel.add(textFieldState);
 		
 		JLabel lblCep = new JLabel("Cep:");
 		lblCep.setFont(new Font("Tahoma", Font.BOLD, 12));
