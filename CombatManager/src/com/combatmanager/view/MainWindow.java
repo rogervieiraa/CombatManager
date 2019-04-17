@@ -143,7 +143,16 @@ public class MainWindow extends JFrame implements View {
 		mnRegister.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcesses.add(mnRegister);
 
-		JMenuItem mntmStudent = new JMenuItem("Aluno");
+		JMenuItem mntmStudent = new JMenuItem(new AbstractAction("Aluno"){
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new RegisterStudentWindow());
+				revalidate();
+			}
+				
+		});
 		mnRegister.add(mntmStudent);
 
 		JMenu mnBilling = new JMenu("Faturamento");
@@ -153,7 +162,16 @@ public class MainWindow extends JFrame implements View {
 		JMenuItem mntmGenerateBill = new JMenuItem("Gerar Faturas");
 		mnBilling.add(mntmGenerateBill);
 
-		JMenuItem mntmCheckBills = new JMenuItem("Consultar Faturas");
+		JMenuItem mntmCheckBills = new JMenuItem(new AbstractAction("Consultar Faturas"){
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new CheckInvoiceWindow());
+				revalidate();
+			}
+				
+		});;
 		mnBilling.add(mntmCheckBills);
 
 		JMenuItem mntmMakePayment = new JMenuItem("Realizar Pagamento");

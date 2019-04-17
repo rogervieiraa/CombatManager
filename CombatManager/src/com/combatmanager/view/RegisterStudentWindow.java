@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -21,27 +24,54 @@ import javax.swing.table.DefaultTableModel;
 
 import com.combatmanager.security.Configuration;
 
-public class registerStudentWindow extends JPanel {
+public class RegisterStudentWindow extends JPanel implements View{
 	private JTextField textFieldRegistration;
 	private JTextField textFieldF9;
 	private JTextField textFieldStudent;
 	private JTextField textFieldRegisterDay;
 	private JTextField textField;
 	private JTable table;
+	
+	private final String NAME = "Tela Cadastro Alunos";
+	private final int ACCESS = 0;
 
+	@Override
+	public int getAccess() {
+		return this.ACCESS;
+	}
+
+	@Override
+	public String getName() {
+		return this.NAME;
+	}
+	
+
+	/**
+	 * @author Romulo Create the frame.
+	 */
+	
 	/**
 	 * Create the panel.
 	 */
-	public registerStudentWindow(Configuration config) {
-		setLayout(null);
-		
+	public JPanel run(Configuration config) {
+		JPanel contentPane= new JPanel();
+		contentPane.setLayout(null);
+		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Matricular Aluno");
-		internalFrame.setFrameIcon(new ImageIcon(registerStudentWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(new ImageIcon(RegisterStudentWindow.class.getResource("/img/combatvinte.png")));
 		internalFrame.setBounds(0, 0, 526, 396);
-		add(internalFrame);
+		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		internalFrame.setVisible(true);
 		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = internalFrame.getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		
+		internalFrame.setLocation(width, height);
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBounds(10, 11, 415, 39);
 		toolBar.setFloatable(false);
@@ -154,5 +184,6 @@ public class registerStudentWindow extends JPanel {
 			}
 		));
 		scrollPane.setViewportView(table);
+		return contentPane;
 	}
 }
