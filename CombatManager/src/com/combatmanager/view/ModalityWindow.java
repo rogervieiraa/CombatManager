@@ -212,6 +212,7 @@ public class ModalityWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent e) {
 				
 				String local_graduation = textFieldGraduation.getText();
+				textFieldGraduation.setText("");
 				model.addRow(new Object[] {local_graduation});
 				
 			}
