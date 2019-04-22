@@ -24,10 +24,22 @@ public class UserDAO extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"	)";
+	private String is_create_role		=	"create	role		?" +
+												"	with		login" +
+												"			encrypted password		'?'" +
+												"			in role				admin";
+	private String is_alter_role	=	"alter	role		?" +
+												"	with		login" +
+												"			encrypted password		'?'";
+
+	private String is_drop_role		=	"drop	role		?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_createRole;
+	private PreparedStatement pst_alterRole;
+	private PreparedStatement pst_dropRole;
 	
 	Connection io_connection;
 	
@@ -36,6 +48,9 @@ public class UserDAO extends MasterDAO{
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_createRole = connection.prepareStatement(is_create_role);
+		pst_alterRole = connection.prepareStatement(is_alter_role);
+		pst_dropRole = connection.prepareStatement(is_drop_role);
 		
 	}
 	
@@ -93,7 +108,12 @@ public class UserDAO extends MasterDAO{
 
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
+		Set(pst_createRole, 1, user.getUser());
+		Set(pst_createRole, 2, user.getPassword());
+		
+		pst_createRole.execute();
+		
+		if ((pst_insert.getUpdateCount() > 0) && (pst_createRole.getUpdateCount() > 0)) {
 			io_connection.commit();
 		}
 	}

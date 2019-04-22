@@ -9,6 +9,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import com.combatmanager.security.Configuration;
+import com.combatmanager.database.dao.UserDAO;
+import com.combatmanager.database.model.User;
 
 import java.awt.Color;
 import java.awt.Component;
