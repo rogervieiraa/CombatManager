@@ -224,28 +224,20 @@ public class ModalityWindow extends JPanel implements View{
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
 				try {
-					if(!config.getDebug()) {
-						modalityDao = new ModalityDAO(config.getConnection());
-					}
+					modalityDao = new ModalityDAO(config.getConnection());
 					
 					Modality local_modality = new Modality();
 					local_modality.setModality(textFieldModality.getText());
-					if(!config.getDebug()) {
-						modalityDao.Insert(local_modality);
-					}
+					modalityDao.Insert(local_modality);
 					System.out.println(local_modality.toString());
-					if(!config.getDebug()) {
-						graduationDao = new GraduationDAO(config.getConnection());
-					}
+					graduationDao = new GraduationDAO(config.getConnection());
 					for(int i=0;i<model.getRowCount();i++) {
 						Graduation local_gradual = new Graduation();
 						
 						local_gradual.setModality(local_modality.getModality());
 						local_gradual.setGraduation((String) model.getValueAt(i, 0));
 						System.out.println(local_gradual.toString());
-						if(!config.getDebug()) {
-							graduationDao.Insert(local_gradual);
-						}
+						graduationDao.Insert(local_gradual);
 						
 					}
 					

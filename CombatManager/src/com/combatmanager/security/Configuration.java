@@ -24,7 +24,6 @@ public class Configuration {
 	private final String DB_NAME = "master";
 	private final String DB_USER_NAME = "admin";
 	private final String DB_PASSWORD = "admin";	
-	private final boolean DEBUG = true;
 	private HashMap<Integer, String> sysLog;
 	private Integer logKey;
 	
@@ -43,10 +42,6 @@ public class Configuration {
 	
 	public User getUserLoged() {
 		return userLoged;
-	}
-	
-	public boolean getDebug() {
-		return this.DEBUG;
 	}
 	
 	/**
