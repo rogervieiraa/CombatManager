@@ -1,6 +1,8 @@
 package com.combatmanager.security;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.combatmanager.database.ConnectionFactory;
 import com.combatmanager.database.model.User;
@@ -23,8 +25,12 @@ public class Configuration {
 	private final String DB_USER_NAME = "admin";
 	private final String DB_PASSWORD = "admin";	
 	private final boolean DEBUG = true;
+	private HashMap<Integer, String> sysLog;
+	private Integer logKey;
 	
 	public Configuration(User userLoged) throws Exception {
+		sysLog = new HashMap<Integer, String>();
+		logKey = 0;
 		if(userLoged == null) {
 			throw new Exception("ERRO 000: Usuario nulo!");
 		}
@@ -71,6 +77,16 @@ public class Configuration {
 		}
 		
 		throw new AccessException("Configuracao" , "Usuario indefinido, permissao 0.");
+	}
+	
+	public void addToSystemLog(String log) {
+		
+		sysLog.put(logKey, log);
+		logKey++;
+	}
+	
+	public void saveLog() {
+		// TO DO
 	}
 	
 }
