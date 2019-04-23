@@ -14,6 +14,7 @@ public class GraduationDAO extends MasterDAO{
 		
 		private String selectAll = "select * from graduacoes order by graduacao";
 		private String select = "select * from graduacoes where graduacao = ? order by graduacao";
+		private String selectByModality = "select * from graduacoes where modality = ? order by graduacao";
 		private String insert = "INSERT INTO graduacoes			"
 									+"	(						" 
 									+"		modalidade, 		"
@@ -27,6 +28,7 @@ public class GraduationDAO extends MasterDAO{
 		
 		private PreparedStatement pst_selectAll;
 		private PreparedStatement pst_select;
+		private PreparedStatement pst_selectByModality;
 		private PreparedStatement pst_insert;
 		
 		Connection io_connection;
@@ -35,6 +37,7 @@ public class GraduationDAO extends MasterDAO{
 
 			pst_selectAll = connection.prepareStatement(selectAll);
 			pst_select = connection.prepareStatement(select);
+			pst_selectByModality = connection.prepareStatement(selectByModality);
 			pst_insert = connection.prepareStatement(insert);
 			
 		}
@@ -54,7 +57,7 @@ public class GraduationDAO extends MasterDAO{
 			
 			return arlGraduation;
 		}
-
+		
 		@Override
 		public Object Select(Object parameter) throws SQLException {
 			
@@ -74,7 +77,23 @@ public class GraduationDAO extends MasterDAO{
 			
 			return graduation;
 		}
-
+		
+		public List<Graduation> SelectGraduationByModality(Modality modality) throws SQLException {
+			List<Graduation> arlGraduation = new ArrayList<Graduation>();
+			ResultSet rst= pst_selectByModality.executeQuery();
+			
+			while(rst.next()) {
+				Graduation graduation = new Graduation();
+				graduation.setModality(rst.getString("modalidade"));
+				graduation.setGraduation(rst.getString("graduacao"));
+				
+				
+				arlGraduation.add(graduation);
+			}
+			
+			return arlGraduation;
+		}
+		
 		@Override
 		public void Update(Object parameter) throws SQLException {
 			//TO DO

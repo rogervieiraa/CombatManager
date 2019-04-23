@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -42,6 +43,9 @@ import java.awt.ComponentOrientation;
 public class ModalityWindow extends JPanel implements View{
 	public ModalityWindow() {
 	}
+	private Boolean search;
+	private Modality save_modality;
+	private List<Graduation> save_graduation;
 	private JTextField textFieldModality;
 	private JTextField textFieldGraduation;
 	DefaultTableModel model;
@@ -100,7 +104,6 @@ public class ModalityWindow extends JPanel implements View{
 		toolBar.setBounds(10, 11, 415, 39);
 		toolBar.setFloatable(false);
 		internalFrame.getContentPane().add(toolBar);
-		
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 	
@@ -191,6 +194,38 @@ public class ModalityWindow extends JPanel implements View{
 		/* ACTIONS */
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!search) {
+					textFieldModality.setEnabled(true);
+					
+					search = true;
+					return;
+				}
+				ModalityDAO modalityDao = null;
+				GraduationDAO graduationDao = null;
+				
+				save_modality = new Modality();
+				save_modality.setModality(textFieldModality.getText());
+				try {
+					
+					modalityDao = new ModalityDAO(config.getConnection());
+					Modality auxiliar_modality = (Modality) modalityDao.Select(save_modality);
+					if (save_modality.getModality().equals(auxiliar_modality.getModality())) {
+						textFieldModality.setText(save_modality.getModality());
+						textFieldModality.setEnabled(false);
+					}
+					graduationDao = new GraduationDAO(config.getConnection());
+					save_graduation = graduationDao.SelectGraduationByModality(save_modality);
+					
+					for(int i=0;i<save_graduation.size();i++) {
+						model.addRow(new Object[] {save_graduation.get(i).getGraduation()});
+					}
+					
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -201,9 +236,7 @@ public class ModalityWindow extends JPanel implements View{
 				textFieldModality.setEnabled(true);
 				btnSave.setEnabled(true);
 				btnOk.setEnabled(true);
-				
-				
-				
+					
 			}
 		});
 		
@@ -218,11 +251,49 @@ public class ModalityWindow extends JPanel implements View{
 			}
 		});
 		
+		btnRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				resetWindow();
+			}
+		});
+		
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
+				if(search) {
+					try {
+						graduationDao = new GraduationDAO(config.getConnection());
+						
+						for(int i=0;i<save_graduation.size();i++) {
+							Graduation local_gradual = new Graduation();
+							local_gradual.setModality(save_modality.getModality());
+							local_gradual.setGraduation(save_graduation.get(i).getGraduation());
+							graduationDao.Delete(local_gradual);
+						}
+						
+						for(int i=0;i<model.getRowCount();i++) {
+							Graduation local_gradual = new Graduation();
+							local_gradual.setModality(save_modality.getModality());
+							local_gradual.setGraduation((String) model.getValueAt(i, 0));
+							System.out.println(local_gradual.toString());
+							graduationDao.Insert(local_gradual);
+							
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} catch (AccessException e1) {
+						e1.printStackTrace();
+					}
+					
+					return;
+				}
+				
 				try {
 					modalityDao = new ModalityDAO(config.getConnection());
 					
@@ -247,15 +318,14 @@ public class ModalityWindow extends JPanel implements View{
 					e1.printStackTrace();
 				}
 				
-				
 				resetWindow();
 			}
 
-			
 		});
 		
 		return contentPane;
 	}
+	
 	private void resetWindow() {
 		textFieldGraduation.setText("");
 		textFieldModality.setText("");
@@ -264,8 +334,11 @@ public class ModalityWindow extends JPanel implements View{
 		btnSave.setEnabled(false);
 		textFieldModality.setEnabled(false);
 		textFieldGraduation.setEnabled(false);
+		search = false;
 		while(model.getRowCount() > 0) {
 			model.removeRow(0);
 		}
+		
 	}
+	
 }
