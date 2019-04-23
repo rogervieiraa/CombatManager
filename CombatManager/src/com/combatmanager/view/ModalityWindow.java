@@ -258,13 +258,13 @@ public class ModalityWindow extends JPanel implements View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//graduacoes
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade você estara deletando todas as suas graduações, concorda com isso?");
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduações, concorda com isso?");
 				
 				//planos
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade você estara deletando todos os seus planos, concorda com isso?");
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todos os seus planos, concorda com isso?");
 				
 				//matriculas por modalidade
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade você estara deletando todas as suas matriculas, concorda com isso?");
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas matriculas, concorda com isso?");
 				
 				resetWindow();
 			}
