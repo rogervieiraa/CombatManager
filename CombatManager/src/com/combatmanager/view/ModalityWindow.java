@@ -204,6 +204,7 @@ public class ModalityWindow extends JPanel implements View{
 				GraduationDAO graduationDao = null;
 				btnRemove.setEnabled(true);
 				btnSave.setEnabled(true);
+				btnSearch.setEnabled(false);
 				
 				save_modality = new Modality();
 				save_modality.setModality(textFieldModality.getText());
