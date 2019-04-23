@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -188,10 +189,8 @@ public class ModalityWindow extends JPanel implements View{
 		JLabel lblNewLabel = new JLabel("New label");
 		scrollPane.setColumnHeaderView(lblNewLabel);
 		
-		//seta os defualt para startar a window
 		resetWindow();
 		
-		/* ACTIONS */
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!search) {
@@ -258,7 +257,14 @@ public class ModalityWindow extends JPanel implements View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				//graduacoes
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade você estara deletando todas as suas graduações, concorda com isso?");
+				
+				//planos
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade você estara deletando todos os seus planos, concorda com isso?");
+				
+				//matriculas por modalidade
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade você estara deletando todas as suas matriculas, concorda com isso?");
 				
 				resetWindow();
 			}
@@ -336,6 +342,8 @@ public class ModalityWindow extends JPanel implements View{
 		btnOk.setEnabled(false);
 		btnRemove.setEnabled(false);
 		btnSave.setEnabled(false);
+		btnAdd.setEnabled(true);
+		btnSearch.setEnabled(true);
 		textFieldModality.setEnabled(false);
 		textFieldGraduation.setEnabled(false);
 		search = false;
