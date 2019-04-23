@@ -44,7 +44,6 @@ import java.awt.ComponentOrientation;
 public class ModalityWindow extends JPanel implements View{
 	public ModalityWindow() {
 	}
-	private Boolean search;
 	private Modality save_modality;
 	private List<Graduation> save_graduation;
 	private JTextField textFieldModality;
@@ -59,7 +58,8 @@ public class ModalityWindow extends JPanel implements View{
 
 	private final String NAME = "Tela Modalidades";
 	private final int ACCESS = 0;
-
+	private Boolean search;
+	
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -238,7 +238,10 @@ public class ModalityWindow extends JPanel implements View{
 				textFieldModality.setEnabled(true);
 				btnSave.setEnabled(true);
 				btnOk.setEnabled(true);
-					
+				btnSearch.setEnabled(false);
+				btnAdd.setEnabled(false);
+				btnRemove.setEnabled(false);
+				
 			}
 		});
 		
@@ -258,7 +261,7 @@ public class ModalityWindow extends JPanel implements View{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//graduacoes
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduações, concorda com isso?");
+				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduacoes, concorda com isso?");
 				
 				//planos
 				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todos os seus planos, concorda com isso?");

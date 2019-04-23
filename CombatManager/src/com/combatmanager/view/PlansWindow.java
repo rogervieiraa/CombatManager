@@ -27,9 +27,17 @@ public class PlansWindow extends JPanel implements View{
 	private JTextField textFieldPlans;
 	private JTextField textFieldPrice;
 	
+	JButton btnSearch;
+	JButton btnAdd;
+	JButton btnRemove;
+	JButton btnSave;
+	JComboBox comboBox;
+	
 	private final String NAME = "Tela Planos";
 	private final int ACCESS = 0;
-
+	private Boolean search;
+	
+	
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -74,22 +82,14 @@ public class PlansWindow extends JPanel implements View{
 		toolBar.setBounds(10, 11, 415, 39);
 		internalFrame.getContentPane().add(toolBar);
 		
-		JButton btnSearch = new JButton("Buscar");
+		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 	
 		btnSearch.setMaximumSize(new Dimension(98, 80));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		toolBar.add(btnSearch);
 		
-		JButton btnAdd = new JButton("Adicionar");
+		btnAdd = new JButton("Adicionar");
 		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
@@ -99,7 +99,7 @@ public class PlansWindow extends JPanel implements View{
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
-		JButton btnRemove = new JButton("Remover");
+		btnRemove = new JButton("Remover");
 		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setMaximumSize(new Dimension(98, 80));
 		
@@ -108,13 +108,13 @@ public class PlansWindow extends JPanel implements View{
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
-		JButton btnSave = new JButton("Salvar");
+		btnSave = new JButton("Salvar");
 		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setMaximumSize(new Dimension(98, 80));
 	
 		toolBar.add(btnSave);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setEnabled(false);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--Selecione--"}));
 		comboBox.setBounds(105, 63, 319, 20);
@@ -147,6 +147,56 @@ public class PlansWindow extends JPanel implements View{
 		lblPrice.setBounds(10, 125, 92, 20);
 		internalFrame.getContentPane().add(lblPrice);
 		
+		resetWindow();
+		
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+			}
+		});
+		
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				textFieldPlans.setEnabled(true);
+				textFieldPrice.setEnabled(true);
+				btnAdd.setEnabled(false);
+				btnSave.setEnabled(true);
+				btnSearch.setEnabled(false);
+				btnRemove.setEnabled(false);
+				comboBox.setEnabled(true);
+				
+			}
+		});
+		
+		btnRemove.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		return contentPane;
+	}
+	
+	private void resetWindow() {
+		textFieldPlans.setText("");
+		textFieldPrice.setText("");
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnAdd.setEnabled(true);
+		btnSearch.setEnabled(true);
+		textFieldPlans.setEnabled(false);
+		textFieldPrice.setEnabled(false);
+		search = false;
+		comboBox.setEnabled(false);
 	}
 }
