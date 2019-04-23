@@ -18,12 +18,12 @@ public class GraduationDAO extends MasterDAO{
 		private String insert = "INSERT INTO graduacoes			"
 									+"	(						" 
 									+"		modalidade, 		"
-									+"		graduacao, 		"
+									+"		graduacao			"
 									+"	)						"  
 									+"  VALUES 					"
 									+"	(						"
 									+"		?, 					"
-									+"		?, 					"
+									+"		?					"
 									+"	)";
 		
 		private PreparedStatement pst_selectAll;
@@ -112,7 +112,12 @@ public class GraduationDAO extends MasterDAO{
 			pst_insert.execute();
 			
 			if (pst_insert.getUpdateCount() > 0) {
-				io_connection.commit();
+				//AQUI TA SEMPRE RETORNANDO NULL
+				try {
+					io_connection.commit();
+				}catch(Exception e) {
+					System.out.println("Erro:" + e.getMessage());
+				}
 			}
 		}
 

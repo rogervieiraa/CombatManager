@@ -14,11 +14,11 @@ public class ModalityDAO extends MasterDAO{
 	private String select = "select * from modalidades where modalidade = ? order by modalidade";
 	private String insert = "INSERT INTO modalidades			"
 								+"	(						" 
-								+"		modalidade, 		"
+								+"		modalidade	 		"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
-								+"		?, 					"
+								+"		? 					"
 								+"	)";
 	
 	private PreparedStatement pst_selectAll;
@@ -82,11 +82,17 @@ public class ModalityDAO extends MasterDAO{
 		Modality modality = (Modality)parameter;
 		
 		Set(pst_insert, 1, modality.getModality());
-
+		
 		pst_insert.execute();
 		
 		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
+			//AQUI TA SEMPRE RETORNANDO NULL
+			try {
+				io_connection.commit();
+			}catch(Exception e) {
+				System.out.println("Erro:" + e.getMessage());
+			}
+			
 		}
 	}
 

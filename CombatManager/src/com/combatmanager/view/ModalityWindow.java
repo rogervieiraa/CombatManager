@@ -196,12 +196,14 @@ public class ModalityWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent arg0) {
 				if(!search) {
 					textFieldModality.setEnabled(true);
-					
+					btnAdd.setEnabled(false);
 					search = true;
 					return;
 				}
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
+				btnRemove.setEnabled(true);
+				btnSave.setEnabled(true);
 				
 				save_modality = new Modality();
 				save_modality.setModality(textFieldModality.getText());
@@ -299,8 +301,9 @@ public class ModalityWindow extends JPanel implements View{
 					
 					Modality local_modality = new Modality();
 					local_modality.setModality(textFieldModality.getText());
-					modalityDao.Insert(local_modality);
 					System.out.println(local_modality.toString());
+					modalityDao.Insert(local_modality);
+					
 					graduationDao = new GraduationDAO(config.getConnection());
 					for(int i=0;i<model.getRowCount();i++) {
 						Graduation local_gradual = new Graduation();
