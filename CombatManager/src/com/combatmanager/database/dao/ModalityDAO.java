@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.combatmanager.database.model.Graduation;
 import com.combatmanager.database.model.Modality;
 
 public class ModalityDAO extends MasterDAO{
@@ -20,10 +21,12 @@ public class ModalityDAO extends MasterDAO{
 								+"	(						"
 								+"		? 					"
 								+"	)";
+	private String delete = "DELETE FROM modalidades where modalidade = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_delete;
 	
 	Connection io_connection;
 	
@@ -32,6 +35,7 @@ public class ModalityDAO extends MasterDAO{
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_delete = connection.prepareStatement(delete);
 		
 	}
 	
@@ -85,7 +89,7 @@ public class ModalityDAO extends MasterDAO{
 		
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
+		if (pst_insert.getUpdateCount() >= 0) {
 			//AQUI TA SEMPRE RETORNANDO NULL
 			try {
 				io_connection.commit();
@@ -98,6 +102,21 @@ public class ModalityDAO extends MasterDAO{
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		pst_delete.clearParameters();
+		
+		Modality modality = (Modality)parameter;
+		
+		Set(pst_delete, 1, modality.getModality());
+
+		pst_delete.execute();
+		
+		if (pst_insert.getUpdateCount() > 0) {
+			//AQUI TA SEMPRE RETORNANDO NULL
+			try {
+				io_connection.commit();
+			}catch(Exception e) {
+				System.out.println("Erro:" + e.getMessage());
+			}
+		}
 	}
 }
