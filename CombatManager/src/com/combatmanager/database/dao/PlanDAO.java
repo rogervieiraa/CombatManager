@@ -27,13 +27,7 @@ public class PlanDAO extends MasterDAO{
 								+"		?, 					"
 								+"		? 					"
 								+"	)";
-	private String update = "UPDATE planos"
-							+ "SET"
-							+ "		modalidade = ?,"
-							+ "		plano = ?,"
-							+ "		valor_mensal = ?"
-							+ "WHERE"
-							+ "		plano = ?";
+	private String update = "UPDATE planos SET valor_mensal = ? WHERE plano = ? AND modalidade = ?";
 	private String delete = "DELETE FROM planos WHERE plano = ? AND modalidade = ?";
 	
 	private PreparedStatement pst_selectAll;
@@ -102,14 +96,11 @@ public class PlanDAO extends MasterDAO{
 		Plan plan = new Plan();
 		
 		plan = (Plan) new_parameter;
-		
-		Set(pst_update, 1, plan.getModality());
+		System.out.println(plan.toString());
+		pst_update.setFloat(1, plan.getMonth_value());
 		Set(pst_update, 2, plan.getPlan());
-		pst_insert.setDouble(3, plan.getMonth_value());
+		Set(pst_update, 3, plan.getModality());
 		
-		plan = (Plan) last_parameter;
-		
-		Set(pst_update, 4, plan.getPlan());
 		
 		pst_update.execute();
 	}

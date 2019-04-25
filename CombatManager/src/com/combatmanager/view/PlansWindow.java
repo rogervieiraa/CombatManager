@@ -258,10 +258,25 @@ public class PlansWindow extends JPanel implements View{
 		btnSave.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				/*
+				
 				if(search) {
+					PlanDAO planDao = null;
+					try {
+						planDao = new PlanDAO(config.getConnection());
+						Plan auxiliar_plan = new Plan();
+						auxiliar_plan.setModality(save_plan.getModality());
+						auxiliar_plan.setPlan(save_plan.getPlan());
+						auxiliar_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
+						
+						planDao.Update(save_plan, auxiliar_plan);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} catch (AccessException e1) {
+						e1.printStackTrace();
+					}
+					resetWindow();
 					return;
-				}*/
+				}
 				
 				PlanDAO planDao = null;
 				try {
