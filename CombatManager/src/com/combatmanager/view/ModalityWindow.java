@@ -204,6 +204,9 @@ public class ModalityWindow extends JPanel implements View{
 				btnRemove.setEnabled(true);
 				btnSave.setEnabled(true);
 				btnSearch.setEnabled(false);
+				textFieldGraduation.setEnabled(true);
+				textFieldModality.setEnabled(true);
+				btnOk.setEnabled(true);
 				
 				save_modality = new Modality();
 				save_modality.setModality(textFieldModality.getText());
@@ -262,13 +265,33 @@ public class ModalityWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent e) {
 				//graduacoes
 				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduacoes, concorda com isso?");
-				
+				JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduacoes, concorda com isso?");
 				//planos
 				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todos os seus planos, concorda com isso?");
 				
 				//matriculas por modalidade
 				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas matriculas, concorda com isso?");
+				ModalityDAO modalityDao = null;
+				GraduationDAO graduationDao = null;
 				
+				try {
+					
+					modalityDao = new ModalityDAO(config.getConnection());
+					graduationDao = new GraduationDAO(config.getConnection());
+					Modality auxiliar_modality = save_modality;
+					
+					graduationDao.DeleteByModality(auxiliar_modality);
+					System.out.println("aq passou");
+					modalityDao.Delete(auxiliar_modality);
+					
+					
+					
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					e1.printStackTrace();
+				}
 				resetWindow();
 			}
 		});
@@ -288,7 +311,7 @@ public class ModalityWindow extends JPanel implements View{
 							local_gradual.setGraduation(save_graduation.get(i).getGraduation());
 							graduationDao.Delete(local_gradual);
 						}
-						
+						System.out.println("aq");
 						for(int i=0;i<model.getRowCount();i++) {
 							Graduation local_gradual = new Graduation();
 							local_gradual.setModality(save_modality.getModality());

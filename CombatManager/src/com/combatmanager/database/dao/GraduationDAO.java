@@ -14,7 +14,7 @@ public class GraduationDAO extends MasterDAO{
 		
 		private String selectAll = "select * from graduacoes order by graduacao";
 		private String select = "select * from graduacoes where graduacao = ? order by graduacao";
-		private String selectByModality = "select * from graduacoes where modality = ? order by graduacao";
+		private String selectByModality = "select * from graduacoes where modalidade = ? order by graduacao";
 		private String insert = "INSERT INTO graduacoes			"
 									+"	(						" 
 									+"		modalidade, 		"
@@ -25,20 +25,27 @@ public class GraduationDAO extends MasterDAO{
 									+"		?, 					"
 									+"		?					"
 									+"	)";
+		private String deleteByModality = "DELETE FROM graduacoes where modalidade = ?";
+		private String delete = "DELETE FROM graduacoes where modalidade = ? AND graduacao = ?";
 		
 		private PreparedStatement pst_selectAll;
 		private PreparedStatement pst_select;
 		private PreparedStatement pst_selectByModality;
 		private PreparedStatement pst_insert;
+		private PreparedStatement pst_delete;
+		private PreparedStatement pst_deleteByModality;
 		
 		Connection io_connection;
 		
-		public  GraduationDAO(Connection connection) throws SQLException{
+		public GraduationDAO(Connection connection) throws SQLException{
 
+			io_connection = connection;
 			pst_selectAll = connection.prepareStatement(selectAll);
 			pst_select = connection.prepareStatement(select);
 			pst_selectByModality = connection.prepareStatement(selectByModality);
 			pst_insert = connection.prepareStatement(insert);
+			pst_deleteByModality = connection.prepareStatement(deleteByModality);
+			pst_delete = connection.prepareStatement(delete);
 			
 		}
 		
@@ -60,7 +67,7 @@ public class GraduationDAO extends MasterDAO{
 		
 		@Override
 		public Object Select(Object parameter) throws SQLException {
-			
+			pst_select.clearParameters();
 			Graduation graduation = null;
 			
 			Set(pst_select, 1, ((Graduation)parameter).getGraduation());
@@ -80,8 +87,11 @@ public class GraduationDAO extends MasterDAO{
 		
 		public List<Graduation> SelectGraduationByModality(Modality modality) throws SQLException {
 			List<Graduation> arlGraduation = new ArrayList<Graduation>();
+
+			Set(pst_selectByModality, 1, (modality.getModality()));
+
 			ResultSet rst= pst_selectByModality.executeQuery();
-			
+
 			while(rst.next()) {
 				Graduation graduation = new Graduation();
 				graduation.setModality(rst.getString("modalidade"));
@@ -90,7 +100,7 @@ public class GraduationDAO extends MasterDAO{
 				
 				arlGraduation.add(graduation);
 			}
-			
+
 			return arlGraduation;
 		}
 		
@@ -110,19 +120,25 @@ public class GraduationDAO extends MasterDAO{
 			Set(pst_insert, 2, graduation.getGraduation());
 
 			pst_insert.execute();
-			
-			if (pst_insert.getUpdateCount() > 0) {
-				//AQUI TA SEMPRE RETORNANDO NULL
-				try {
-					io_connection.commit();
-				}catch(Exception e) {
-					System.out.println("Erro:" + e.getMessage());
-				}
-			}
 		}
 
+		public void DeleteByModality(Modality modality) throws SQLException {
+			pst_deleteByModality.clearParameters();
+						
+			Set(pst_deleteByModality, 1, modality.getModality());
+
+			pst_deleteByModality.execute();
+		}
+		
 		@Override
 		public void Delete(Object parameter) throws SQLException {
-			// TODO
+			pst_delete.clearParameters();
+			
+			Graduation graduation = (Graduation)parameter;
+			
+			Set(pst_delete, 1, graduation.getModality());
+			Set(pst_delete, 2, graduation.getGraduation());
+
+			pst_delete.execute();
 		}
 }
