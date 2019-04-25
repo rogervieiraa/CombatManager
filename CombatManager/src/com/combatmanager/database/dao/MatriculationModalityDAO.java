@@ -46,7 +46,9 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	Connection io_connection;
 	
 	public  MatriculationModalityDAO(Connection connection) throws SQLException{
-
+		
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
@@ -77,6 +79,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		MatriculationModality mm = null;
 		
@@ -125,10 +128,6 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		Set(pst_insert, 6, mm.getEnd_date());
 
 		pst_insert.execute();
-		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 
 	public void DeleteByModality(Modality modality) throws SQLException {

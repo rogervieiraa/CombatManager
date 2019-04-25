@@ -75,6 +75,7 @@ public class PlanDAO extends MasterDAO{
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		Plan plan = null;
 		
@@ -96,6 +97,8 @@ public class PlanDAO extends MasterDAO{
 
 	@Override
 	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		pst_update.clearParameters();
+		
 		Plan plan = new Plan();
 		
 		plan = (Plan) new_parameter;
@@ -125,6 +128,8 @@ public class PlanDAO extends MasterDAO{
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
+		pst_delete.clearParameters();
+		
 		Plan plan = new Plan();
 		
 		plan = (Plan) parameter;

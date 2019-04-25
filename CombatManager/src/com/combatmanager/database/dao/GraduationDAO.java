@@ -25,7 +25,7 @@ public class GraduationDAO extends MasterDAO{
 									+"		?, 					"
 									+"		?					"
 									+"	)";
-		private String deleteByModality = "DELETE FROM graduacoes where modalidade = ?";
+		private String deleteByModality = "DELETE FROM graduacoes WHERE modalidade = ?";
 		private String delete = "DELETE FROM graduacoes WHERE modalidade = ? AND graduacao = ?";
 		
 		private PreparedStatement pst_selectAll;
@@ -68,6 +68,7 @@ public class GraduationDAO extends MasterDAO{
 		@Override
 		public Object Select(Object parameter) throws SQLException {
 			pst_select.clearParameters();
+			
 			Graduation graduation = null;
 			
 			Set(pst_select, 1, ((Graduation)parameter).getGraduation());

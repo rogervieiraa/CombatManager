@@ -82,6 +82,7 @@ public class MatriculationDAO extends MasterDAO{
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		Matriculation mat = null;
 		
@@ -106,6 +107,8 @@ public class MatriculationDAO extends MasterDAO{
 
 	@Override
 	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		pst_update.clearParameters();
+		
 		Matriculation mat = new Matriculation();
 		
 		mat = (Matriculation) new_parameter;
@@ -142,6 +145,8 @@ public class MatriculationDAO extends MasterDAO{
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
+		pst_delete.clearParameters();
+		
 		Matriculation mat = new Matriculation();
 		
 		mat = (Matriculation) parameter;
