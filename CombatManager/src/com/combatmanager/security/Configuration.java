@@ -22,8 +22,8 @@ public class Configuration {
 	private final String DB_IP = null;
 	private final String DB_PORT = null;
 	private final String DB_NAME = "master";
-	private final String DB_USER_NAME = "jackson";
-	private final String DB_PASSWORD = "12345";	
+	private final String DB_USER_NAME = "admin";
+	private final String DB_PASSWORD = "admin";	
 	private HashMap<Integer, String> sysLog;
 	private Integer logKey;
 	
