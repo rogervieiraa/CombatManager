@@ -34,7 +34,7 @@ public class PlanDAO extends MasterDAO{
 							+ "		valor_mensal = ?"
 							+ "WHERE"
 							+ "		plano = ?";
-	private String delete = "DELETE * FROM planos WHERE plano = ?";
+	private String delete = "DELETE * FROM planos WHERE plano = ? AND modalidade = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
@@ -102,7 +102,7 @@ public class PlanDAO extends MasterDAO{
 		
 		Set(pst_update, 1, plan.getModality());
 		Set(pst_update, 2, plan.getPlan());
-		Set(pst_update, 3, plan.getMonth_value());
+		pst_insert.setDouble(3, plan.getMonth_value());
 		
 		plan = (Plan) last_parameter;
 		
@@ -119,13 +119,8 @@ public class PlanDAO extends MasterDAO{
 		
 		Set(pst_insert, 1, plan.getModality());
 		Set(pst_insert, 2, plan.getPlan());
-		Set(pst_insert, 3, plan.getMonth_value());
-
+		pst_insert.setDouble(3, plan.getMonth_value());
 		pst_insert.execute();
-		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 
 	@Override
@@ -135,6 +130,7 @@ public class PlanDAO extends MasterDAO{
 		plan = (Plan) parameter;
 		
 		Set(pst_delete, 1, plan.getPlan());
+		Set(pst_delete, 2, plan.getModality());
 		
 		pst_delete.execute();
 		
