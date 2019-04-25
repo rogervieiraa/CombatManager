@@ -198,8 +198,10 @@ public class MainWindow extends JFrame implements View {
 	}
 
 	public Container CreateContentPane(View view) {
+		
 		Container c = view.run(this.config);
 		setContentPane(c);
+		config.addToSystemLog(view.getName()+","+"Abriu tela");
 		return c;
 
 	}

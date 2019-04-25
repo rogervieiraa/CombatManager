@@ -202,6 +202,7 @@ public class ModalityWindow extends JPanel implements View{
 					textFieldModality.setEnabled(true);
 					btnAdd.setEnabled(false);
 					search = true;
+					config.addToSystemLog(getName()+","+"Iniciou a operacao de busca");
 					return;
 				}
 				ModalityDAO modalityDao = null;
@@ -215,6 +216,7 @@ public class ModalityWindow extends JPanel implements View{
 					Modality auxiliar_modality = (Modality) modalityDao.Select(save_modality);
 					if(auxiliar_modality == null) {
 						JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+						config.addToSystemLog(getName()+","+"Modalidade nao encontrada.");
 						resetWindow();
 						return;
 					}
@@ -224,12 +226,14 @@ public class ModalityWindow extends JPanel implements View{
 						model.addRow(new Object[] {save_graduation.get(i).getGraduation()});
 					}
 					
-					
+					config.addToSystemLog(getName()+","+"Busca realizada com sucesso"+","+save_modality.toString());
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					JOptionPane.showMessageDialog(null, "erro em buscar.");
+					config.addToSystemLog(getName()+","+"Erro em buscar");
 					resetWindow();
 				} catch (AccessException e1) {
 					e1.showAcessWindowDenied();
+					config.addToSystemLog(getName()+","+"Erro em buscar");
 					resetWindow();
 				}
 				
@@ -244,7 +248,7 @@ public class ModalityWindow extends JPanel implements View{
 		
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				config.addToSystemLog(getName()+","+"Iniciou adicao de nova modalidade");
 				textFieldGraduation.setEnabled(true);
 				textFieldModality.setEnabled(true);
 				btnSave.setEnabled(true);
@@ -267,6 +271,7 @@ public class ModalityWindow extends JPanel implements View{
 				}
 				textFieldGraduation.setText("");
 				model.addRow(new Object[] {local_graduation});
+				config.addToSystemLog(getName()+","+"Iniciou adicionou uma nova graduacao"+","+local_graduation.toString());
 					
 			}
 		});
@@ -275,12 +280,14 @@ public class ModalityWindow extends JPanel implements View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				config.addToSystemLog(getName()+","+"Iniciou a opreacao de remocao de uma modalidade");
 				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas graduacoes, concorda com isso?")
 						== 0) {
 					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					config.addToSystemLog(getName()+","+"Cancelou a remocao da modalidade");
 					return;
 				}
 				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todos os seus respequitivos planos, concorda com isso?")
@@ -289,12 +296,14 @@ public class ModalityWindow extends JPanel implements View{
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					config.addToSystemLog(getName()+","+"Cancelou a remocao da modalidade");
 					return;
 				}
 				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
 						== 0) {
 				}
 				else {
+					config.addToSystemLog(getName()+","+"Cancelou a remocao da modalidade");
 					JOptionPane.showMessageDialog(null, "Operacao cancelada");
 					return;
 				}
@@ -313,15 +322,17 @@ public class ModalityWindow extends JPanel implements View{
 					matriculationModalityDAO.DeleteByModality(auxiliar_modality);
 					graduationDao.DeleteByModality(auxiliar_modality);
 					modalityDao.Delete(auxiliar_modality);
-					
+					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+auxiliar_modality.toString());
 					
 					
 					
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada, mediante a erro.");
+					config.addToSystemLog(getName()+","+"Operacao cancelada, mediante a erro");
 					e1.printStackTrace();
 				} catch (AccessException e1) {
 					System.out.println("BTN SEARCH REMOVE");
+					config.addToSystemLog(getName()+","+"Erro em deletar");
 					e1.printStackTrace();
 				}
 				resetWindow();
@@ -336,6 +347,7 @@ public class ModalityWindow extends JPanel implements View{
 				if(click.getClickCount() >= 2 && index > -1 ) {
 					System.out.println(index);
 					model.removeRow(index);
+					config.addToSystemLog(getName()+","+"Removeu uma modalidade");
 				}
 				
 			}
@@ -344,11 +356,13 @@ public class ModalityWindow extends JPanel implements View{
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
 				if(textFieldModality.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Preco");
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de modalidade");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
 				if(search) {
@@ -378,11 +392,13 @@ public class ModalityWindow extends JPanel implements View{
 							matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
 							graduationDao.Delete(save_graduation.get(i));
 						}
-						
+						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 						resetWindow();
 					} catch (SQLException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
 					} catch (AccessException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
 					}
 					
@@ -405,10 +421,13 @@ public class ModalityWindow extends JPanel implements View{
 						graduationDao.Insert(local_gradual);
 						
 					}
+					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_modality.toString());
 					
 				} catch (SQLException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				} catch (AccessException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				}
 				
@@ -416,8 +435,6 @@ public class ModalityWindow extends JPanel implements View{
 			}
 
 		});
-		
-		
 		
 		return contentPane;
 	}

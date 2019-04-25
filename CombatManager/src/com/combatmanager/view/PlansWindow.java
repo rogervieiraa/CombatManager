@@ -169,6 +169,7 @@ public class PlansWindow extends JPanel implements View{
 					comboBox.setEnabled(true);
 					btnAdd.setEnabled(false);
 					search = true;
+					config.addToSystemLog(getName()+","+"Iniciou a operacao de busca");
 					return;
 				}
 				
@@ -181,18 +182,21 @@ public class PlansWindow extends JPanel implements View{
 					planDao = new PlanDAO(config.getConnection());
 					Plan auxiliar_plan = (Plan) planDao.Select(save_plan);
 					if(auxiliar_plan == null) {
-						JOptionPane.showMessageDialog(null, "Plano nao encontrada.");
+						JOptionPane.showMessageDialog(null, "Plano nao encontrado.");
 						resetWindow();
 						return;
 					}
 
 					textFieldPrice.setText(Float.toString(auxiliar_plan.getMonth_value()));
 					
-					
+					config.addToSystemLog(getName()+","+"Busca realizada com sucesso"+","+save_plan.toString());
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					JOptionPane.showMessageDialog(null, "Erro ao buscar.");
+					config.addToSystemLog(getName()+","+"Erro em buscar");
 					resetWindow();
 				} catch (AccessException e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao buscar.");
+					config.addToSystemLog(getName()+","+"Erro em buscar");
 					e1.showAcessWindowDenied();
 					resetWindow();
 				}
@@ -209,7 +213,7 @@ public class PlansWindow extends JPanel implements View{
 		
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				config.addToSystemLog(getName()+","+"Iniciou adicao de novo plano");
 				textFieldPlans.setEnabled(true);
 				textFieldPrice.setEnabled(true);
 				btnAdd.setEnabled(false);
@@ -224,12 +228,14 @@ public class PlansWindow extends JPanel implements View{
 		btnRemove.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				config.addToSystemLog(getName()+","+"Iniciou a opreacao de remocao de um plano");
 				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
 						== 0) {
 					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					config.addToSystemLog(getName()+","+"Cancelou a remocao do plano");
 					return;
 				}
 				
@@ -241,13 +247,16 @@ public class PlansWindow extends JPanel implements View{
 					Plan auxiliar_plan = save_plan;
 					auxiliar_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
 					System.out.println(auxiliar_plan.toString());
-					planDao.Delete(auxiliar_plan);					
+					planDao.Delete(auxiliar_plan);
+					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+auxiliar_plan.toString());
 					
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada, mediante a erro.");
+					config.addToSystemLog(getName()+","+"Operacao cancelada, mediante a erro");
 					e1.printStackTrace();
 				} catch (AccessException e1) {
 					System.out.println("BTN SEARCH REMOVE");
+					config.addToSystemLog(getName()+","+"Erro em deletar");
 					
 				}
 				resetWindow();
@@ -258,12 +267,15 @@ public class PlansWindow extends JPanel implements View{
 		btnSave.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
 				if(textFieldPlans.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Planos");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
 				if(textFieldPrice.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Preco");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
 				
@@ -277,9 +289,12 @@ public class PlansWindow extends JPanel implements View{
 						auxiliar_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
 						
 						planDao.Update(save_plan, auxiliar_plan);
+						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 					} catch (SQLException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
 					} catch (AccessException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
 					}
 					resetWindow();
@@ -294,12 +309,15 @@ public class PlansWindow extends JPanel implements View{
 					local_plan.setPlan(textFieldPlans.getText());
 					local_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
 					local_plan.setModality((String)comboBox.getSelectedItem());
-					System.out.println(local_plan.toString());
+					
 					
 					planDao.Insert(local_plan);
+					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_plan.toString());
 				} catch (SQLException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				} catch (AccessException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				}
 				
