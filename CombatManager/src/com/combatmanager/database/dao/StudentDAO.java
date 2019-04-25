@@ -71,7 +71,7 @@ public class StudentDAO extends MasterDAO {
 							+ "		cep = ?				"
 							+ "WHERE					"
 							+ "		codigo_aluno = ?	";
-	private String delete = "DELETE * FROM alunos WHERE codigo_aluno = ?";
+	private String delete = "DELETE FROM alunos WHERE codigo_aluno = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;

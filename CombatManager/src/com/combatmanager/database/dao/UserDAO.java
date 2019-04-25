@@ -30,7 +30,7 @@ public class UserDAO extends MasterDAO{
 							+ "		perfil = ?	"
 							+ "WHERE			"
 							+ "		usuario = ?";
-	private String delete = "DELETE * FROM usuarios WHERE usuario = ?";
+	private String delete = "DELETE FROM usuarios WHERE usuario = ?";
 	private String is_create_role		=	"create	role		?" +
 												"	with		login" +
 												"			encrypted password		'?'" +

@@ -312,6 +312,7 @@ public class PlansWindow extends JPanel implements View{
 		textFieldPlans.setEnabled(false);
 		textFieldPrice.setEnabled(false);
 		search = false;
+		comboBox.setSelectedIndex(-1);
 		comboBox.setEnabled(false);
 		
 		ModalityDAO modalityDao = null;

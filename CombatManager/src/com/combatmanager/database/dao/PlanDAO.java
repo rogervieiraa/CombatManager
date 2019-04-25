@@ -14,7 +14,7 @@ public class PlanDAO extends MasterDAO{
 	
 	
 	private String selectAll = "select * from planos order by plano";
-	private String select = "select * from planos where plano = ? order by plano";
+	private String select = "select * from planos where plano = ? AND modalidade = ? order by plano";
 	private String insert = "INSERT INTO planos			"
 								+"	(						" 
 								+"		modalidade, 		"
@@ -74,6 +74,7 @@ public class PlanDAO extends MasterDAO{
 		Plan plan = null;
 		
 		Set(pst_select, 1, ((Plan)parameter).getPlan());
+		Set(pst_select, 2, ((Plan)parameter).getModality());
 		
 		ResultSet rst = pst_select.executeQuery();
 		

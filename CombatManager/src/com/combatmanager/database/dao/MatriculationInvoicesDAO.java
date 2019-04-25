@@ -39,7 +39,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 							+ "		data_cancelamento = ?"
 							+ "WHERE					 "
 							+ "		codigo_matricula = ? ";
-	private String delete = "DELETE * FROM faturas_matriculas WHERE codigo_matricula = ?";
+	private String delete = "DELETE FROM faturas_matriculas WHERE codigo_matricula = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
