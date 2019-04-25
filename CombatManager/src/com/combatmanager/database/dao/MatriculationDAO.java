@@ -31,10 +31,22 @@ public class MatriculationDAO extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"	)";
+	private String update = "UPDATE matriculas"
+							+ "SET"
+							+ "		codigo_matricula = ?"
+							+ "		codigo_aluno = ?"
+							+ "		data_matricula = ?"
+							+ "		dia_vencimento = ?"
+							+ "		data_encerramento = ?"
+							+ "WHERE"
+							+ "		codigo_matricula = ?";
+	private String delete = "DELETE FROM matriculas WHERE codigo_matricula = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_update;
+	private PreparedStatement pst_delete;
 	
 	Connection io_connection;
 	
@@ -43,6 +55,8 @@ public class MatriculationDAO extends MasterDAO{
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_update = connection.prepareStatement(update);
+		pst_delete = connection.prepareStatement(delete);
 		
 	}
 	
@@ -90,8 +104,16 @@ public class MatriculationDAO extends MasterDAO{
 	}
 
 	@Override
-	public void Update(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		Matriculation mat = new Matriculation();
+		
+		mat = (Matriculation) new_parameter;
+		
+		
+		Set(pst_update, 1, mat.getCode());
+		Set(pst_update, 2, mat.getStudent_code());
+		Set(pst_update, 3, mat.getMatriculation_date());
+		Set(pst_update, 4, mat.getMatriculation_date());
 		
 	}
 

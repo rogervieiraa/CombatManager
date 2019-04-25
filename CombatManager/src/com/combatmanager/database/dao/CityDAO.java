@@ -27,7 +27,6 @@ public class CityDAO extends MasterDAO {
 								+"		?, 					"
 								+"		?, 					"
 								+"	)";
-	private String update = "UPDATE cidades";
 	
 	
 	private PreparedStatement pst_selectAll;

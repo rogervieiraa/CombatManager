@@ -75,7 +75,7 @@ public class ModalityDAO extends MasterDAO{
 	}
 
 	@Override
-	public void Update(Object parameter) throws SQLException {
+	public void Update(Object parameter, Object new_parameter) throws SQLException {
 		//TO DO
 		
 	}
