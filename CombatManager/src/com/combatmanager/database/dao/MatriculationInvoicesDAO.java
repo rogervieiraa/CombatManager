@@ -13,15 +13,15 @@ import com.combatmanager.database.model.MatriculationInvoices;
 public class MatriculationInvoicesDAO extends MasterDAO{
 	
 	
-	private String selectAll = "select * from faturas_modalidades order by codigo_matricula";
-	private String select = "select * from faturas_modalidades where codigo_matricula = ? order by codigo_matricula";
-	private String insert = "INSERT INTO faturas_modalidades			"
+	private String selectAll = "select * from faturas_matriculas order by codigo_matricula";
+	private String select = "select * from faturas_matriculas where codigo_matricula = ? order by codigo_matricula";
+	private String insert = "INSERT INTO faturas_matriculas			"
 								+"	(						" 
 								+"		codigo_matricula, 		"
 								+"		data_vencimento, 				"
 								+"		valor, 	"
 								+"		data_pagamento, 	"
-								+"		data_cancelamento, 	"
+								+"		data_cancelamento 	"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
@@ -29,20 +29,36 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"		?, 					"
-								+"		?, 					"
+								+"		? 					"
 								+"	)";
+	private String update = "UPDATE faturas_matriculas"
+							+ "SET"
+							+ "		data_vencimento = ?, "
+							+ "		valor = ?,			 "
+							+ "		data_pagamento = ?,  "
+							+ "		data_cancelamento = ?"
+							+ "WHERE					 "
+							+ "		codigo_matricula = ? ";
+	private String delete = "DELETE * FROM faturas_matriculas WHERE codigo_matricula = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_update;
+	private PreparedStatement pst_delete;
+	
 	
 	Connection io_connection;
 	
 	public  MatriculationInvoicesDAO(Connection connection) throws SQLException{
 
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_update = connection.prepareStatement(update);
+		pst_delete = connection.prepareStatement(delete);
 		
 	}
 	
@@ -90,8 +106,21 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	}
 
 	@Override
-	public void Update(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		MatriculationInvoices mi = new MatriculationInvoices();
+		
+		mi = (MatriculationInvoices) new_parameter;
+		
+		Set(pst_update, 1, mi.getDue_date());
+		Set(pst_update, 2, mi.getValue());
+		Set(pst_update, 3, mi.getPay_date());
+		Set(pst_update, 4, mi.getCancel_date());
+		
+		mi = (MatriculationInvoices) last_parameter;
+		
+		Set(pst_update, 5, mi.getMatriculation_code());
+		
+		pst_update.execute();
 		
 	}
 
@@ -109,13 +138,17 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		MatriculationInvoices mi = new MatriculationInvoices();
+		
+		mi = (MatriculationInvoices) parameter;
+		
+		Set(pst_delete, 1, mi.getMatriculation_code());
+		
+		pst_delete.execute();
+		
 	}
 }

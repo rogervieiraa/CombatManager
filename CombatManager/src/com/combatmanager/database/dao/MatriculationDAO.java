@@ -21,7 +21,7 @@ public class MatriculationDAO extends MasterDAO{
 								+"		codigo_aluno, 				"
 								+"		data_matricula, 	"
 								+"		dia_vencimento, 	"
-								+"		data_encerramento, 	"
+								+"		data_encerramento 	"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
@@ -29,14 +29,13 @@ public class MatriculationDAO extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"		?, 					"
-								+"		?, 					"
+								+"		? 					"
 								+"	)";
 	private String update = "UPDATE matriculas"
 							+ "SET"
-							+ "		codigo_matricula = ?"
-							+ "		codigo_aluno = ?"
-							+ "		data_matricula = ?"
-							+ "		dia_vencimento = ?"
+							+ "		codigo_aluno = ?,"
+							+ "		data_matricula = ?,"
+							+ "		dia_vencimento = ?,"
 							+ "		data_encerramento = ?"
 							+ "WHERE"
 							+ "		codigo_matricula = ?";
@@ -52,6 +51,8 @@ public class MatriculationDAO extends MasterDAO{
 	
 	public  MatriculationDAO(Connection connection) throws SQLException{
 
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
@@ -110,10 +111,16 @@ public class MatriculationDAO extends MasterDAO{
 		mat = (Matriculation) new_parameter;
 		
 		
-		Set(pst_update, 1, mat.getCode());
-		Set(pst_update, 2, mat.getStudent_code());
-		Set(pst_update, 3, mat.getMatriculation_date());
-		Set(pst_update, 4, mat.getMatriculation_date());
+		Set(pst_update, 1, mat.getStudent_code());
+		Set(pst_update, 2, mat.getMatriculation_date());
+		Set(pst_update, 3, mat.getDue_date());
+		Set(pst_update, 4, mat.getClosing_date());
+		
+		mat = (Matriculation) last_parameter;
+		
+		Set(pst_update, 5, mat.getCode());
+		
+		pst_update.execute();
 		
 	}
 
@@ -131,13 +138,17 @@ public class MatriculationDAO extends MasterDAO{
 
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		Matriculation mat = new Matriculation();
+		
+		mat = (Matriculation) parameter;
+		
+		Set(pst_delete, 1, mat.getCode());
+		
+		pst_delete.execute();
+		
 	}
 }

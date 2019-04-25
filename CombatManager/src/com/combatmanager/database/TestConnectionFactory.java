@@ -9,7 +9,7 @@ import com.combatmanager.database.dao.StudentDAO;
 public class TestConnectionFactory {
 	
 	public static void main(String[] args) {
-		Connection conn = ConnectionFactory.getConnection("master","admin","admin");
+		Connection conn = ConnectionFactory.getConnection("master","jackson","12345");
 		
 		try {
 			conn.setAutoCommit(false);

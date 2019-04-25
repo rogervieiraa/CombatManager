@@ -19,26 +19,40 @@ public class PlanDAO extends MasterDAO{
 								+"	(						" 
 								+"		modalidade, 		"
 								+"		plano, 				"
-								+"		valor_mensal, 	"
+								+"		valor_mensal 	"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
 								+"		?, 					"
 								+"		?, 					"
-								+"		?, 					"
+								+"		? 					"
 								+"	)";
+	private String update = "UPDATE planos"
+							+ "SET"
+							+ "		modalidade = ?,"
+							+ "		plano = ?,"
+							+ "		valor_mensal = ?"
+							+ "WHERE"
+							+ "		plano = ?";
+	private String delete = "DELETE * FROM planos WHERE plano = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_update;
+	private PreparedStatement pst_delete;
 	
 	Connection io_connection;
 	
 	public  PlanDAO(Connection connection) throws SQLException{
-
+		
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_update = connection.prepareStatement(update);
+		pst_delete = connection.prepareStatement(delete);
 		
 	}
 	
@@ -81,9 +95,20 @@ public class PlanDAO extends MasterDAO{
 	}
 
 	@Override
-	public void Update(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		Plan plan = new Plan();
 		
+		plan = (Plan) new_parameter;
+		
+		Set(pst_update, 1, plan.getModality());
+		Set(pst_update, 2, plan.getPlan());
+		Set(pst_update, 3, plan.getMonth_value());
+		
+		plan = (Plan) last_parameter;
+		
+		Set(pst_update, 4, plan.getPlan());
+		
+		pst_update.execute();
 	}
 
 	@Override
@@ -105,6 +130,14 @@ public class PlanDAO extends MasterDAO{
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		Plan plan = new Plan();
+		
+		plan = (Plan) parameter;
+		
+		Set(pst_delete, 1, plan.getPlan());
+		
+		pst_delete.execute();
+		
+		
 	}
 }

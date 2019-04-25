@@ -23,7 +23,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 								+"		graduacao, 	"
 								+"		plano, 	"
 								+"		data_inicio, 	"
-								+"		data_fim, 	"
+								+"		data_fim 	"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
@@ -32,7 +32,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"		?, 					"
-								+"		?, 					"
+								+"		? 					"
 								+"	)";
 	private String updadeGraduation = "";
 	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";

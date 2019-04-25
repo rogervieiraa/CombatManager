@@ -26,7 +26,7 @@ public class GraduationDAO extends MasterDAO{
 									+"		?					"
 									+"	)";
 		private String deleteByModality = "DELETE FROM graduacoes where modalidade = ?";
-		private String delete = "DELETE FROM graduacoes where modalidade = ? AND graduacao = ?";
+		private String delete = "DELETE FROM graduacoes WHERE modalidade = ? AND graduacao = ?";
 		
 		private PreparedStatement pst_selectAll;
 		private PreparedStatement pst_select;
