@@ -347,7 +347,10 @@ public class ModalityWindow extends JPanel implements View{
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
-
+				if(textFieldModality.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Preco");
+					return;
+				}
 				if(search) {
 					try {
 						graduationDao = new GraduationDAO(config.getConnection());

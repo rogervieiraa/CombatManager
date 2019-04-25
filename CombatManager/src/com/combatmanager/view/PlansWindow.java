@@ -258,6 +258,14 @@ public class PlansWindow extends JPanel implements View{
 		btnSave.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				if(textFieldPlans.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Planos");
+					return;
+				}
+				if(textFieldPrice.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Preco");
+					return;
+				}
 				
 				if(search) {
 					PlanDAO planDao = null;
