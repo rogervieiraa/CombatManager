@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -47,7 +48,7 @@ public class PlansWindow extends JPanel implements View{
 	private final int ACCESS = 0;
 	private Boolean search;
 	private Configuration config;
-	
+	private Plan save_plan;
 	
 	@Override
 	public int getAccess() {
@@ -163,7 +164,45 @@ public class PlansWindow extends JPanel implements View{
 		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!search) {
+					textFieldPlans.setEnabled(true);
+					comboBox.setEnabled(true);
+					btnAdd.setEnabled(false);
+					search = true;
+					return;
+				}
 				
+				PlanDAO planDao = null;
+				save_plan = new Plan();
+				save_plan.setModality((String)comboBox.getSelectedItem());
+				save_plan.setPlan(textFieldPlans.getText());
+				try {
+					
+					planDao = new PlanDAO(config.getConnection());
+					Plan auxiliar_plan = (Plan) planDao.Select(save_plan);
+					if(auxiliar_plan == null) {
+						JOptionPane.showMessageDialog(null, "Plano nao encontrada.");
+						resetWindow();
+						return;
+					}
+
+					textFieldPrice.setText(Float.toString(auxiliar_plan.getMonth_value()));
+					
+					
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					resetWindow();
+				} catch (AccessException e1) {
+					e1.showAcessWindowDenied();
+					resetWindow();
+				}
+				
+				textFieldPrice.setEnabled(true);
+				comboBox.setEnabled(false);
+				textFieldPlans.setEnabled(false);
+				btnRemove.setEnabled(true);
+				btnSave.setEnabled(true);
+				btnSearch.setEnabled(false);
 				
 			}
 		});

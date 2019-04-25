@@ -218,10 +218,6 @@ public class ModalityWindow extends JPanel implements View{
 						resetWindow();
 						return;
 					}
-					if (save_modality.getModality().equals(auxiliar_modality.getModality())) {
-						textFieldModality.setText(save_modality.getModality());
-						textFieldModality.setEnabled(false);
-					}
 					graduationDao = new GraduationDAO(config.getConnection());
 					save_graduation = graduationDao.SelectGraduationByModality(save_modality);
 					for(int i=0;i<save_graduation.size();i++) {
