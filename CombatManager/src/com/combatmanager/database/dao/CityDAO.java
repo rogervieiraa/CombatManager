@@ -37,6 +37,8 @@ public class CityDAO extends MasterDAO {
 	
 	public  CityDAO(Connection connection) throws SQLException{
 
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
@@ -62,6 +64,8 @@ public class CityDAO extends MasterDAO {
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		
+		pst_select.clearParameters();
 		
 		City city = null;
 		
@@ -100,9 +104,6 @@ public class CityDAO extends MasterDAO {
 
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 
 	@Override

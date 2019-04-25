@@ -16,14 +16,21 @@ public class UserDAO extends MasterDAO{
 	private String select = "select * from usuarios where usuario = ? and perfil = ? order by usuario";
 	private String insert = "INSERT INTO usuarios			"
 								+"	(						" 
-								+"		usuario, 		"
-								+"		perfil, 				"
+								+"		usuario, 			"
+								+"		perfil 				"
 								+"	)						"  
 								+"  VALUES 					"
 								+"	(						"
 								+"		?, 					"
-								+"		?, 					"
+								+"		? 					"
 								+"	)";
+	private String update = "UPDATE usuarios	"
+							+ "SET				"
+							+ "		usuario = ?,"
+							+ "		perfil = ?	"
+							+ "WHERE			"
+							+ "		usuario = ?";
+	private String delete = "DELETE * FROM usuarios WHERE usuario = ?";
 	private String is_create_role		=	"create	role		?" +
 												"	with		login" +
 												"			encrypted password		'?'" +
@@ -37,6 +44,8 @@ public class UserDAO extends MasterDAO{
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_update;
+	private PreparedStatement pst_delete;
 	private PreparedStatement pst_createRole;
 	private PreparedStatement pst_alterRole;
 	private PreparedStatement pst_dropRole;
@@ -44,10 +53,14 @@ public class UserDAO extends MasterDAO{
 	Connection io_connection;
 	
 	public  UserDAO(Connection connection) throws SQLException{
-
+		
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_update = connection.prepareStatement(update);
+		pst_delete = connection.prepareStatement(delete);
 		pst_createRole = connection.prepareStatement(is_create_role);
 		pst_alterRole = connection.prepareStatement(is_alter_role);
 		pst_dropRole = connection.prepareStatement(is_drop_role);
@@ -72,6 +85,7 @@ public class UserDAO extends MasterDAO{
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		User user = null;
 		
@@ -92,14 +106,32 @@ public class UserDAO extends MasterDAO{
 	}
 
 	@Override
-	public void Update(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		pst_alterRole.clearParameters();
+		pst_update.clearParameters();
+		
+		User user = new User();
+		
+		user = (User) new_parameter;
+		
+		Set(pst_update, 1, user.getProfile());
+		Set(pst_alterRole, 2, user.getPassword());
+		
+		user = (User) last_parameter;
+		
+		Set(pst_update, 2, user.getUser());
+		Set(pst_alterRole, 1, user.getUser());
+		
+		pst_update.execute();
+		pst_alterRole.execute();
+		
 		
 	}
 
 	@Override
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
+		pst_createRole.clearParameters();
 		
 		User user = (User)parameter;
 		
@@ -112,14 +144,22 @@ public class UserDAO extends MasterDAO{
 		Set(pst_createRole, 2, user.getPassword());
 		
 		pst_createRole.execute();
-		
-		if ((pst_insert.getUpdateCount() > 0) && (pst_createRole.getUpdateCount() > 0)) {
-			io_connection.commit();
-		}
 	}
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		pst_delete.clearParameters();
+		pst_dropRole.clearParameters();
+		
+		User user = new User();
+		user = (User) parameter;
+		
+		Set(pst_delete, 1, user.getUser());
+		Set(pst_dropRole, 1, user.getUser());
+		
+		pst_delete.execute();
+		pst_dropRole.execute();
+		
+		
 	}
 }

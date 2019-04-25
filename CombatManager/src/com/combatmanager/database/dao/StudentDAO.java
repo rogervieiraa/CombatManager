@@ -52,18 +52,44 @@ public class StudentDAO extends MasterDAO {
 								+"		?, 					"
 								+"		?"
 								+"	)";
+	private String update = "UPDATE alunos				"
+							+ "SET		  				"
+							+ "		aluno = ?,			"
+							+ "		data_nascimento = ?,"
+							+ "		sexo = ?,			"
+							+ "		telefone = ?,		"
+							+ "		celular = ?,		"
+							+ "		email = ?,			"
+							+ "		observacao = ?,		"
+							+ "		endereco = ?,		"
+							+ "		numero = ?,			"
+							+ "		complemento = ?,	"
+							+ "		bairro = ?,			"
+							+ "		cidade = ?,			"
+							+ "		estado = ?,			"
+							+ "		pais = ?,			"
+							+ "		cep = ?				"
+							+ "WHERE					"
+							+ "		codigo_aluno = ?	";
+	private String delete = "DELETE * FROM alunos WHERE codigo_aluno = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_update;
+	private PreparedStatement pst_delete;
 	
 	Connection io_connection;
 	
 	public  StudentDAO(Connection connection) throws SQLException{
-
+		
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_update = connection.prepareStatement(update);
+		pst_delete = connection.prepareStatement(delete);
 		
 	}
 	
@@ -105,6 +131,7 @@ public class StudentDAO extends MasterDAO {
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		Student student = null;
 		
@@ -144,8 +171,38 @@ public class StudentDAO extends MasterDAO {
 	}
 
 	@Override
-	public void Update(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		pst_update.clearParameters();
+		
+		Student student = new Student ();
+		student = (Student)last_parameter;
+		
+		
+		
+		Set(pst_update, 1, student.getName());
+		Set(pst_update, 2, student.getBirthday());
+		Set(pst_update, 3, student.getSex());
+		Set(pst_update, 4, student.getPhoneNumber());
+		Set(pst_update, 5, student.getCellPhoneNumber());
+		Set(pst_update, 6, student.getEmail());
+		Set(pst_update, 7, student.getNote());
+		Set(pst_update, 8, student.getAdress());
+		Set(pst_update, 9, student.getHomeNumber());
+		Set(pst_update, 10, student.getExtraInformation());
+		Set(pst_update, 11, student.getLocal());
+		
+		//Creating city object
+		City city = new City();
+		
+		city = student.getCity();
+		//End
+		
+		Set(pst_update, 12, city.getName());
+		Set(pst_update, 13, city.getState());
+		Set(pst_update, 14, city.getCountry());
+		
+		Set(pst_update, 15, student.getCep());
+		Set(pst_update, 16, student.getIndex());
 		
 	}
 
@@ -153,7 +210,8 @@ public class StudentDAO extends MasterDAO {
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
 		
-		Student student = (Student)parameter;
+		Student student = new Student();
+		student = (Student)parameter;
 		
 		Set(pst_insert, 1, student.getName());
 		Set(pst_insert, 2, student.getBirthday());
@@ -176,19 +234,24 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_insert, 12, city.getName());
 		Set(pst_insert, 13, city.getState());
 		Set(pst_insert, 14, city.getCountry());
+		
 		Set(pst_insert, 15, student.getCep());
 
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 		
 	}
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		pst_delete.clearParameters();
+		
+		Student student = new Student();
+		student = (Student) parameter;
+		
+		Set(pst_delete, 1, student.getIndex());
+		
+		pst_delete.execute();
 	}
 
 }

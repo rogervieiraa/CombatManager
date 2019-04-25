@@ -42,7 +42,9 @@ public class AttendanceDAO extends MasterDAO{
 	Connection io_connection;
 	
 	public  AttendanceDAO(Connection connection) throws SQLException{
-
+		
+		io_connection = connection;
+		
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
@@ -68,6 +70,7 @@ public class AttendanceDAO extends MasterDAO{
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		Attendance att = null;
 		
@@ -89,6 +92,8 @@ public class AttendanceDAO extends MasterDAO{
 
 	@Override
 	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		pst_update.clearParameters();
+		
 		Attendance att = new Attendance();
 		
 		att = (Attendance) new_parameter;
@@ -101,10 +106,6 @@ public class AttendanceDAO extends MasterDAO{
 		Set(pst_update, 3, att.getMatriculation_code());
 		
 		pst_update.execute();
-		
-		if (pst_update.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 		
 		
 	}
@@ -119,14 +120,12 @@ public class AttendanceDAO extends MasterDAO{
 		Set(pst_insert, 2, att.getEntry_date());
 
 		pst_insert.execute();
-		
-		if (pst_insert.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
+		pst_delete.clearParameters();
+		
 		Attendance att = new Attendance();
 		
 		att = (Attendance) parameter;
@@ -134,9 +133,5 @@ public class AttendanceDAO extends MasterDAO{
 		Set(pst_delete, 1, att.getMatriculation_code());
 		
 		pst_delete.execute();
-		
-		if (pst_delete.getUpdateCount() > 0) {
-			io_connection.commit();
-		}
 	}
 }
