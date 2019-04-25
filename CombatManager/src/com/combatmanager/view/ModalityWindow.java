@@ -311,7 +311,7 @@ public class ModalityWindow extends JPanel implements View{
 							local_gradual.setGraduation(save_graduation.get(i).getGraduation());
 							graduationDao.Delete(local_gradual);
 						}
-						
+						System.out.println("aq");
 						for(int i=0;i<model.getRowCount();i++) {
 							Graduation local_gradual = new Graduation();
 							local_gradual.setModality(save_modality.getModality());

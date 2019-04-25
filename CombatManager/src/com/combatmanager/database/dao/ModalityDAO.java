@@ -56,6 +56,7 @@ public class ModalityDAO extends MasterDAO{
 
 	@Override
 	public Object Select(Object parameter) throws SQLException {
+		pst_select.clearParameters();
 		
 		Modality modality = null;
 		
@@ -89,15 +90,6 @@ public class ModalityDAO extends MasterDAO{
 		
 		pst_insert.execute();
 		
-		if (pst_insert.getUpdateCount() >= 0) {
-			//AQUI TA SEMPRE RETORNANDO NULL
-			try {
-				io_connection.commit();
-			}catch(Exception e) {
-				System.out.println("Erro:" + e.getMessage());
-			}
-			
-		}
 	}
 
 	@Override
@@ -110,13 +102,5 @@ public class ModalityDAO extends MasterDAO{
 
 		pst_delete.execute();
 		
-		if (pst_insert.getUpdateCount() > 0) {
-			//AQUI TA SEMPRE RETORNANDO NULL
-			try {
-				io_connection.commit();
-			}catch(Exception e) {
-				System.out.println("Erro:" + e.getMessage());
-			}
-		}
 	}
 }

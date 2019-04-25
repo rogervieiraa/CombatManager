@@ -39,6 +39,7 @@ public class GraduationDAO extends MasterDAO{
 		
 		public GraduationDAO(Connection connection) throws SQLException{
 
+			io_connection = connection;
 			pst_selectAll = connection.prepareStatement(selectAll);
 			pst_select = connection.prepareStatement(select);
 			pst_selectByModality = connection.prepareStatement(selectByModality);
@@ -66,7 +67,7 @@ public class GraduationDAO extends MasterDAO{
 		
 		@Override
 		public Object Select(Object parameter) throws SQLException {
-			
+			pst_select.clearParameters();
 			Graduation graduation = null;
 			
 			Set(pst_select, 1, ((Graduation)parameter).getGraduation());
@@ -119,15 +120,6 @@ public class GraduationDAO extends MasterDAO{
 			Set(pst_insert, 2, graduation.getGraduation());
 
 			pst_insert.execute();
-			
-			if (pst_insert.getUpdateCount() > 0) {
-				//AQUI TA SEMPRE RETORNANDO NULL
-				try {
-					io_connection.commit();
-				}catch(Exception e) {
-					System.out.println("Erro:" + e.getMessage());
-				}
-			}
 		}
 
 		public void DeleteByModality(Modality modality) throws SQLException {
@@ -136,15 +128,6 @@ public class GraduationDAO extends MasterDAO{
 			Set(pst_deleteByModality, 1, modality.getModality());
 
 			pst_deleteByModality.execute();
-			
-			if (pst_deleteByModality.getUpdateCount() > 0) {
-				//AQUI TA SEMPRE RETORNANDO NULL
-				try {
-					io_connection.commit();
-				}catch(Exception e) {
-					System.out.println("Erro:" + e.getMessage());
-				}
-			}
 		}
 		
 		@Override
@@ -156,15 +139,6 @@ public class GraduationDAO extends MasterDAO{
 			Set(pst_delete, 1, graduation.getModality());
 			Set(pst_delete, 2, graduation.getGraduation());
 
-			pst_insert.execute();
-			
-			if (pst_insert.getUpdateCount() > 0) {
-				//AQUI TA SEMPRE RETORNANDO NULL
-				try {
-					io_connection.commit();
-				}catch(Exception e) {
-					System.out.println("Erro:" + e.getMessage());
-				}
-			}
+			pst_delete.execute();
 		}
 }
