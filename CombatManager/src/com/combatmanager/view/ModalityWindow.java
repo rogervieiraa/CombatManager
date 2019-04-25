@@ -13,6 +13,9 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -47,7 +50,7 @@ public class ModalityWindow extends JPanel implements View{
 	}
 	private Modality save_modality;
 	private List<Graduation> save_graduation;
-	private List<Integer> deleted_graduation_id;
+
 	private JTextField textFieldModality;
 	private JTextField textFieldGraduation;
 	private DefaultTableModel model;
@@ -203,12 +206,6 @@ public class ModalityWindow extends JPanel implements View{
 				}
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
-				btnRemove.setEnabled(true);
-				btnSave.setEnabled(true);
-				btnSearch.setEnabled(false);
-				textFieldGraduation.setEnabled(true);
-				textFieldModality.setEnabled(true);
-				btnOk.setEnabled(true);
 				
 				save_modality = new Modality();
 				save_modality.setModality(textFieldModality.getText());
@@ -216,6 +213,11 @@ public class ModalityWindow extends JPanel implements View{
 					
 					modalityDao = new ModalityDAO(config.getConnection());
 					Modality auxiliar_modality = (Modality) modalityDao.Select(save_modality);
+					if(auxiliar_modality == null) {
+						JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+						resetWindow();
+						return;
+					}
 					if (save_modality.getModality().equals(auxiliar_modality.getModality())) {
 						textFieldModality.setText(save_modality.getModality());
 						textFieldModality.setEnabled(false);
@@ -231,9 +233,16 @@ public class ModalityWindow extends JPanel implements View{
 					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
 					resetWindow();
 				} catch (AccessException e1) {
-					System.out.println("BTN SEARCH ERROR");
-					e1.printStackTrace();
+					e1.showAcessWindowDenied();
+					resetWindow();
 				}
+				
+				btnRemove.setEnabled(true);
+				btnSave.setEnabled(true);
+				btnSearch.setEnabled(false);
+				textFieldGraduation.setEnabled(true);
+				textFieldModality.setEnabled(false);
+				btnOk.setEnabled(true);
 			}
 		});
 		
@@ -261,7 +270,6 @@ public class ModalityWindow extends JPanel implements View{
 					JOptionPane.showMessageDialog(null, "Graduacao vazia.");
 				}
 				textFieldGraduation.setText("");
-
 				model.addRow(new Object[] {local_graduation});
 					
 			}
@@ -275,11 +283,19 @@ public class ModalityWindow extends JPanel implements View{
 						== 0) {
 					
 				}
-				else if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todos os seus respequitivos planos, concorda com isso?")
+				else {
+					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					return;
+				}
+				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todos os seus respequitivos planos, concorda com isso?")
 						== 0) {
 					
 				}
-				else if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
+				else {
+					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					return;
+				}
+				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
 						== 0) {
 				}
 				else {
@@ -315,13 +331,26 @@ public class ModalityWindow extends JPanel implements View{
 			}
 		});
 		
+		table.addMouseListener(new MouseAdapter() {
+
+			public void mousePressed(MouseEvent click) {
+				int index = table.getSelectedRow();
+				//bug no index nunca muda
+				if(click.getClickCount() >= 2 && index > -1 ) {
+					System.out.println(index);
+					model.removeRow(index);
+				}
+				
+			}
+		});
+		
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
-				//UNTESTED
+
 				if(search) {
 					try {
 						graduationDao = new GraduationDAO(config.getConnection());
@@ -341,14 +370,16 @@ public class ModalityWindow extends JPanel implements View{
 								Graduation local_graduation = new Graduation();
 								local_graduation.setModality(save_modality.getModality());
 								local_graduation.setGraduation(model_value_graduation);
-								graduationDao.Insert(new Graduation());
+								graduationDao.Insert(local_graduation);
 							}
 						}
 						//delete
 						for(int i=0;i<save_graduation.size();i++) {
 							matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
-							graduationDao.Delete(save_graduation);
+							graduationDao.Delete(save_graduation.get(i));
 						}
+						
+						resetWindow();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					} catch (AccessException e1) {
@@ -363,7 +394,6 @@ public class ModalityWindow extends JPanel implements View{
 					
 					Modality local_modality = new Modality();
 					local_modality.setModality(textFieldModality.getText());
-					System.out.println(local_modality.toString());
 					modalityDao.Insert(local_modality);
 					
 					graduationDao = new GraduationDAO(config.getConnection());
@@ -372,7 +402,6 @@ public class ModalityWindow extends JPanel implements View{
 						
 						local_gradual.setModality(local_modality.getModality());
 						local_gradual.setGraduation((String) model.getValueAt(i, 0));
-						System.out.println(local_gradual.toString());
 						graduationDao.Insert(local_gradual);
 						
 					}
@@ -387,6 +416,8 @@ public class ModalityWindow extends JPanel implements View{
 			}
 
 		});
+		
+		
 		
 		return contentPane;
 	}

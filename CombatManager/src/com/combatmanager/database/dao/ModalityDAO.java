@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.combatmanager.database.model.Graduation;
 import com.combatmanager.database.model.Modality;
 
 public class ModalityDAO extends MasterDAO{
