@@ -80,6 +80,13 @@ public class Configuration {
 		logKey++;
 	}
 	
+	public void printLog() {
+		for(int i=0;i<sysLog.size();i++) {
+			System.out.println(sysLog.get(i));
+			
+		}
+	}
+	
 	public void saveLog() {
 		// TO DO
 	}

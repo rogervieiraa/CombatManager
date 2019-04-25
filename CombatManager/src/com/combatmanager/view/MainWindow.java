@@ -14,6 +14,7 @@ import controller.CombatImage;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -26,6 +27,9 @@ import java.awt.Container;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class MainWindow extends JFrame implements View {
 	private Configuration config;
@@ -195,6 +199,18 @@ public class MainWindow extends JFrame implements View {
 
 		Container contentPane= this.CreateContentPane(new HomeWindow());
 		
+		
+
+
+		this.addWindowListener((WindowListener) new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				config.printLog();
+				System.exit(0);
+					
+			}
+		});
+
+
 	}
 
 	public Container CreateContentPane(View view) {
