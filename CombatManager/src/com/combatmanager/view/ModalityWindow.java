@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.combatmanager.database.dao.GraduationDAO;
+import com.combatmanager.database.dao.MatriculationModalityDAO;
 import com.combatmanager.database.dao.ModalityDAO;
 import com.combatmanager.database.model.Graduation;
 import com.combatmanager.database.model.Modality;
@@ -46,9 +47,10 @@ public class ModalityWindow extends JPanel implements View{
 	}
 	private Modality save_modality;
 	private List<Graduation> save_graduation;
+	private List<Integer> deleted_graduation_id;
 	private JTextField textFieldModality;
 	private JTextField textFieldGraduation;
-	DefaultTableModel model;
+	private DefaultTableModel model;
 	private JTable table;
 	private JButton btnRemove;
 	private JButton btnAdd;
@@ -220,15 +222,16 @@ public class ModalityWindow extends JPanel implements View{
 					}
 					graduationDao = new GraduationDAO(config.getConnection());
 					save_graduation = graduationDao.SelectGraduationByModality(save_modality);
-					
 					for(int i=0;i<save_graduation.size();i++) {
 						model.addRow(new Object[] {save_graduation.get(i).getGraduation()});
 					}
 					
 					
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					resetWindow();
 				} catch (AccessException e1) {
+					System.out.println("BTN SEARCH ERROR");
 					e1.printStackTrace();
 				}
 			}
@@ -253,9 +256,14 @@ public class ModalityWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent e) {
 				
 				String local_graduation = textFieldGraduation.getText();
-				textFieldGraduation.setText("");
-				model.addRow(new Object[] {local_graduation});
 				
+				if(textFieldGraduation.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Graduacao vazia.");
+				}
+				textFieldGraduation.setText("");
+
+				model.addRow(new Object[] {local_graduation});
+					
 			}
 		});
 		
@@ -263,33 +271,44 @@ public class ModalityWindow extends JPanel implements View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//graduacoes
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduacoes, concorda com isso?");
-				JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas graduacoes, concorda com isso?");
-				//planos
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todos os seus planos, concorda com isso?");
+				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas graduacoes, concorda com isso?")
+						== 0) {
+					
+				}
+				else if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todos os seus respequitivos planos, concorda com isso?")
+						== 0) {
+					
+				}
+				else if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
+						== 0) {
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					return;
+				}
 				
-				//matriculas por modalidade
-				JOptionPane.showMessageDialog(null, "Deletando essa modalidade voce estara deletando todas as suas matriculas, concorda com isso?");
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
-				
+				MatriculationModalityDAO matriculationModalityDAO = null;
 				try {
 					
 					modalityDao = new ModalityDAO(config.getConnection());
 					graduationDao = new GraduationDAO(config.getConnection());
+					matriculationModalityDAO = new MatriculationModalityDAO(config.getConnection());
 					Modality auxiliar_modality = save_modality;
 					
+					
+					matriculationModalityDAO.DeleteByModality(auxiliar_modality);
 					graduationDao.DeleteByModality(auxiliar_modality);
-					System.out.println("aq passou");
 					modalityDao.Delete(auxiliar_modality);
 					
 					
 					
 					
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Operacao cancelada, mediante a erro.");
 				} catch (AccessException e1) {
+					System.out.println("BTN SEARCH REMOVE");
 					e1.printStackTrace();
 				}
 				resetWindow();
@@ -301,24 +320,34 @@ public class ModalityWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent e) {
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
+				MatriculationModalityDAO matriculationModalityDao = null;
+				//UNTESTED
 				if(search) {
 					try {
 						graduationDao = new GraduationDAO(config.getConnection());
-						
-						for(int i=0;i<save_graduation.size();i++) {
-							Graduation local_gradual = new Graduation();
-							local_gradual.setModality(save_modality.getModality());
-							local_gradual.setGraduation(save_graduation.get(i).getGraduation());
-							graduationDao.Delete(local_gradual);
-						}
-						System.out.println("aq");
+						matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
+						//insert
 						for(int i=0;i<model.getRowCount();i++) {
-							Graduation local_gradual = new Graduation();
-							local_gradual.setModality(save_modality.getModality());
-							local_gradual.setGraduation((String) model.getValueAt(i, 0));
-							System.out.println(local_gradual.toString());
-							graduationDao.Insert(local_gradual);
-							
+							String model_value_graduation = (String) model.getValueAt(i, 0);
+							Boolean found = false;
+							for(int j=0;j<save_graduation.size();j++) {
+								if(save_graduation.get(j).getGraduation().equals(model_value_graduation)) {
+									save_graduation.remove(j);
+									found = true;
+									break;
+								}
+							}
+							if(!found) {
+								Graduation local_graduation = new Graduation();
+								local_graduation.setModality(save_modality.getModality());
+								local_graduation.setGraduation(model_value_graduation);
+								graduationDao.Insert(new Graduation());
+							}
+						}
+						//delete
+						for(int i=0;i<save_graduation.size();i++) {
+							matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
+							graduationDao.Delete(save_graduation);
 						}
 					} catch (SQLException e1) {
 						e1.printStackTrace();

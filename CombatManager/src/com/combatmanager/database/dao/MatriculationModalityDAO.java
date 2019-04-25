@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.combatmanager.database.model.Matriculation;
 import com.combatmanager.database.model.MatriculationModality;
+import com.combatmanager.database.model.Modality;
 
 public class MatriculationModalityDAO  extends MasterDAO{
 	
@@ -33,10 +34,14 @@ public class MatriculationModalityDAO  extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"	)";
+	private String updadeGraduation = "";
+	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_updadeGraduatio;
+	private PreparedStatement pst_deleteByModality;
 	
 	Connection io_connection;
 	
@@ -45,6 +50,8 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_updadeGraduatio = connection.prepareStatement(updadeGraduation);
+		pst_deleteByModality = connection.prepareStatement(deleteByModality);
 		
 	}
 	
@@ -99,6 +106,11 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		
 	}
 
+	public void UpdateGraduation(Object parameter, Object new_parameter) throws SQLException {
+		//TO DO
+		
+	}
+	
 	@Override
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
@@ -119,6 +131,14 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		}
 	}
 
+	public void DeleteByModality(Modality modality) throws SQLException {
+		pst_deleteByModality.clearParameters();
+					
+		Set(pst_deleteByModality, 1, modality.getModality());
+
+		pst_deleteByModality.execute();
+	}
+	
 	@Override
 	public void Delete(Object parameter) throws SQLException {
 		// TODO
