@@ -7,11 +7,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -21,6 +24,14 @@ import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 
+import com.combatmanager.database.dao.GraduationDAO;
+import com.combatmanager.database.dao.MatriculationModalityDAO;
+import com.combatmanager.database.dao.ModalityDAO;
+import com.combatmanager.database.dao.PlanDAO;
+import com.combatmanager.database.model.Graduation;
+import com.combatmanager.database.model.Modality;
+import com.combatmanager.database.model.Plan;
+import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 
 public class PlansWindow extends JPanel implements View{
@@ -36,7 +47,8 @@ public class PlansWindow extends JPanel implements View{
 	private final String NAME = "Tela Planos";
 	private final int ACCESS = 0;
 	private Boolean search;
-	
+	private Configuration config;
+	private Plan save_plan;
 	
 	@Override
 	public int getAccess() {
@@ -58,6 +70,7 @@ public class PlansWindow extends JPanel implements View{
 	 */
 	
 	public JPanel run(Configuration config) {
+		this.config = config;
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
@@ -151,7 +164,45 @@ public class PlansWindow extends JPanel implements View{
 		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!search) {
+					textFieldPlans.setEnabled(true);
+					comboBox.setEnabled(true);
+					btnAdd.setEnabled(false);
+					search = true;
+					return;
+				}
 				
+				PlanDAO planDao = null;
+				save_plan = new Plan();
+				save_plan.setModality((String)comboBox.getSelectedItem());
+				save_plan.setPlan(textFieldPlans.getText());
+				try {
+					
+					planDao = new PlanDAO(config.getConnection());
+					Plan auxiliar_plan = (Plan) planDao.Select(save_plan);
+					if(auxiliar_plan == null) {
+						JOptionPane.showMessageDialog(null, "Plano nao encontrada.");
+						resetWindow();
+						return;
+					}
+
+					textFieldPrice.setText(Float.toString(auxiliar_plan.getMonth_value()));
+					
+					
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					resetWindow();
+				} catch (AccessException e1) {
+					e1.showAcessWindowDenied();
+					resetWindow();
+				}
+				
+				textFieldPrice.setEnabled(true);
+				comboBox.setEnabled(false);
+				textFieldPlans.setEnabled(false);
+				btnRemove.setEnabled(true);
+				btnSave.setEnabled(true);
+				btnSearch.setEnabled(false);
 				
 			}
 		});
@@ -180,7 +231,29 @@ public class PlansWindow extends JPanel implements View{
 		btnSave.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				/*
+				if(search) {
+					return;
+				}*/
 				
+				PlanDAO planDao = null;
+				try {
+					planDao = new PlanDAO(config.getConnection());
+					Plan local_plan = new Plan();
+					
+					local_plan.setPlan(textFieldPlans.getText());
+					local_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
+					local_plan.setModality((String)comboBox.getSelectedItem());
+					System.out.println(local_plan.toString());
+					
+					planDao.Insert(local_plan);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					e1.printStackTrace();
+				}
+				
+				resetWindow();
 			}
 		});
 		
@@ -198,5 +271,22 @@ public class PlansWindow extends JPanel implements View{
 		textFieldPrice.setEnabled(false);
 		search = false;
 		comboBox.setEnabled(false);
+		
+		ModalityDAO modalityDao = null;
+		try {
+			modalityDao = new ModalityDAO(config.getConnection());
+			List<Object> all_modality = modalityDao.SelectAll();
+			
+			for(int i=0;i<all_modality.size();i++) {
+				Modality local_modality = (Modality) all_modality.get(i);
+				comboBox.addItem(local_modality.getModality());
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (AccessException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

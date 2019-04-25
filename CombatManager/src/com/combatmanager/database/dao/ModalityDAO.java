@@ -29,7 +29,7 @@ public class ModalityDAO extends MasterDAO{
 	
 	Connection io_connection;
 	
-	public  ModalityDAO(Connection connection) throws SQLException{
+	public ModalityDAO(Connection connection) throws SQLException{
 
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);

@@ -175,7 +175,7 @@ public class StudentDAO extends MasterDAO {
 		pst_update.clearParameters();
 		
 		Student student = new Student ();
-		student = (Student)last_parameter;
+		student = (Student)new_parameter;
 		
 		
 		
@@ -202,7 +202,12 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_update, 14, city.getCountry());
 		
 		Set(pst_update, 15, student.getCep());
+		
+		student = (Student) last_parameter;
+		
 		Set(pst_update, 16, student.getIndex());
+		
+		pst_update.execute();
 		
 	}
 
