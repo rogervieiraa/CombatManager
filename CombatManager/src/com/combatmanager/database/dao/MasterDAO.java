@@ -17,7 +17,7 @@ public abstract class MasterDAO {
 		throws			SQLException;
 		
 	public abstract
-	void 				Update(Object parameter)
+	void 				Update(Object last_parameter, Object new_parameter)
 		throws			SQLException;
 		
 	public abstract

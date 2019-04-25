@@ -25,10 +25,19 @@ public class AttendanceDAO extends MasterDAO{
 								+"		?, 					"
 								+"		?, 					"
 								+"	)";
+	private String update = "UPDATE assiduidade "
+							+ "SET  "
+							+ "     codigo_matricula = ?"
+							+ "		data_entrada = ?"
+							+ "WHERE"
+							+ "		codigo_matricula = ?";
+	private String delete = "DELETE FROM assuidade WHERE codigo_matricula = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
+	private PreparedStatement pst_update;
+	private PreparedStatement pst_delete;
 	
 	Connection io_connection;
 	
@@ -37,6 +46,8 @@ public class AttendanceDAO extends MasterDAO{
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_update = connection.prepareStatement(update);
+		pst_delete = connection.prepareStatement(delete);
 		
 	}
 	
@@ -77,8 +88,24 @@ public class AttendanceDAO extends MasterDAO{
 	}
 
 	@Override
-	public void Update(Object parameter) throws SQLException {
-		//TO DO
+	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
+		Attendance att = new Attendance();
+		
+		att = (Attendance) new_parameter;
+		
+		Set(pst_update, 1 , att.getMatriculation_code());
+		Set(pst_update, 2 , att.getEntry_date());
+		
+		att = (Attendance) last_parameter;
+		
+		Set(pst_update, 3, att.getMatriculation_code());
+		
+		pst_update.execute();
+		
+		if (pst_update.getUpdateCount() > 0) {
+			io_connection.commit();
+		}
+		
 		
 	}
 
@@ -100,6 +127,16 @@ public class AttendanceDAO extends MasterDAO{
 
 	@Override
 	public void Delete(Object parameter) throws SQLException {
-		// TODO
+		Attendance att = new Attendance();
+		
+		att = (Attendance) parameter;
+		
+		Set(pst_delete, 1, att.getMatriculation_code());
+		
+		pst_delete.execute();
+		
+		if (pst_delete.getUpdateCount() > 0) {
+			io_connection.commit();
+		}
 	}
 }
