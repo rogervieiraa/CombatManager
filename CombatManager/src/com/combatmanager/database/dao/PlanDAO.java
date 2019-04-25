@@ -34,7 +34,7 @@ public class PlanDAO extends MasterDAO{
 							+ "		valor_mensal = ?"
 							+ "WHERE"
 							+ "		plano = ?";
-	private String delete = "DELETE * FROM planos WHERE plano = ? AND modalidade = ?";
+	private String delete = "DELETE FROM planos WHERE plano = ? AND modalidade = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;

@@ -224,6 +224,33 @@ public class PlansWindow extends JPanel implements View{
 		btnRemove.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
+						== 0) {
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					return;
+				}
+				
+				PlanDAO planDao = null;
+
+				try {
+					
+					planDao = new PlanDAO(config.getConnection());
+					Plan auxiliar_plan = save_plan;
+					auxiliar_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
+					System.out.println(auxiliar_plan.toString());
+					planDao.Delete(auxiliar_plan);					
+					
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Operacao cancelada, mediante a erro.");
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					System.out.println("BTN SEARCH REMOVE");
+					
+				}
+				resetWindow();
 				
 			}
 		});

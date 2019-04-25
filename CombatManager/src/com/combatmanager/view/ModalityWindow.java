@@ -319,6 +319,7 @@ public class ModalityWindow extends JPanel implements View{
 					
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada, mediante a erro.");
+					e1.printStackTrace();
 				} catch (AccessException e1) {
 					System.out.println("BTN SEARCH REMOVE");
 					e1.printStackTrace();
