@@ -324,11 +324,14 @@ public class PlansWindow extends JPanel implements View{
 					try {
 						Plan temp_plan = (Plan) planDao.Select(local_plan);
 						if(temp_plan == null) {
-							throw new Exception("");
+							
+						}else {
+							throw new Exception("Plano ja existente, favor utilizar a busca ou mudar de nome.");
 						}
+							
 					} catch (Exception e1) {
 						config.addToSystemLog(getName()+","+"Tentou criar plano ja existente");
-						JOptionPane.showMessageDialog(null, "Plano ja existente, favor utilizar a busca ou mudar de nome.");
+						JOptionPane.showMessageDialog(null, e1.getMessage());
 						resetWindow();
 						return;
 					}
