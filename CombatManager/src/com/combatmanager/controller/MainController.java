@@ -3,6 +3,8 @@ package com.combatmanager.controller;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.combatmanager.database.dao.StudentDAO;
+import com.combatmanager.database.model.Student;
 import com.combatmanager.database.model.User;
 import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
@@ -15,8 +17,6 @@ public class MainController {
 	//TO DO
 	
 	public static void main(String[] args) {
-		
-		
 		
 		try {
 			//TO DO get user

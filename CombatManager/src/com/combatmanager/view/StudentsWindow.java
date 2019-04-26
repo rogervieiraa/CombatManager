@@ -6,12 +6,20 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import javax.swing.border.MatteBorder;
 import javax.swing.text.MaskFormatter;
 
+import com.combatmanager.database.dao.GraduationDAO;
+import com.combatmanager.database.dao.ModalityDAO;
+import com.combatmanager.database.dao.StudentDAO;
+import com.combatmanager.database.model.City;
+import com.combatmanager.database.model.Modality;
+import com.combatmanager.database.model.Student;
+import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 
 import java.awt.BorderLayout;
@@ -32,6 +40,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
 import javax.swing.JDesktopPane;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+
 import java.awt.ScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTree;
@@ -40,23 +50,32 @@ import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 
 public class StudentsWindow extends JPanel implements View {
+	
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
 	private JTextField textFieldObs;
 	private JTextField textFieldPhone;
 	private JTextField textFieldCellPhone;
-	private JTextField textField;
+	private JTextField textFieldAddress;
 	private JTextField textFieldComplement;
-	private JTextField textFieldPhoneAddress;
-	private JTextField textField_3;
+	private JTextField textFieldAddressPhone;
+	private JTextField textFieldLocal;
 	private JTextField txtTeclarF;
-	private JTextField textField_5;
 	private JTextField textFieldState;
-	private JTextField textFieldTextF9;
+	private JTextField textFieldCep;
+	private JTextField textFieldCountry;
+	private JFormattedTextField formattedTextFieldDate;
+	private JButton btnRemove;
+	private JButton btnAdd;
+	private JButton btnSave;
+	private JButton btnSearch;
+	private JButton btnOk;
+	private JComboBox comboBoxSex;
 
 	
 	private final String NAME = "Tela Estudantes";
 	private final int ACCESS = 0;
+	private Boolean search = false;
 
 	@Override
 	public int getAccess() {
@@ -102,16 +121,72 @@ public class StudentsWindow extends JPanel implements View {
 		toolBar.setFloatable(false);
 		internalFrame.getContentPane().add(toolBar);
 		
-		JButton btnSearch = new JButton("Buscar");
+		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 		btnSearch.setMaximumSize(new Dimension(100, 80));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!search) {
+					textFieldStudent.setEnabled(true);
+					textFieldEmail.setEnabled(true);
+					btnAdd.setEnabled(false);
+					search = true;
+					return;
+				}
+				StudentDAO studentDao = null;
+				
+				Student save_student = new Student();
+				save_student.setName(textFieldStudent.getText());
+				save_student.setEmail(textFieldEmail.getText());
+				try {
+					
+					studentDao = new StudentDAO(config.getConnection());
+					Student auxiliar_student = (Student) studentDao.Select(save_student);					
+					City city = new City();
+					if(auxiliar_student == null) {
+						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
+						resetWindow();
+						return;
+					}else {
+						System.out.println(auxiliar_student.toString());						
+						city = auxiliar_student.getCity();						
+					}
+					textFieldAddress.setText(auxiliar_student.getAdress());
+					textFieldLocal.setText(auxiliar_student.getLocal());
+					textFieldState.setText(city.getState());
+					textFieldCellPhone.setText(auxiliar_student.getCellPhoneNumber());
+					textFieldComplement.setText(auxiliar_student.getExtraInformation());
+					textFieldEmail.setText(auxiliar_student.getEmail());
+					textFieldObs.setText(auxiliar_student.getNote());
+					textFieldPhone.setText(auxiliar_student.getPhoneNumber());
+					textFieldAddress.setText(auxiliar_student.getAdress());
+					textFieldCep.setText(auxiliar_student.getCep());
+					textFieldStudent.setText(auxiliar_student.getName());
+					textFieldCountry.setText(city.getCountry());
+					formattedTextFieldDate.setText(auxiliar_student.getBirthday());					
+					
+					if ("M".equals(auxiliar_student.getSex())) {
+						comboBoxSex.setSelectedIndex(1);
+					}else {
+						comboBoxSex.setSelectedIndex(0);
+					}									
+					
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					resetWindow();
+				} catch (AccessException e1) {
+					e1.showAcessWindowDenied();
+					resetWindow();
+				}
+				
+				startSave();
+				btnRemove.setEnabled(true);
 			}
+		
 		});
 		toolBar.add(btnSearch);
 		
-		JButton btnAdd = new JButton("Adicionar");
+		btnAdd = new JButton("Adicionar");
 		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,7 +201,7 @@ public class StudentsWindow extends JPanel implements View {
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
-		JButton btnRemove = new JButton("Remover");
+		btnRemove = new JButton("Remover");
 		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setMaximumSize(new Dimension(100, 80));
 		
@@ -135,7 +210,7 @@ public class StudentsWindow extends JPanel implements View {
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
-		JButton btnSave = new JButton("Salvar");
+		btnSave = new JButton("Salvar");
 		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setMaximumSize(new Dimension(100, 80));
 	
@@ -154,16 +229,18 @@ public class StudentsWindow extends JPanel implements View {
 		//MaskFormatter maskFormatter = new MaskFormatter("##/##/##");
 	
 		
-		JFormattedTextField formattedTextFieldDate = new JFormattedTextField();
+		formattedTextFieldDate = new JFormattedTextField();
 		//formattedTextFieldDate.setFormatterFactory(tf);
 		formattedTextFieldDate.setLocation(143, 92);
 		formattedTextFieldDate.setSize(new Dimension(148, 20));
 
 		internalFrame.getContentPane().add(formattedTextFieldDate);
 		
-		JComboBox comboBoxSex = new JComboBox();
+		comboBoxSex = new JComboBox();
 		comboBoxSex.setEnabled(false);
 		comboBoxSex.setBounds(372, 92, 148, 20);
+		comboBoxSex.addItem("M");
+		comboBoxSex.addItem("F");
 		internalFrame.getContentPane().add(comboBoxSex);
 		
 		JLabel lblBirthDate = new JLabel("Data de nascimento:");
@@ -222,10 +299,10 @@ public class StudentsWindow extends JPanel implements View {
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		addressPanel.add(lblEndereo);
 		
-		textField = new JTextField();
-		textField.setBounds(109, 9, 145, 20);
-		addressPanel.add(textField);
-		textField.setColumns(10);
+		textFieldAddress = new JTextField();
+		textFieldAddress.setBounds(109, 9, 145, 20);
+		addressPanel.add(textFieldAddress);
+		textFieldAddress.setColumns(10);
 		
 		JLabel lblComplemento = new JLabel("Complemento: ");
 		lblComplemento.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -237,10 +314,10 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldComplement.setBounds(109, 40, 386, 20);
 		addressPanel.add(textFieldComplement);
 		
-		textFieldPhoneAddress = new JTextField();
-		textFieldPhoneAddress.setColumns(10);
-		textFieldPhoneAddress.setBounds(350, 9, 145, 20);
-		addressPanel.add(textFieldPhoneAddress);
+		textFieldAddressPhone = new JTextField();
+		textFieldAddressPhone.setColumns(10);
+		textFieldAddressPhone.setBounds(350, 9, 145, 20);
+		addressPanel.add(textFieldAddressPhone);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -248,10 +325,10 @@ public class StudentsWindow extends JPanel implements View {
 		lblTelefone.setBounds(272, 12, 68, 15);
 		addressPanel.add(lblTelefone);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(109, 71, 145, 20);
-		addressPanel.add(textField_3);
+		textFieldLocal = new JTextField();
+		textFieldLocal.setColumns(10);
+		textFieldLocal.setBounds(109, 71, 145, 20);
+		addressPanel.add(textFieldLocal);
 		
 		txtTeclarF = new JTextField();
 		txtTeclarF.setEnabled(false);
@@ -261,17 +338,17 @@ public class StudentsWindow extends JPanel implements View {
 		txtTeclarF.setBounds(350, 71, 145, 20);
 		addressPanel.add(txtTeclarF);
 		
-		textField_5 = new JTextField();
-		textField_5.setEnabled(false);
-		textField_5.setColumns(10);
-		textField_5.setBounds(109, 102, 145, 20);
-		addressPanel.add(textField_5);
+		textFieldState = new JTextField();
+		textFieldState.setEnabled(false);
+		textFieldState.setColumns(10);
+		textFieldState.setBounds(109, 102, 145, 20);
+		addressPanel.add(textFieldState);
 		
-		textFieldTextF9 = new JTextField();
-		textFieldTextF9.setEnabled(false);
-		textFieldTextF9.setColumns(10);
-		textFieldTextF9.setBounds(350, 102, 145, 20);
-		addressPanel.add(textFieldTextF9);
+		textFieldCountry = new JTextField();
+		textFieldCountry.setEnabled(false);
+		textFieldCountry.setColumns(10);
+		textFieldCountry.setBounds(350, 102, 145, 20);
+		addressPanel.add(textFieldCountry);
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -295,10 +372,10 @@ public class StudentsWindow extends JPanel implements View {
 		lblEstado.setBounds(10, 105, 93, 15);
 		addressPanel.add(lblEstado);
 		
-		textFieldState = new JTextField();
-		textFieldState.setColumns(10);
-		textFieldState.setBounds(109, 133, 145, 20);
-		addressPanel.add(textFieldState);
+		textFieldCep = new JTextField();
+		textFieldCep.setColumns(10);
+		textFieldCep.setBounds(109, 133, 145, 20);
+		addressPanel.add(textFieldCep);
 		
 		JLabel lblCep = new JLabel("Cep:");
 		lblCep.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -315,6 +392,69 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldCellPhone.setBounds(372, 123, 148, 20);
 		internalFrame.getContentPane().add(textFieldCellPhone);
 		
+		resetWindow();
+		
 		return contentPane;
 	}
+	
+	private void resetWindow() {
+		textFieldAddress.setText("");
+		textFieldLocal.setText("");
+		textFieldState.setText("");
+		textFieldCountry.setText("");
+		textFieldCellPhone.setText("");
+		textFieldComplement.setText("");
+		textFieldEmail.setText("");
+		textFieldObs.setText("");
+		textFieldPhone.setText("");
+		textFieldAddressPhone.setText("");
+		textFieldCep.setText("");
+		textFieldStudent.setText("");
+		formattedTextFieldDate.setText("");
+		comboBoxSex.setSelectedIndex(-1);
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnAdd.setEnabled(true);
+		btnSearch.setEnabled(true);
+		search = false;
+		textFieldAddress.setEnabled(false);
+		textFieldLocal.setEnabled(false);
+		textFieldState.setEnabled(false);
+		textFieldCountry.setEnabled(false);
+		textFieldCellPhone.setEnabled(false);
+		textFieldComplement.setEnabled(false);
+		textFieldEmail.setEnabled(false);
+		textFieldObs.setEnabled(false);
+		textFieldPhone.setEnabled(false);
+		textFieldAddressPhone.setEnabled(false);
+		textFieldCep.setEnabled(false);
+		textFieldStudent.setEnabled(false);
+		textFieldStudent.setEnabled(false);
+		formattedTextFieldDate.setEnabled(false);
+		comboBoxSex.setEnabled(false);
+	}
+	
+	private void startSave (){
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(true);
+		btnAdd.setEnabled(false);
+		btnSearch.setEnabled(false);
+		textFieldAddress.setEnabled(true);
+		textFieldLocal.setEnabled(true);
+		textFieldState.setEnabled(true);
+		textFieldCellPhone.setEnabled(true);
+		textFieldComplement.setEnabled(true);
+		textFieldEmail.setEnabled(true);
+		textFieldObs.setEnabled(true);
+		textFieldPhone.setEnabled(true);
+		textFieldAddressPhone.setEnabled(true);
+		textFieldCep.setEnabled(true);
+		textFieldStudent.setEnabled(true);
+		textFieldStudent.setEnabled(true);
+		textFieldCountry.setEnabled(true);
+		formattedTextFieldDate.setEnabled(true);
+		comboBoxSex.setEnabled(true);
+	}
 }
+
+

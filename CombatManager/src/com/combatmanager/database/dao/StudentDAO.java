@@ -13,7 +13,7 @@ import com.combatmanager.database.model.Student;
 public class StudentDAO extends MasterDAO {
 	
 	private String selectAll = "select * from alunos order by aluno";
-	private String select = "select * from alunos where aluno = ? and email = ? order by aluno";
+	private String select = "select * from alunos where aluno = ? or email = ? order by aluno";
 	private String insert = "INSERT INTO alunos			"
 								+"	(						" 
 								+"		codigo_aluno, 		"
