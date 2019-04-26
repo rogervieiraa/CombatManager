@@ -438,7 +438,6 @@ public class ModalityWindow extends JPanel implements View{
 					
 					Modality local_modality = new Modality();
 					local_modality.setModality(textFieldModality.getText());
-					modalityDao.Insert(local_modality);
 					try {
 						Modality temp_modality = (Modality) modalityDao.Select(local_modality);
 						if(temp_modality == null) {
@@ -450,6 +449,8 @@ public class ModalityWindow extends JPanel implements View{
 						resetWindow();
 						return;
 					}
+					modalityDao.Insert(local_modality);
+					
 					graduationDao = new GraduationDAO(config.getConnection());
 					for(int i=0;i<model.getRowCount();i++) {
 						Graduation local_gradual = new Graduation();
