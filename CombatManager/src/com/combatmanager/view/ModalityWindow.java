@@ -365,7 +365,21 @@ public class ModalityWindow extends JPanel implements View{
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
+				// 0=yes, 1=no, 2=cancel
+				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
+				if (save_option == 1) {
+					JOptionPane.showMessageDialog(null, "As alteracoes NAO foram salvas.");
+					config.addToSystemLog(getName()+","+"Negou em salvar e descartou as alteracoes");
+					resetWindow();
+					return;
+				}
+				else if(save_option == 2) {
+					JOptionPane.showMessageDialog(null, "Operacao de salvar cancelada.");
+					config.addToSystemLog(getName()+","+"Cancelou a operacao de salvar");
+					return;
+				}
 				if(search) {
+					
 					try {
 						graduationDao = new GraduationDAO(config.getConnection());
 						matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
