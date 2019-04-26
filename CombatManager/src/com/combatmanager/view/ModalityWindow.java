@@ -441,11 +441,13 @@ public class ModalityWindow extends JPanel implements View{
 					try {
 						Modality temp_modality = (Modality) modalityDao.Select(local_modality);
 						if(temp_modality == null) {
-							throw new Exception("");
+							
+						}else {
+							throw new Exception("Modalidade ja existente, favor utilizar a busca ou mudar de nome.");
 						}
 					} catch (Exception e1) {
 						config.addToSystemLog(getName()+","+"Tentou criar modalidade ja existente");
-						JOptionPane.showMessageDialog(null, "Modalidade ja existente, favor utilizar a busca ou mudar de nome.");
+						JOptionPane.showMessageDialog(null, e1.getMessage());
 						resetWindow();
 						return;
 					}
