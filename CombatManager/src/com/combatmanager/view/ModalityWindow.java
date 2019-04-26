@@ -268,11 +268,21 @@ public class ModalityWindow extends JPanel implements View{
 				
 				if(textFieldGraduation.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Graduacao vazia.");
+					config.addToSystemLog(getName()+","+"Tentou adicionar graduacao vazia");
 				}
+				
+				for(int i=0;i<model.getRowCount();i++) {
+					if(model.getValueAt(i, 0).equals(local_graduation)) {
+						JOptionPane.showMessageDialog(null, "Graduacao duplicada.");
+						config.addToSystemLog(getName()+","+"Tentou adicionar graduacao igual a existente");
+						return;
+					}
+				}
+				
 				textFieldGraduation.setText("");
 				model.addRow(new Object[] {local_graduation});
-				config.addToSystemLog(getName()+","+"Iniciou adicionou uma nova graduacao"+","+local_graduation.toString());
-					
+				
+				config.addToSystemLog(getName()+","+"Adicionou uma nova graduacao"+","+local_graduation.toString());
 			}
 		});
 		
@@ -407,6 +417,7 @@ public class ModalityWindow extends JPanel implements View{
 							graduationDao.Delete(save_graduation.get(i));
 						}
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");
+						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
 					} catch (SQLException e1) {
 						config.addToSystemLog(getName()+","+"Erro ao salvar");
@@ -419,13 +430,26 @@ public class ModalityWindow extends JPanel implements View{
 					return;
 				}
 				
+				//caso ja exista
+				
+				
 				try {
 					modalityDao = new ModalityDAO(config.getConnection());
 					
 					Modality local_modality = new Modality();
 					local_modality.setModality(textFieldModality.getText());
 					modalityDao.Insert(local_modality);
-					
+					try {
+						Modality temp_modality = (Modality) modalityDao.Select(local_modality);
+						if(temp_modality == null) {
+							throw new Exception("");
+						}
+					} catch (Exception e1) {
+						config.addToSystemLog(getName()+","+"Tentou criar modalidade ja existente");
+						JOptionPane.showMessageDialog(null, "Modalidade ja existente, favor utilizar a busca ou mudar de nome.");
+						resetWindow();
+						return;
+					}
 					graduationDao = new GraduationDAO(config.getConnection());
 					for(int i=0;i<model.getRowCount();i++) {
 						Graduation local_gradual = new Graduation();
@@ -435,9 +459,11 @@ public class ModalityWindow extends JPanel implements View{
 						graduationDao.Insert(local_gradual);
 						
 					}
+					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_modality.toString());
 					
 				} catch (SQLException e1) {
+					
 					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				} catch (AccessException e1) {

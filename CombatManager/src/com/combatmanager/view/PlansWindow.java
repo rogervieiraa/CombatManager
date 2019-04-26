@@ -321,7 +321,17 @@ public class PlansWindow extends JPanel implements View{
 					local_plan.setMonth_value(Float.parseFloat(textFieldPrice.getText()));
 					local_plan.setModality((String)comboBox.getSelectedItem());
 					
-					
+					try {
+						Plan temp_plan = (Plan) planDao.Select(local_plan);
+						if(temp_plan == null) {
+							throw new Exception("");
+						}
+					} catch (Exception e1) {
+						config.addToSystemLog(getName()+","+"Tentou criar plano ja existente");
+						JOptionPane.showMessageDialog(null, "Plano ja existente, favor utilizar a busca ou mudar de nome.");
+						resetWindow();
+						return;
+					}
 					planDao.Insert(local_plan);
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_plan.toString());
 				} catch (SQLException e1) {
