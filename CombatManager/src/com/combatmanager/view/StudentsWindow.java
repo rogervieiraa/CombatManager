@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.TextEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
@@ -14,9 +15,11 @@ import javax.swing.border.MatteBorder;
 import javax.swing.text.MaskFormatter;
 
 import com.combatmanager.database.dao.GraduationDAO;
+import com.combatmanager.database.dao.MatriculationModalityDAO;
 import com.combatmanager.database.dao.ModalityDAO;
 import com.combatmanager.database.dao.StudentDAO;
 import com.combatmanager.database.model.City;
+import com.combatmanager.database.model.Graduation;
 import com.combatmanager.database.model.Modality;
 import com.combatmanager.database.model.Student;
 import com.combatmanager.error.AccessException;
@@ -58,7 +61,7 @@ public class StudentsWindow extends JPanel implements View {
 	private JTextField textFieldCellPhone;
 	private JTextField textFieldAddress;
 	private JTextField textFieldComplement;
-	private JTextField textFieldAddressPhone;
+	private JTextField textFieldHomeNumber;
 	private JTextField textFieldLocal;
 	private JTextField txtTeclarF;
 	private JTextField textFieldState;
@@ -76,6 +79,7 @@ public class StudentsWindow extends JPanel implements View {
 	private final String NAME = "Tela Estudantes";
 	private final int ACCESS = 0;
 	private Boolean search = false;
+	private String save_student = "";
 
 	@Override
 	public int getAccess() {
@@ -133,6 +137,7 @@ public class StudentsWindow extends JPanel implements View {
 					search = true;
 					return;
 				}
+				save_student = textFieldStudent.getText();
 				StudentDAO studentDao = null;
 				
 				Student save_student = new Student();
@@ -163,7 +168,8 @@ public class StudentsWindow extends JPanel implements View {
 					textFieldCep.setText(auxiliar_student.getCep());
 					textFieldStudent.setText(auxiliar_student.getName());
 					textFieldCountry.setText(city.getCountry());
-					formattedTextFieldDate.setText(auxiliar_student.getBirthday());					
+					formattedTextFieldDate.setText(auxiliar_student.getBirthday());	
+					textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
 					
 					if ("M".equals(auxiliar_student.getSex())) {
 						comboBoxSex.setSelectedIndex(1);
@@ -172,7 +178,7 @@ public class StudentsWindow extends JPanel implements View {
 					}									
 					
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
+					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
 					resetWindow();
 				} catch (AccessException e1) {
 					e1.showAcessWindowDenied();
@@ -190,6 +196,7 @@ public class StudentsWindow extends JPanel implements View {
 		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				startSave();
 			}
 		});
 		
@@ -213,6 +220,141 @@ public class StudentsWindow extends JPanel implements View {
 		btnSave = new JButton("Salvar");
 		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setMaximumSize(new Dimension(100, 80));
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
+				StudentDAO studentDao = null;
+				char sex = ' ';
+				if(textFieldStudent.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de nome");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}
+				// 0=yes, 1=no, 2=cancel
+				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
+				if (save_option == 1) {
+					JOptionPane.showMessageDialog(null, "As alteracoes NAO foram salvas.");
+					config.addToSystemLog(getName()+","+"Negou em salvar e descartou as alteracoes");
+					resetWindow();
+					return;
+				}
+				else if(save_option == 2) {
+					JOptionPane.showMessageDialog(null, "Operacao de salvar cancelada.");
+					config.addToSystemLog(getName()+","+"Cancelou a operacao de salvar");
+					return;
+				}
+				if(search) {
+					
+					try {
+						studentDao = new StudentDAO(config.getConnection());
+						Student last_student = new Student();
+						Student new_student = new Student();
+						City city = new City();
+						
+						last_student.setName(save_student);
+						
+						last_student = (Student) studentDao.Select(last_student);
+						
+						new_student.setName(textFieldStudent.getText());
+						new_student.setAdress(textFieldAddress.getText());
+						new_student.setBirthday(formattedTextFieldDate.getText());
+						new_student.setCellPhoneNumber(textFieldCellPhone.getText());
+						new_student.setCep(textFieldCep.getText());
+						
+						//Set City
+						city.setName(txtTeclarF.getText());
+						city.setCountry(textFieldCountry.getText());
+						city.setState(textFieldState.getText());
+						
+						new_student.setCity(city);
+						new_student.setEmail(textFieldEmail.getText());
+						new_student.setExtraInformation(textFieldComplement.getText());
+						new_student.setHomeNumber(textFieldHomeNumber.getText());
+						new_student.setLocal(textFieldLocal.getText());
+						new_student.setNote(textFieldObs.getText());
+						new_student.setPhoneNumber(textFieldPhone.getText());
+						
+						if (comboBoxSex.getSelectedIndex() == 1) {
+							sex = 'M';
+						}else {
+							sex = 'F';
+						}	
+						
+						new_student.setSex(sex);
+						
+						studentDao.Update(last_student, new_student);
+						
+						config.addToSystemLog(getName()+","+"Salvou com sucesso");
+						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+						resetWindow();
+					} catch (SQLException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
+						e1.printStackTrace();
+					} catch (AccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					return;
+				}
+				
+				//caso ja exista
+				
+				
+				try {
+					studentDao = new StudentDAO(config.getConnection());
+					Student student = new Student();
+					City city = new City();
+					
+					
+					student.setName(textFieldStudent.getText());
+					student.setAdress(textFieldAddress.getText());
+					student.setBirthday(formattedTextFieldDate.getText());
+					student.setCellPhoneNumber(textFieldCellPhone.getText());
+					student.setCep(textFieldCep.getText());
+					
+					//Set City
+					city.setName(txtTeclarF.getText());
+					city.setCountry(textFieldCountry.getText());
+					city.setState(textFieldState.getText());
+					
+					student.setCity(city);
+					student.setEmail(textFieldEmail.getText());
+					student.setExtraInformation(textFieldComplement.getText());
+					student.setHomeNumber(textFieldHomeNumber.getText());
+					student.setLocal(textFieldLocal.getText());
+					student.setNote(textFieldObs.getText());
+					student.setPhoneNumber(textFieldPhone.getText());
+					
+					if (comboBoxSex.getSelectedIndex() == 1) {
+						sex = 'M';
+					}else {
+						sex = 'F';
+					}	
+					
+					student.setSex(sex);
+					
+					studentDao.Insert(student);
+					
+					config.addToSystemLog(getName()+","+"Salvou com sucesso");
+					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+					resetWindow();
+					
+				} catch (SQLException e1) {
+					
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
+					e1.printStackTrace();
+				}
+				
+				resetWindow();
+				
+			}
+		});
 	
 		toolBar.add(btnSave);
 		
@@ -314,12 +456,12 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldComplement.setBounds(109, 40, 386, 20);
 		addressPanel.add(textFieldComplement);
 		
-		textFieldAddressPhone = new JTextField();
-		textFieldAddressPhone.setColumns(10);
-		textFieldAddressPhone.setBounds(350, 9, 145, 20);
-		addressPanel.add(textFieldAddressPhone);
+		textFieldHomeNumber = new JTextField();
+		textFieldHomeNumber.setColumns(10);
+		textFieldHomeNumber.setBounds(350, 9, 145, 20);
+		addressPanel.add(textFieldHomeNumber);
 		
-		JLabel lblTelefone = new JLabel("Telefone:");
+		JLabel lblTelefone = new JLabel("Numero:");
 		lblTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblTelefone.setBounds(272, 12, 68, 15);
@@ -407,7 +549,7 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldEmail.setText("");
 		textFieldObs.setText("");
 		textFieldPhone.setText("");
-		textFieldAddressPhone.setText("");
+		textFieldHomeNumber.setText("");
 		textFieldCep.setText("");
 		textFieldStudent.setText("");
 		formattedTextFieldDate.setText("");
@@ -426,7 +568,7 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldEmail.setEnabled(false);
 		textFieldObs.setEnabled(false);
 		textFieldPhone.setEnabled(false);
-		textFieldAddressPhone.setEnabled(false);
+		textFieldHomeNumber.setEnabled(false);
 		textFieldCep.setEnabled(false);
 		textFieldStudent.setEnabled(false);
 		textFieldStudent.setEnabled(false);
@@ -441,17 +583,14 @@ public class StudentsWindow extends JPanel implements View {
 		btnSearch.setEnabled(false);
 		textFieldAddress.setEnabled(true);
 		textFieldLocal.setEnabled(true);
-		textFieldState.setEnabled(true);
 		textFieldCellPhone.setEnabled(true);
 		textFieldComplement.setEnabled(true);
 		textFieldEmail.setEnabled(true);
 		textFieldObs.setEnabled(true);
 		textFieldPhone.setEnabled(true);
-		textFieldAddressPhone.setEnabled(true);
+		textFieldHomeNumber.setEnabled(true);
 		textFieldCep.setEnabled(true);
 		textFieldStudent.setEnabled(true);
-		textFieldStudent.setEnabled(true);
-		textFieldCountry.setEnabled(true);
 		formattedTextFieldDate.setEnabled(true);
 		comboBoxSex.setEnabled(true);
 	}
