@@ -153,7 +153,7 @@ public class StudentsWindow extends JPanel implements View {
 						resetWindow();
 						return;
 					}else {
-						System.out.println(auxiliar_student.toString());						
+						//System.out.println(auxiliar_student.toString());						
 						city = auxiliar_student.getCity();						
 					}
 					textFieldAddress.setText(auxiliar_student.getAdress());
@@ -211,6 +211,34 @@ public class StudentsWindow extends JPanel implements View {
 		btnRemove = new JButton("Remover");
 		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setMaximumSize(new Dimension(100, 80));
+		btnRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Student studentr = new Student();
+				StudentDAO studentDao;
+				try {
+					studentDao = new StudentDAO(config.getConnection());
+					
+					studentr.setName(textFieldStudent.getText());
+					studentr.setEmail(textFieldEmail.getText());
+					
+					System.out.println(studentr.toString());
+					
+					studentr = (Student) studentDao.Select(studentr);
+					
+					studentDao.Delete(studentr);
+					
+				
+				} catch (SQLException | AccessException e) {
+					JOptionPane.showMessageDialog(null, "Erro ao remover!");
+					e.printStackTrace();
+					resetWindow();
+				}
+				resetWindow();
+			}
+		});
 		
 		toolBar.add(btnRemove);
 		
