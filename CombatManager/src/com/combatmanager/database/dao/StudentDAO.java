@@ -1,6 +1,7 @@
 package com.combatmanager.database.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import com.combatmanager.database.model.Student;
 public class StudentDAO extends MasterDAO {
 	
 	private String selectAll = "select * from alunos order by aluno";
-	private String select = "select * from alunos where aluno = ? or email = ? order by aluno";
+	private String select = "select * from alunos where codigo_aluno = ? or aluno = ? order by aluno";
 	private String insert = "INSERT INTO alunos			"
 								+"	(						" 
 								+"		codigo_aluno, 		"
@@ -178,10 +179,12 @@ public class StudentDAO extends MasterDAO {
 		Student student = new Student ();
 		student = (Student)new_parameter;
 		
+		Date aux = new Date(0, 0, 0);
+		
 		
 		
 		Set(pst_update, 1, student.getName());
-		Set(pst_update, 2, student.getBirthday());
+		//pst_update.setDate(2, student.getBirthday());
 		Set(pst_update, 3, student.getSex());
 		Set(pst_update, 4, student.getPhoneNumber());
 		Set(pst_update, 5, student.getCellPhoneNumber());
@@ -256,7 +259,7 @@ public class StudentDAO extends MasterDAO {
 		Student student = new Student();
 		student = (Student) parameter;
 		
-		Set(pst_delete, 1, student.getIndex());
+		pst_delete.setInt(1, student.getIndex());
 		
 		pst_delete.execute();
 	}
