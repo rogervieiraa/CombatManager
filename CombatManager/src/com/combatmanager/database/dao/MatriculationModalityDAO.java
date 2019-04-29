@@ -15,7 +15,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	
 	
 	private String selectAll = "select * from matriculas_modalidades order by modalidade";
-	private String select = "select * from matriculas_modalidades where codigo_matricula = ? order by modalidade";
+	private String select = "select * from matriculas_modalidades where codigo_matricula = ? AND modalidade = ? order by modalidade";
 	private String insert = "INSERT INTO matriculas_modalidades			"
 								+"	(						" 
 								+"		codigo_matricula, 		"
@@ -34,6 +34,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 								+"		?, 					"
 								+"		? 					"
 								+"	)";
+	private String selectByMatriculation = "select * from matriculas_modalidades where codigo_matricula = ? order by modalidade";
 	private String updadeGraduation = "";
 	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";
 	
@@ -42,6 +43,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_updadeGraduatio;
 	private PreparedStatement pst_deleteByModality;
+	private PreparedStatement pst_selectByMatriculation;
 	
 	Connection io_connection;
 	
@@ -50,6 +52,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		io_connection = connection;
 		
 		pst_selectAll = connection.prepareStatement(selectAll);
+		pst_selectByMatriculation = connection.prepareStatement(selectByMatriculation);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
 		pst_updadeGraduatio = connection.prepareStatement(updadeGraduation);
@@ -84,7 +87,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		MatriculationModality mm = null;
 		
 		Set(pst_select, 1, ((MatriculationModality)parameter).getMatriculation_code());
-
+		Set(pst_select, 2, ((MatriculationModality)parameter).getModality());
 		
 		ResultSet rst = pst_select.executeQuery();
 		
@@ -103,6 +106,25 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		return mm;
 	}
 
+	public List<MatriculationModality> SelectGraduationByMatriculation(Matriculation matriculation) throws SQLException {
+		List<MatriculationModality> arlMatriculationModality = new ArrayList<MatriculationModality>();
+		ResultSet rst= pst_selectByMatriculation.executeQuery();
+		
+		while(rst.next()) {
+			MatriculationModality mm = new MatriculationModality();
+			mm.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
+			mm.setModality(rst.getString("modalidade"));
+			mm.setGraduation(rst.getString("graducao"));
+			mm.setPlan(rst.getString("plano"));
+			mm.setBegin_date(rst.getString("data_inicio"));
+			mm.setEnd_date(rst.getString("data_fim"));
+			
+			arlMatriculationModality.add(mm);
+		}
+		
+		return arlMatriculationModality;
+	}
+	
 	@Override
 	public void Update(Object parameter, Object new_parameter) throws SQLException {
 		//TO DO

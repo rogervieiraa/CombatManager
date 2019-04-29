@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,10 +29,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.combatmanager.database.dao.GraduationDAO;
+import com.combatmanager.database.dao.MatriculationDAO;
 import com.combatmanager.database.dao.MatriculationModalityDAO;
 import com.combatmanager.database.dao.ModalityDAO;
+import com.combatmanager.database.dao.StudentDAO;
 import com.combatmanager.database.model.Graduation;
+import com.combatmanager.database.model.Matriculation;
+import com.combatmanager.database.model.MatriculationModality;
 import com.combatmanager.database.model.Modality;
+import com.combatmanager.database.model.Student;
 import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 
@@ -48,7 +54,8 @@ public class RegisterStudentWindow extends JPanel implements View{
 	private JButton btnAdd;
 	private JButton btnAdicionarModalidade;
 	private Boolean search;
-	
+	private Matriculation save_matriculation;
+	private List<MatriculationModality> save_matriculationModality;
 	private final String NAME = "Tela Cadastro Alunos";
 	private final int ACCESS = 0;
 
@@ -195,38 +202,51 @@ public class RegisterStudentWindow extends JPanel implements View{
 		
 		
 		resetWindow();
-		/*
+
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!search) {
-					textFieldModality.setEnabled(true);
+					textFieldRegistration.setEnabled(true);
 					btnAdd.setEnabled(false);
 					search = true;
 					config.addToSystemLog(getName()+","+"Iniciou a operacao de busca");
 					return;
 				}
-				ModalityDAO modalityDao = null;
-				GraduationDAO graduationDao = null;
-				
-				save_modality = new Modality();
-				save_modality.setModality(textFieldModality.getText());
+				MatriculationDAO matriculationDao = null;
+				MatriculationModalityDAO matriculationModalityDao = null;
+				StudentDAO studentDao = null;
+				//save
+				save_matriculation = new Matriculation();
+				save_matriculation.setCode(Integer.parseInt(textFieldRegistration.getText()));
 				try {
 					
-					modalityDao = new ModalityDAO(config.getConnection());
-					Modality auxiliar_modality = (Modality) modalityDao.Select(save_modality);
-					if(auxiliar_modality == null) {
-						JOptionPane.showMessageDialog(null, "Modalidade nao encontrada.");
-						config.addToSystemLog(getName()+","+"Modalidade nao encontrada.");
+					matriculationDao = new MatriculationDAO(config.getConnection());
+					studentDao = new StudentDAO(config.getConnection());
+					Matriculation auxiliar_matriculation = (Matriculation) matriculationDao.Select(save_matriculation);
+					if(auxiliar_matriculation == null) {
+						JOptionPane.showMessageDialog(null, "Matricula nao encontrada.");
+						config.addToSystemLog(getName()+","+"Matricula nao encontrada.");
 						resetWindow();
 						return;
 					}
-					graduationDao = new GraduationDAO(config.getConnection());
-					save_graduation = graduationDao.SelectGraduationByModality(save_modality);
-					for(int i=0;i<save_graduation.size();i++) {
-						model.addRow(new Object[] {save_graduation.get(i).getGraduation()});
+					save_matriculation = auxiliar_matriculation;
+					textFieldF9.setText(Integer.toString(save_matriculation.getStudent_code()));
+					textFieldRegisterDay.setText(save_matriculation.getMatriculation_date());
+					textFieldFinishDay.setText(save_matriculation.getClosing_date());
+					Student auxiliar_student = new Student();
+					auxiliar_student.setIndex(save_matriculation.getStudent_code());
+					Student student = (Student) studentDao.Select(auxiliar_student);
+					textFieldStudent.setText(student.getName());
+					textFieldRegistration.setText(Integer.toString(save_matriculation.getCode()));
+					
+					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
+					save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(save_matriculation);
+					for(int i=0;i<save_matriculationModality.size();i++) {
+						System.out.println(save_matriculationModality.get(i).toString());
+						//TO DO put on table
 					}
 					
-					config.addToSystemLog(getName()+","+"Busca realizada com sucesso"+","+save_modality.toString());
+					config.addToSystemLog(getName()+","+"Busca realizada com sucesso"+","+auxiliar_matriculation.toString());
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, "erro em buscar.");
 					config.addToSystemLog(getName()+","+"Erro em buscar");
@@ -240,12 +260,15 @@ public class RegisterStudentWindow extends JPanel implements View{
 				btnRemove.setEnabled(true);
 				btnSave.setEnabled(true);
 				btnSearch.setEnabled(false);
-				textFieldGraduation.setEnabled(true);
-				textFieldModality.setEnabled(false);
-				btnOk.setEnabled(true);
+				textFieldF9.setEnabled(true);
+				textFieldFinishDay.setEnabled(true);
+				textFieldRegisterDay.setEnabled(true);
+				textFieldStudent.setEnabled(false);
+				textFieldRegistration.setEnabled(false);
+				btnAdicionarModalidade.setEnabled(true);
 			}
 		});
-		
+		/*
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				config.addToSystemLog(getName()+","+"Iniciou adicao de nova modalidade");
@@ -484,6 +507,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	
 	
 	public void resetWindow() {
+		search = false;
 		btnAdd.setEnabled(true);
 		btnSearch.setEnabled(true);
 		btnRemove.setEnabled(false);
