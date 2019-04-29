@@ -163,7 +163,14 @@ public class MainWindow extends JFrame implements View {
 		mnBilling.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnProcesses.add(mnBilling);
 
-		JMenuItem mntmGenerateBill = new JMenuItem("Gerar Faturas");
+		JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){
+		public void actionPerformed(ActionEvent e)
+		{
+		
+			CreateContentPane(new EnrollmentReport());
+			revalidate();
+		}
+		});
 		mnBilling.add(mntmGenerateBill);
 
 		JMenuItem mntmCheckBills = new JMenuItem(new AbstractAction("Consultar Faturas"){
