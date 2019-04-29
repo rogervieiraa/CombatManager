@@ -3,6 +3,7 @@ package com.combatmanager.view;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.combatmanager.security.Backup;
 import com.combatmanager.security.Configuration;
 
 import javax.swing.JInternalFrame;
@@ -17,6 +18,7 @@ import java.awt.Container;
 import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 
 public class BackupWindow extends JPanel implements View{
@@ -59,6 +61,13 @@ public class BackupWindow extends JPanel implements View{
 		btnBackup.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnBackup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Backup backup = new Backup(config);
+        		if(textFieldLocal.getText() != "") {
+            		backup.doBackup(textFieldLocal.getText());
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(null, "Favor selecionar local do arquivo.");
+        		}
 			}
 		});
 		
@@ -77,8 +86,13 @@ public class BackupWindow extends JPanel implements View{
         btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
         btnSearch.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		
-        	}
+				String selectedFile = folderChooser();
+				if (selectedFile != null) {
+					textFieldLocal.setText(selectedFile);
+				} else {
+					textFieldLocal.setText("");
+				}
+			}
         });
         btnSearch.setBounds(228, 24, 108, 26);
         internalFrame.getContentPane().add(btnSearch);
@@ -91,6 +105,20 @@ public class BackupWindow extends JPanel implements View{
 		
 		return contentPane;
 
+	}
+	
+	public String folderChooser() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new java.io.File("."));
+		chooser.setDialogTitle("Selecione um diretório");
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = chooser.showOpenDialog(null);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			return chooser.getSelectedFile().getPath().toString();
+		}
+
+		return null;
 	}
 	
 }
