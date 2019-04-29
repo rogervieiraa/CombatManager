@@ -33,11 +33,11 @@ public class MatriculationDAO extends MasterDAO{
 								+"		? 					"
 								+"	)";
 	private String update = "UPDATE matriculas"
-							+ "SET"
-							+ "		data_matricula = ?,"
-							+ "		dia_vencimento = ?,"
+							+ " SET "
+							+ "		data_matricula = ?, "
+							+ "		dia_vencimento = ?, "
 							+ "		data_encerramento = ?"
-							+ "WHERE"
+							+ " WHERE"
 							+ "		codigo_matricula = ?";
 	private String delete = "DELETE FROM matriculas WHERE codigo_matricula = ?";
 	
@@ -111,7 +111,14 @@ public class MatriculationDAO extends MasterDAO{
 		
 		mat = (Matriculation) new_parameter;
 		String[] aux = mat.getMatriculation_date().split("-");
-		Date dt1 = new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2]));
+		
+		long longueiro = Integer.parseInt(aux[0])*10000 +Integer.parseInt(aux[1])*100 +Integer.parseInt(aux[2]);
+		longueiro = longueiro*1000000;
+		System.out.println(longueiro);
+		Date dt1 = new Date(longueiro);
+		System.out.println(dt1.getYear());
+		dt1.setYear(Integer.parseInt(aux[0]));
+		System.out.println(dt1.getDate());
 		
 		pst_update.setDate(1, dt1);
 		pst_update.setInt(2, mat.getDue_date());
@@ -149,7 +156,7 @@ public class MatriculationDAO extends MasterDAO{
 		pst_insert.setInt(4, mat.getDue_date());
 		aux = mat.getClosing_date().split("-");
 		pst_insert.setDate(5, new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2])));
-
+		
 
 		pst_insert.execute();
 		
