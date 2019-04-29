@@ -178,12 +178,20 @@ public class StudentDAO extends MasterDAO {
 		Student student = new Student ();
 		student = (Student)new_parameter;
 		
-		Date aux = new Date(0, 0, 0);
+		String auxs [];
+		
+		auxs = student.getBirthday().split("/");
+		
+		int day = Integer.parseInt(auxs[0]);
+		int month = Integer.parseInt(auxs[1]);
+		int year = Integer.parseInt(auxs[2]);
+		
+		Date aux = new Date(day, month, year);
 		
 		
 		
 		Set(pst_update, 1, student.getName());
-		//pst_update.setDate(2, student.getBirthday());
+		pst_update.setDate(2, aux);
 		Set(pst_update, 3, student.getSex());
 		Set(pst_update, 4, student.getPhoneNumber());
 		Set(pst_update, 5, student.getCellPhoneNumber());
