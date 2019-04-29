@@ -182,17 +182,34 @@ public class MainWindow extends JFrame implements View {
 				revalidate();
 			}
 				
-		});;
+		});
 		mnBilling.add(mntmCheckBills);
 
-		JMenuItem mntmMakePayment = new JMenuItem("Realizar Pagamento");
+		JMenuItem mntmMakePayment = new JMenuItem(new AbstractAction("Pagamento de Faturas"){
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new PayInvoiceWindow());
+				revalidate();
+			}
+				
+		});
+		
 		mntmMakePayment.setSelected(true);
 		mnBilling.add(mntmMakePayment);
 
 		JMenu mnReports = new JMenu("Relat\u00F3rios");
 		menuBar.add(mnReports);
 
-		JMenuItem mntmMtrcula = new JMenuItem("Matr\u00EDcula");
+		JMenuItem mntmMtrcula = new JMenuItem(new AbstractAction("Matricula"){
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new EnrollmentReportWindow());
+				revalidate();
+			}
+			});
 		mnReports.add(mntmMtrcula);
 
 		JMenu mnBills = new JMenu("Faturas");
