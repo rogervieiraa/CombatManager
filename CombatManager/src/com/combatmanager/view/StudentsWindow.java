@@ -172,9 +172,9 @@ public class StudentsWindow extends JPanel implements View {
 					textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
 					
 					if ("M".equals(auxiliar_student.getSex())) {
-						comboBoxSex.setSelectedIndex(1);
-					}else {
 						comboBoxSex.setSelectedIndex(0);
+					}else {
+						comboBoxSex.setSelectedIndex(1);
 					}									
 					
 				} catch (SQLException e1) {
@@ -258,6 +258,10 @@ public class StudentsWindow extends JPanel implements View {
 				char sex = ' ';
 				if(textFieldStudent.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de nome");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}else if (comboBoxSex.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de sexo");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}

@@ -14,7 +14,8 @@ import com.combatmanager.database.model.Student;
 public class StudentDAO extends MasterDAO {
 	
 	private String selectAll = "select * from alunos order by aluno";
-	private String select = "select * from alunos where codigo_aluno = ? or aluno = ? order by aluno";
+	private String selectById = "select * from alunos where codigo_aluno = ? order by aluno";
+	private String select = "select * from alunos where aluno = ? or email = ? order by aluno";
 	private String insert = "INSERT INTO alunos			"
 								+"	(						" 
 								+"		codigo_aluno, 		"
@@ -54,7 +55,7 @@ public class StudentDAO extends MasterDAO {
 								+"		?					"
 								+"	)";
 	private String update = "UPDATE alunos				"
-							+ "SET		  				"
+							+ " SET		  				"
 							+ "		aluno = ?,			"
 							+ "		data_nascimento = ?,"
 							+ "		sexo = ?,			"
@@ -79,6 +80,7 @@ public class StudentDAO extends MasterDAO {
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
+	private PreparedStatement pst_selectById;
 	
 	Connection io_connection;
 	
@@ -91,7 +93,7 @@ public class StudentDAO extends MasterDAO {
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
-		
+		pst_selectById = connection.prepareStatement(selectById);
 	}
 	
 	
@@ -135,10 +137,54 @@ public class StudentDAO extends MasterDAO {
 		pst_select.clearParameters();
 		
 		Student student = (Student)parameter;
-		pst_select.setInt(1, student.getIndex());
+		
+		String aux ;
+		
+		Set(pst_select, 1, student.getName());
 		Set(pst_select, 2, student.getEmail());
 		
 		ResultSet rst = pst_select.executeQuery();
+		
+		if (rst.next()) {
+			student = new Student();
+			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
+			student.setName(rst.getString("aluno"));
+			aux = rst.getString("data_nascimento");
+			aux = aux.replace("-", "/");
+			student.setBirthday(aux);
+			student.setSex(rst.getString("sexo"));
+			student.setPhoneNumber(rst.getString("telefone"));
+			student.setCellPhoneNumber(rst.getString("celular"));
+			student.setEmail(rst.getString("email"));
+			student.setNote(rst.getString("observacao"));
+			student.setAdress(rst.getString("endereco"));
+			student.setHomeNumber(rst.getString("numero"));
+			student.setExtraInformation(rst.getString("complemento"));
+			student.setLocal(rst.getString("bairro"));
+			
+			//Creating city object
+			City city = new City();
+			
+			city.setName(rst.getString("cidade"));
+			city.setCountry(rst.getString("pais"));
+			city.setState(rst.getString("estado"));
+			//End
+			
+			student.setCity(city);
+			student.setCep(rst.getString("cep"));
+			
+		}
+		
+		return student;
+	}
+	
+	private Object SelectById (Object parameter) throws SQLException {
+		pst_selectById.clearParameters();
+		
+		Student student = (Student)parameter;
+		pst_selectById.setInt(1, student.getIndex());
+		
+		ResultSet rst = pst_selectById.executeQuery();
 		
 		if (rst.next()) {
 			student = new Student();
@@ -186,7 +232,7 @@ public class StudentDAO extends MasterDAO {
 		int month = Integer.parseInt(auxs[1]);
 		int year = Integer.parseInt(auxs[2]);
 		
-		Date aux = new Date(day, month, year);
+		Date aux = new Date(year, month, day);
 		
 		
 		
@@ -205,7 +251,7 @@ public class StudentDAO extends MasterDAO {
 		//Creating city object
 		City city = new City();
 		
-		city = student.getCity();
+		//city = student.getCity();
 		//End
 		
 		Set(pst_update, 12, city.getName());
@@ -216,7 +262,7 @@ public class StudentDAO extends MasterDAO {
 		
 		student = (Student) last_parameter;
 		
-		Set(pst_update, 16, student.getIndex());
+		pst_update.setInt(16, student.getIndex());
 		
 		pst_update.execute();
 		
@@ -228,10 +274,21 @@ public class StudentDAO extends MasterDAO {
 		
 		Student student = new Student();
 		student = (Student)parameter;
-		System.out.println(student.toString());
+		
+		String auxs [];
+		
+		auxs = student.getBirthday().split("/");
+		
+		int day = Integer.parseInt(auxs[0]);
+		int month = Integer.parseInt(auxs[1]);
+		int year = Integer.parseInt(auxs[2]);
+		
+		System.out.println(day + "/" + month + "/" + year);
+		
+		Date aux = new Date(year, month, day);
 		
 		Set(pst_insert, 1, student.getName());
-		Set(pst_insert, 2, student.getBirthday());
+		pst_insert.setDate(2, aux);
 		Set(pst_insert, 3, student.getSex());
 		Set(pst_insert, 4, student.getPhoneNumber());
 		Set(pst_insert, 5, student.getCellPhoneNumber());
