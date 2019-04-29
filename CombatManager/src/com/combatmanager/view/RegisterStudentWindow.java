@@ -276,7 +276,6 @@ public class RegisterStudentWindow extends JPanel implements View{
 				config.addToSystemLog(getName()+","+"Iniciou adicao de nova modalidade");
 				textFieldFinishDay.setEnabled(true);
 				textFieldRegisterDay.setEnabled(true);
-				textFieldRegisterDay.setEnabled(true);
 				textFieldStudent.setEnabled(false);
 				textFieldF9.setEnabled(false);
 				btnSave.setEnabled(true);
@@ -340,15 +339,14 @@ public class RegisterStudentWindow extends JPanel implements View{
 			}
 		});
 		
-		/*
+		
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
-				ModalityDAO modalityDao = null;
-				GraduationDAO graduationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
-				if(textFieldModality.getText().equals("")) {
+				MatriculationDAO matriculationDao = null;
+				if(textFieldStudent.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de modalidade");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
@@ -369,9 +367,17 @@ public class RegisterStudentWindow extends JPanel implements View{
 				if(search) {
 					
 					try {
-						graduationDao = new GraduationDAO(config.getConnection());
 						matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
-						//insert
+						matriculationDao = new MatriculationDAO(config.getConnection());
+						
+						Matriculation auxiliar_matriculation = new Matriculation();
+						auxiliar_matriculation.setCode(save_matriculation.getCode());
+						auxiliar_matriculation.setClosing_date(textFieldFinishDay.getText());
+						auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
+						auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
+						
+						matriculationDao.Update(save_matriculation, auxiliar_matriculation);
+						/*
 						for(int i=0;i<model.getRowCount();i++) {
 							String model_value_graduation = (String) model.getValueAt(i, 0);
 							Boolean found = false;
@@ -394,6 +400,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 							matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
 							graduationDao.Delete(save_graduation.get(i));
 						}
+						*/
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
@@ -409,7 +416,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 				}
 				
 				//caso ja exista
-				
+				/*
 				
 				try {
 					modalityDao = new ModalityDAO(config.getConnection());
@@ -451,12 +458,12 @@ public class RegisterStudentWindow extends JPanel implements View{
 					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				}
-				
+				*/
 				resetWindow();
 			}
 
 		});
-		*/
+		
 		return contentPane;
 	}
 	
