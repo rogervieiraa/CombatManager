@@ -167,7 +167,7 @@ public class MainWindow extends JFrame implements View {
 		public void actionPerformed(ActionEvent e)
 		{
 		
-			CreateContentPane(new EnrollmentReport());
+			CreateContentPane(new EnrollmentReportWindow());
 			revalidate();
 		}
 		});
