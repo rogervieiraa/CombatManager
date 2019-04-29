@@ -199,7 +199,19 @@ public class MainWindow extends JFrame implements View {
 		mnReports.add(mnBills);
 
 		JMenu mnUtilities = new JMenu("Utilit\u00E1rios");
+		
+		JMenuItem mntmBackup = new JMenuItem(new AbstractAction("Backup"){
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new BackupWindow());
+				revalidate();
+			}
+			});
+		mnUtilities.add(mntmBackup);
+		
 		menuBar.add(mnUtilities);
+		
 
 		JMenu mnHelp = new JMenu("Ajuda");
 		menuBar.add(mnHelp);
