@@ -224,9 +224,10 @@ public class StudentsWindow extends JPanel implements View {
 					studentr.setName(textFieldStudent.getText());
 					studentr.setEmail(textFieldEmail.getText());
 					
-					System.out.println(studentr.toString());
 					
 					studentr = (Student) studentDao.Select(studentr);
+					
+					System.out.println(studentr.toString());
 					
 					studentDao.Delete(studentr);
 					
@@ -308,9 +309,10 @@ public class StudentsWindow extends JPanel implements View {
 							sex = 'M';
 						}else {
 							sex = 'F';
-						}	
+						}												
 						
-						new_student.setSex(sex);
+						new_student.setSex(comboBoxSex.getSelectedItem().toString());
+												
 						
 						studentDao.Update(last_student, new_student);
 						
@@ -339,14 +341,14 @@ public class StudentsWindow extends JPanel implements View {
 					
 					student.setName(textFieldStudent.getText());
 					student.setAdress(textFieldAddress.getText());
-					student.setBirthday(formattedTextFieldDate.getText());
+					student.setBirthday(formattedTextFieldDate.getText().toString());
 					student.setCellPhoneNumber(textFieldCellPhone.getText());
 					student.setCep(textFieldCep.getText());
 					
 					//Set City
-					city.setName(txtTeclarF.getText());
-					city.setCountry(textFieldCountry.getText());
-					city.setState(textFieldState.getText());
+					//city.setName(txtTeclarF.getText());
+					//city.setCountry(textFieldCountry.getText());
+					//city.setState(textFieldState.getText());
 					
 					student.setCity(city);
 					student.setEmail(textFieldEmail.getText());
@@ -357,14 +359,19 @@ public class StudentsWindow extends JPanel implements View {
 					student.setPhoneNumber(textFieldPhone.getText());
 					
 					if (comboBoxSex.getSelectedIndex() == 1) {
-						sex = 'M';
-					}else {
 						sex = 'F';
+					}else {
+						sex = 'M';
 					}	
 					
-					student.setSex(sex);
+					System.out.println(sex);
+					
+					student.setSex(comboBoxSex.getSelectedItem().toString());
+					
+					System.out.println(student.toString());
 					
 					studentDao.Insert(student);
+										
 					
 					config.addToSystemLog(getName()+","+"Salvou com sucesso");
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");

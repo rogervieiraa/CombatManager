@@ -354,10 +354,12 @@ public class ModalityWindow extends JPanel implements View{
 			public void mousePressed(MouseEvent click) {
 				int index = table.getSelectedRow();
 				//bug no index nunca muda
-				if(click.getClickCount() >= 2 && index > -1 ) {
+				if(click.getClickCount() >= 2 && index > -1 ) {				
 					System.out.println(index);
 					model.removeRow(index);
 					config.addToSystemLog(getName()+","+"Removeu uma modalidade");
+					table.setEnabled(true);
+					table.clearSelection();
 				}
 				
 			}

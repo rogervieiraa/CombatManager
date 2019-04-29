@@ -4,7 +4,7 @@ public class Student {
 	private Integer index;
 	private String name;
 	private String birthday;
-	private char sex;
+	private String sex;
 	private String phoneNumber;
 	private String cellPhoneNumber;
 	private String email;
@@ -22,7 +22,7 @@ public class Student {
 	}
 
 
-	public Student(Integer index, String name, String birthday, char sex, 
+	public Student(Integer index, String name, String birthday, String sex, 
 					String phoneNumber, String cellPhoneNumber, String email, 
 					String note, String adress, String homeNumber, String extraInformation, 
 					String local, City city, String cep) {
@@ -90,11 +90,11 @@ public class Student {
 		this.birthday = birthday;
 	}
 
-	public char getSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(char sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
@@ -164,7 +164,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [index=" + index + ", birthday=" + birthday + ", sex=" + sex + ", phoneNumber=" + phoneNumber
+		return "Student [index=" + index + ", name=" + name +", birthday=" + birthday + ", sex=" + sex + ", phoneNumber=" + phoneNumber
 				+ ", cellPhoneNumber=" + cellPhoneNumber + ", note=" + note + ", adress=" + adress + ", homeNumber="
 				+ homeNumber + ", local=" + local + ", city=" + city + ", cep=" + cep + "]";
 	}

@@ -50,7 +50,7 @@ public class StudentDAO extends MasterDAO {
 								+"		?, 					" 
 								+"      ?, 					"
 								+"		?, 					"
-								+"		?"
+								+"		?					"
 								+"	)";
 	private String update = "UPDATE alunos				"
 							+ "SET		  				"
@@ -113,7 +113,7 @@ public class StudentDAO extends MasterDAO {
 			student.setExtraInformation(rst.getString("complemento"));
 			student.setNote(rst.getString("observacao"));
 			student.setPhoneNumber(rst.getString("celular"));
-			student.setSex((rst.getString("sexo").charAt(0)));
+			student.setSex((rst.getString("sexo")));
 			
 			//Creating city object
 			city.setName(rst.getString("cidade"));
@@ -145,7 +145,7 @@ public class StudentDAO extends MasterDAO {
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			student.setName(rst.getString("aluno"));
 			student.setBirthday(rst.getString("data_nascimento"));
-			student.setSex(rst.getString("sexo").charAt(0));
+			student.setSex(rst.getString("sexo"));
 			student.setPhoneNumber(rst.getString("telefone"));
 			student.setCellPhoneNumber(rst.getString("celular"));
 			student.setEmail(rst.getString("email"));
@@ -218,6 +218,7 @@ public class StudentDAO extends MasterDAO {
 		
 		Student student = new Student();
 		student = (Student)parameter;
+		System.out.println(student.toString());
 		
 		Set(pst_insert, 1, student.getName());
 		Set(pst_insert, 2, student.getBirthday());
