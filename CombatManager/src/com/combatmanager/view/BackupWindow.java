@@ -110,7 +110,7 @@ public class BackupWindow extends JPanel implements View{
 	public String folderChooser() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new java.io.File("."));
-		chooser.setDialogTitle("Selecione um diretório");
+		chooser.setDialogTitle("Selecione um diretorio");
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnVal = chooser.showOpenDialog(null);
 
