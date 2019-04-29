@@ -241,16 +241,17 @@ public class RegisterStudentWindow extends JPanel implements View{
 					textFieldRegistration.setText(Integer.toString(save_matriculation.getCode()));
 					
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
-					save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(save_matriculation);
-					for(int i=0;i<save_matriculationModality.size();i++) {
-						System.out.println(save_matriculationModality.get(i).toString());
+					//save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(save_matriculation);
+					//for(int i=0;i<save_matriculationModality.size();i++) {
+						//System.out.println(save_matriculationModality.get(i).toString());
 						//TO DO put on table
-					}
+					//}
 					
 					config.addToSystemLog(getName()+","+"Busca realizada com sucesso"+","+auxiliar_matriculation.toString());
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, "erro em buscar.");
 					config.addToSystemLog(getName()+","+"Erro em buscar");
+					e1.printStackTrace();
 					resetWindow();
 				} catch (AccessException e1) {
 					e1.showAcessWindowDenied();
@@ -319,10 +320,10 @@ public class RegisterStudentWindow extends JPanel implements View{
 					matriculationDao = new MatriculationDAO(config.getConnection());
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
 					Matriculation auxiliar_matriculation = save_matriculation;
-					
+					System.out.println(auxiliar_matriculation.toString());
 					matriculationModalityDao.DeleteByMatriculation(auxiliar_matriculation);
-					matriculationDao.Delete(save_matriculation);
-					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+save_matriculation.toString());
+					matriculationDao.Delete(auxiliar_matriculation);
+					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+auxiliar_matriculation.toString());
 					
 					
 					

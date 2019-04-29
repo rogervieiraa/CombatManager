@@ -164,8 +164,8 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	
 	public void DeleteByMatriculation(Matriculation matriculatin) throws SQLException {
 		pst_deleteByMatriculation.clearParameters();
-					
-		Set(pst_deleteByMatriculation, 1, matriculatin.getCode());
+		
+		pst_deleteByMatriculation.setInt(1,matriculatin.getCode());
 
 		pst_deleteByMatriculation.execute();
 	}

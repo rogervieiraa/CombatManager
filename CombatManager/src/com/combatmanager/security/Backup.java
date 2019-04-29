@@ -3,10 +3,10 @@ package com.combatmanager.security;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 
 import javax.swing.JOptionPane;
 
-import com.sun.jmx.snmp.Timestamp;
 
 public class Backup {
 	Configuration config;
@@ -22,7 +22,7 @@ public class Backup {
 	    try{  
             ProcessBuilder pb;  
             Process p;  
-            pb = new ProcessBuilder("C:\\Program Files\\PostgreSQL\\9.2\\bin\\pg_dump.exe ", "-i", "-h", "localhost", "-p", "5432","-U", "admin", "-F", "c", "-b", "-v" ,"-f", fileUri, Long.toString(dataDeHoje.getDateTime()));
+            pb = new ProcessBuilder("C:\\Program Files\\PostgreSQL\\9.2\\bin\\pg_dump.exe ", "-i", "-h", "localhost", "-p", "5432","-U", "admin", "-F", "c", "-b", "-v" ,"-f", fileUri, Long.toString(dataDeHoje.getTime()));
             pb.environment().put("PGPASSWORD", "admin");  
             pb.redirectErrorStream(true);  
             p = pb.start();

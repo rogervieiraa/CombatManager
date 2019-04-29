@@ -85,9 +85,7 @@ public class MatriculationDAO extends MasterDAO{
 		pst_select.clearParameters();
 		
 		Matriculation mat = null;
-		
-		Set(pst_select, 1, ((Matriculation)parameter).getCode());
-
+		pst_select.setInt(1, ((Matriculation)parameter).getCode());
 		
 		ResultSet rst = pst_select.executeQuery();
 		
@@ -121,7 +119,7 @@ public class MatriculationDAO extends MasterDAO{
 		
 		mat = (Matriculation) last_parameter;
 		
-		Set(pst_update, 5, mat.getCode());
+		pst_update.setInt(5, mat.getCode());
 		
 		pst_update.execute();
 		
@@ -133,10 +131,10 @@ public class MatriculationDAO extends MasterDAO{
 		
 		Matriculation mat = (Matriculation)parameter;
 		
-		Set(pst_insert, 1, mat.getCode());
-		Set(pst_insert, 2, mat.getStudent_code());
+		pst_insert.setInt(1, mat.getCode());
+		pst_insert.setInt(2, mat.getStudent_code());
 		Set(pst_insert, 3, mat.getMatriculation_date());
-		Set(pst_insert, 4, mat.getDue_date());
+		pst_insert.setInt(4, mat.getDue_date());
 		Set(pst_insert, 5, mat.getClosing_date());
 
 		pst_insert.execute();
@@ -150,8 +148,7 @@ public class MatriculationDAO extends MasterDAO{
 		Matriculation mat = new Matriculation();
 		
 		mat = (Matriculation) parameter;
-		
-		Set(pst_delete, 1, mat.getCode());
+		pst_delete.setInt(1, mat.getCode());
 		
 		pst_delete.execute();
 		

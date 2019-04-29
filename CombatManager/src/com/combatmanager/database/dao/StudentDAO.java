@@ -134,10 +134,9 @@ public class StudentDAO extends MasterDAO {
 	public Object Select(Object parameter) throws SQLException {
 		pst_select.clearParameters();
 		
-		Student student = null;
-		
-		Set(pst_select, 1, ((Student)parameter).getName());
-		Set(pst_select, 2, ((Student)parameter).getEmail());
+		Student student = (Student)parameter;
+		pst_select.setInt(1, student.getIndex());
+		Set(pst_select, 2, student.getEmail());
 		
 		ResultSet rst = pst_select.executeQuery();
 		
