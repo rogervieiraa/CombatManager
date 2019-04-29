@@ -1,6 +1,7 @@
 package com.combatmanager.database.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +34,6 @@ public class MatriculationDAO extends MasterDAO{
 								+"	)";
 	private String update = "UPDATE matriculas"
 							+ "SET"
-							+ "		codigo_aluno = ?,"
 							+ "		data_matricula = ?,"
 							+ "		dia_vencimento = ?,"
 							+ "		data_encerramento = ?"
@@ -110,16 +110,25 @@ public class MatriculationDAO extends MasterDAO{
 		Matriculation mat = new Matriculation();
 		
 		mat = (Matriculation) new_parameter;
+		String[] aux = mat.getMatriculation_date().split("-");
+		Date dt1 = new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2]));
 		
-		
-		Set(pst_update, 1, mat.getStudent_code());
-		Set(pst_update, 2, mat.getMatriculation_date());
-		Set(pst_update, 3, mat.getDue_date());
-		Set(pst_update, 4, mat.getClosing_date());
+		pst_update.setDate(1, dt1);
+		pst_update.setInt(2, mat.getDue_date());
+		if(mat.getClosing_date() != null) {
+			System.out.println(mat.getClosing_date());
+			aux = mat.getClosing_date().split("-");
+			Date dt2 = new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2]));
+
+			pst_update.setDate(3, dt2);
+
+		}else {
+			pst_update.setDate(3, null);
+		}
 		
 		mat = (Matriculation) last_parameter;
 		
-		pst_update.setInt(5, mat.getCode());
+		pst_update.setInt(4, mat.getCode());
 		
 		pst_update.execute();
 		
@@ -131,11 +140,16 @@ public class MatriculationDAO extends MasterDAO{
 		
 		Matriculation mat = (Matriculation)parameter;
 		
+		String[] aux = mat.getMatriculation_date().split("-");
+		
+		
 		pst_insert.setInt(1, mat.getCode());
 		pst_insert.setInt(2, mat.getStudent_code());
-		Set(pst_insert, 3, mat.getMatriculation_date());
+		pst_insert.setDate(3, new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2])));
 		pst_insert.setInt(4, mat.getDue_date());
-		Set(pst_insert, 5, mat.getClosing_date());
+		aux = mat.getClosing_date().split("-");
+		pst_insert.setDate(5, new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2])));
+
 
 		pst_insert.execute();
 		

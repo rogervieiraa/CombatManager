@@ -233,7 +233,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 					save_matriculation = auxiliar_matriculation;
 					textFieldF9.setText(Integer.toString(save_matriculation.getStudent_code()));
 					textFieldRegisterDay.setText(save_matriculation.getMatriculation_date());
-					textFieldFinishDay.setText(save_matriculation.getClosing_date());
+					textFieldFinishDay.setText(Integer.toString(save_matriculation.getDue_date()));
 					Student auxiliar_student = new Student();
 					auxiliar_student.setIndex(save_matriculation.getStudent_code());
 					Student student = (Student) studentDao.Select(auxiliar_student);
@@ -372,10 +372,10 @@ public class RegisterStudentWindow extends JPanel implements View{
 						
 						Matriculation auxiliar_matriculation = new Matriculation();
 						auxiliar_matriculation.setCode(save_matriculation.getCode());
-						auxiliar_matriculation.setClosing_date(textFieldFinishDay.getText());
+						auxiliar_matriculation.setStudent_code(save_matriculation.getStudent_code());
+						auxiliar_matriculation.setClosing_date(save_matriculation.getClosing_date());
 						auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
 						auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
-						
 						matriculationDao.Update(save_matriculation, auxiliar_matriculation);
 						/*
 						for(int i=0;i<model.getRowCount();i++) {
