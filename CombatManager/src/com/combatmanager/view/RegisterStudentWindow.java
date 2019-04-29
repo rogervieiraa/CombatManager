@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.combatmanager.database.dao.AttendanceDAO;
 import com.combatmanager.database.dao.GraduationDAO;
 import com.combatmanager.database.dao.MatriculationDAO;
 import com.combatmanager.database.dao.MatriculationModalityDAO;
@@ -268,44 +269,21 @@ public class RegisterStudentWindow extends JPanel implements View{
 				btnAdicionarModalidade.setEnabled(true);
 			}
 		});
-		/*
+		
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				config.addToSystemLog(getName()+","+"Iniciou adicao de nova modalidade");
-				textFieldGraduation.setEnabled(true);
-				textFieldModality.setEnabled(true);
+				textFieldFinishDay.setEnabled(true);
+				textFieldRegisterDay.setEnabled(true);
+				textFieldRegisterDay.setEnabled(true);
+				textFieldStudent.setEnabled(false);
+				textFieldF9.setEnabled(false);
 				btnSave.setEnabled(true);
-				btnOk.setEnabled(true);
 				btnSearch.setEnabled(false);
 				btnAdd.setEnabled(false);
 				btnRemove.setEnabled(false);
+				btnAdicionarModalidade.setEnabled(true);
 				
-			}
-		});
-		
-		btnOk.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				
-				String local_graduation = textFieldGraduation.getText();
-				
-				if(textFieldGraduation.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Graduacao vazia.");
-					config.addToSystemLog(getName()+","+"Tentou adicionar graduacao vazia");
-				}
-				
-				for(int i=0;i<model.getRowCount();i++) {
-					if(model.getValueAt(i, 0).equals(local_graduation)) {
-						JOptionPane.showMessageDialog(null, "Graduacao duplicada.");
-						config.addToSystemLog(getName()+","+"Tentou adicionar graduacao igual a existente");
-						return;
-					}
-				}
-				
-				textFieldGraduation.setText("");
-				model.addRow(new Object[] {local_graduation});
-				
-				config.addToSystemLog(getName()+","+"Adicionou uma nova graduacao"+","+local_graduation.toString());
 			}
 		});
 		
@@ -313,49 +291,38 @@ public class RegisterStudentWindow extends JPanel implements View{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				config.addToSystemLog(getName()+","+"Iniciou a opreacao de remocao de uma modalidade");
-				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas graduacoes, concorda com isso?")
+				config.addToSystemLog(getName()+","+"Iniciou a opreacao de remocao de uma matricula");
+				if (JOptionPane.showConfirmDialog(null, "Deletando essa matricula voce estara deletando todo o historico de pagamentos, concorda com isso?")
 						== 0) {
 					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada");
-					config.addToSystemLog(getName()+","+"Cancelou a remocao da modalidade");
+					config.addToSystemLog(getName()+","+"Cancelou a remocao da matricula");
 					return;
 				}
-				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todos os seus respequitivos planos, concorda com isso?")
+				if (JOptionPane.showConfirmDialog(null, "Deletando essa matricula voce estara deletando todas as suas assuidades, concorda com isso?")
 						== 0) {
 					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Operacao cancelada");
-					config.addToSystemLog(getName()+","+"Cancelou a remocao da modalidade");
-					return;
-				}
-				if (JOptionPane.showConfirmDialog(null, "Deletando essa modalidade voce estara deletando todas as suas respequitivas matriculas, concorda com isso?")
-						== 0) {
-				}
-				else {
-					config.addToSystemLog(getName()+","+"Cancelou a remocao da modalidade");
-					JOptionPane.showMessageDialog(null, "Operacao cancelada");
+					config.addToSystemLog(getName()+","+"Cancelou a remocao da matricula");
 					return;
 				}
 				
-				ModalityDAO modalityDao = null;
-				GraduationDAO graduationDao = null;
-				MatriculationModalityDAO matriculationModalityDAO = null;
+				MatriculationDAO matriculationDao = null;
+				MatriculationModalityDAO matriculationModalityDao = null;
+				AttendanceDAO attendenceDao = null;
 				try {
 					
-					modalityDao = new ModalityDAO(config.getConnection());
-					graduationDao = new GraduationDAO(config.getConnection());
-					matriculationModalityDAO = new MatriculationModalityDAO(config.getConnection());
-					Modality auxiliar_modality = save_modality;
+					matriculationDao = new MatriculationDAO(config.getConnection());
+					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
+					Matriculation auxiliar_matriculation = save_matriculation;
 					
-					
-					matriculationModalityDAO.DeleteByModality(auxiliar_modality);
-					graduationDao.DeleteByModality(auxiliar_modality);
-					modalityDao.Delete(auxiliar_modality);
-					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+auxiliar_modality.toString());
+					matriculationModalityDao.DeleteByMatriculation(auxiliar_matriculation);
+					matriculationDao.Delete(save_matriculation);
+					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+save_matriculation.toString());
 					
 					
 					
@@ -372,20 +339,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 			}
 		});
 		
-		table.addMouseListener(new MouseAdapter() {
-
-			public void mousePressed(MouseEvent click) {
-				int index = table.getSelectedRow();
-				//bug no index nunca muda
-				if(click.getClickCount() >= 2 && index > -1 ) {
-					System.out.println(index);
-					model.removeRow(index);
-					config.addToSystemLog(getName()+","+"Removeu uma modalidade");
-				}
-				
-			}
-		});
-		
+		/*
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

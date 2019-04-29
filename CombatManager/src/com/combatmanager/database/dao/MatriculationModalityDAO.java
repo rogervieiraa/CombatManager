@@ -37,6 +37,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private String selectByMatriculation = "select * from matriculas_modalidades where codigo_matricula = ? order by modalidade";
 	private String updadeGraduation = "";
 	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";
+	private String deleteByMatriculation = "DELETE FROM matriculas_modalidades where codigo_matricula = ?";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
@@ -44,6 +45,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private PreparedStatement pst_updadeGraduatio;
 	private PreparedStatement pst_deleteByModality;
 	private PreparedStatement pst_selectByMatriculation;
+	private PreparedStatement pst_deleteByMatriculation;
 	
 	Connection io_connection;
 	
@@ -57,7 +59,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		pst_insert = connection.prepareStatement(insert);
 		pst_updadeGraduatio = connection.prepareStatement(updadeGraduation);
 		pst_deleteByModality = connection.prepareStatement(deleteByModality);
-		
+		pst_deleteByMatriculation = connection.prepareStatement(deleteByMatriculation);
 	}
 	
 	public List<Object> SelectAll() throws SQLException {
@@ -158,6 +160,14 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		Set(pst_deleteByModality, 1, modality.getModality());
 
 		pst_deleteByModality.execute();
+	}
+	
+	public void DeleteByMatriculation(Matriculation matriculatin) throws SQLException {
+		pst_deleteByMatriculation.clearParameters();
+					
+		Set(pst_deleteByMatriculation, 1, matriculatin.getCode());
+
+		pst_deleteByMatriculation.execute();
 	}
 	
 	@Override
