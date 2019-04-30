@@ -146,7 +146,8 @@ public class StudentsWindow extends JPanel implements View {
 				try {
 					
 					studentDao = new StudentDAO(config.getConnection());
-					Student auxiliar_student = (Student) studentDao.Select(student);					
+					Student auxiliar_student = (Student) studentDao.Select(student);
+					System.out.println(auxiliar_student.toString());
 					City city = new City();
 					if(auxiliar_student.getName().equals("")) {
 						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");

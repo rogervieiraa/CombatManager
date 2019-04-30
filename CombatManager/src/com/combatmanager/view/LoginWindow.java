@@ -31,6 +31,7 @@ public class LoginWindow extends JFrame {
 	 */
 	public LoginWindow() {
 		setLayout(null);
+		setBounds(0, 0, 450, 403);
 		local_user = null;
 		JInternalFrame internalFrame = new JInternalFrame("Combat Manager");
 		internalFrame.setResizable(true);
