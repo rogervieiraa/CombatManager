@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.combatmanager.database.model.City;
 import com.combatmanager.database.model.Student;
+import com.combatmanager.util.DataFixer;
 
 public class StudentDAO extends MasterDAO {
 	
@@ -223,21 +224,12 @@ public class StudentDAO extends MasterDAO {
 		
 		Student student = new Student ();
 		student = (Student)new_parameter;
-		
-		String auxs [];
-		
-		auxs = student.getBirthday().split("/");
-		
-		int day = Integer.parseInt(auxs[0]);
-		int month = Integer.parseInt(auxs[1]);
-		int year = Integer.parseInt(auxs[2]);
-		
-		Date aux = new Date(year, month, day);
+		DataFixer df = new DataFixer();
 		
 		
 		
 		Set(pst_update, 1, student.getName());
-		pst_update.setDate(2, aux);
+		pst_update.setDate(2, df.fixData(student.getBirthday(), "/"));
 		Set(pst_update, 3, student.getSex());
 		Set(pst_update, 4, student.getPhoneNumber());
 		Set(pst_update, 5, student.getCellPhoneNumber());

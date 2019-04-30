@@ -140,15 +140,15 @@ public class StudentsWindow extends JPanel implements View {
 				save_student = textFieldStudent.getText();
 				StudentDAO studentDao = null;
 				
-				Student save_student = new Student();
-				save_student.setName(textFieldStudent.getText());
-				save_student.setEmail(textFieldEmail.getText());
+				Student student = new Student();
+				student.setName(textFieldStudent.getText());
+				student.setEmail(textFieldEmail.getText());
 				try {
 					
 					studentDao = new StudentDAO(config.getConnection());
-					Student auxiliar_student = (Student) studentDao.Select(save_student);					
+					Student auxiliar_student = (Student) studentDao.Select(student);					
 					City city = new City();
-					if(auxiliar_student == null) {
+					if(auxiliar_student.getName().equals("")) {
 						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
 						resetWindow();
 						return;
