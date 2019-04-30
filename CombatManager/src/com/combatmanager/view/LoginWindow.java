@@ -10,21 +10,28 @@ import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+
+import com.combatmanager.controller.MainController;
+import com.combatmanager.database.dao.UserDAO;
+import com.combatmanager.database.model.User;
+import com.combatmanager.security.Configuration;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginWindow extends JPanel {
+public class LoginWindow extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private JTable table;
-
+	private User local_user;
 	/**
 	 * Create the panel.
 	 */
 	public LoginWindow() {
 		setLayout(null);
-		
+		local_user = null;
 		JInternalFrame internalFrame = new JInternalFrame("Combat Manager");
 		internalFrame.setResizable(true);
 		internalFrame.setClosable(true);
@@ -52,9 +59,6 @@ public class LoginWindow extends JPanel {
 		passwordField.setBounds(167, 249, 165, 20);
 		internalFrame.getContentPane().add(passwordField);
 		
-		
-		internalFrame.getContentPane().add(table);
-		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/combat.png")));
@@ -64,6 +68,22 @@ public class LoginWindow extends JPanel {
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UserDAO userDao = null;
+				User admin_user = new User("admin","Completo","admin");
+				Configuration standart_config;
+				try {
+					standart_config = new Configuration(admin_user);
+					userDao = new UserDAO(standart_config.getConnection());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				local_user = new User("Test","Completo","Senha");
+				setVisible(false);
+				MainController mc = new MainController();
+				mc.run(local_user);
 			}
 		});
 		btnNewButton.setBounds(111, 309, 221, 23);
@@ -73,5 +93,9 @@ public class LoginWindow extends JPanel {
 		add(internalFrame);
 		internalFrame.setVisible(true);
 
+	}
+	
+	public User userLoged() {
+		return local_user;
 	}
 }

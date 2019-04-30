@@ -13,14 +13,9 @@ import com.combatmanager.view.MainWindow;
 
 public class MainController {
 	
-	//login window
-	//TO DO
-	
-	public static void main(String[] args) {
+	public void run(User user) {
 		
 		try {
-			//TO DO get user
-			User user = new User("Test","Completo","Senha");
 			Configuration config = new Configuration(user);
 			MainWindow mw = new MainWindow(config);
 
