@@ -6,10 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.combatmanager.database.model.City;
 import com.combatmanager.database.model.Matriculation;
+import com.combatmanager.util.DataFixer;
 
 public class MatriculationDAO extends MasterDAO{
 		
@@ -46,13 +48,14 @@ public class MatriculationDAO extends MasterDAO{
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
+	DataFixer dataFixer;
 	
 	Connection io_connection;
 	
 	public  MatriculationDAO(Connection connection) throws SQLException{
 
 		io_connection = connection;
-		
+		dataFixer = new DataFixer();
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
@@ -108,31 +111,13 @@ public class MatriculationDAO extends MasterDAO{
 		pst_update.clearParameters();
 		
 		Matriculation mat = new Matriculation();
-		
 		mat = (Matriculation) new_parameter;
-		String[] aux = mat.getMatriculation_date().split("-");
-		
-		long longueiro = Integer.parseInt(aux[0])*10000 +Integer.parseInt(aux[1])*100 +Integer.parseInt(aux[2]);
-		longueiro = longueiro*1000000;
-		System.out.println(longueiro);
-		Date dt1 = new Date(longueiro);
-		System.out.println(dt1.getYear());
-		dt1.setYear(Integer.parseInt(aux[0]));
-		System.out.println(dt1.getDate());
-		
+		System.out.println(mat.getMatriculation_date());
+		Date dt1 = dataFixer.fixData(mat.getMatriculation_date(), "-");
 		pst_update.setDate(1, dt1);
 		pst_update.setInt(2, mat.getDue_date());
-		if(mat.getClosing_date() != null) {
-			System.out.println(mat.getClosing_date());
-			aux = mat.getClosing_date().split("-");
-			Date dt2 = new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2]));
-
-			pst_update.setDate(3, dt2);
-
-		}else {
-			pst_update.setDate(3, null);
-		}
-		
+		Date dt2 = dataFixer.fixData(mat.getClosing_date(), "-");
+		pst_update.setDate(3, dt2);
 		mat = (Matriculation) last_parameter;
 		
 		pst_update.setInt(4, mat.getCode());

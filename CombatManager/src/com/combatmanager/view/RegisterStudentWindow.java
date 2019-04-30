@@ -346,11 +346,23 @@ public class RegisterStudentWindow extends JPanel implements View{
 				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
 				MatriculationModalityDAO matriculationModalityDao = null;
 				MatriculationDAO matriculationDao = null;
-				if(textFieldStudent.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Favor preencher o campo de modalidade");
+				if(textFieldF9.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de aluno");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
+				if(textFieldRegisterDay.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo data registro");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}
+				
+				if(textFieldFinishDay.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de vencimento");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}
+				//ALUNO INCORRETO
 				// 0=yes, 1=no, 2=cancel
 				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
 				if (save_option == 1) {
