@@ -178,7 +178,7 @@ public class StudentDAO extends MasterDAO {
 		return student;
 	}
 	
-	private Object SelectById (Object parameter) throws SQLException {
+	public Object SelectById(Object parameter) throws SQLException {
 		pst_selectById.clearParameters();
 		
 		Student student = (Student)parameter;

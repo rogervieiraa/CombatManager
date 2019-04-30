@@ -231,12 +231,11 @@ public class RegisterStudentWindow extends JPanel implements View{
 						return;
 					}
 					save_matriculation = auxiliar_matriculation;
-					textFieldF9.setText(Integer.toString(save_matriculation.getStudent_code()));
 					textFieldRegisterDay.setText(save_matriculation.getMatriculation_date());
 					textFieldFinishDay.setText(Integer.toString(save_matriculation.getDue_date()));
 					Student auxiliar_student = new Student();
 					auxiliar_student.setIndex(save_matriculation.getStudent_code());
-					Student student = (Student) studentDao.Select(auxiliar_student);
+					Student student = (Student) studentDao.SelectById(auxiliar_student);
 					textFieldStudent.setText(student.getName());
 					textFieldRegistration.setText(Integer.toString(save_matriculation.getCode()));
 					
@@ -262,7 +261,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 				btnRemove.setEnabled(true);
 				btnSave.setEnabled(true);
 				btnSearch.setEnabled(false);
-				textFieldF9.setEnabled(true);
+				textFieldF9.setEnabled(false);
 				textFieldFinishDay.setEnabled(true);
 				textFieldRegisterDay.setEnabled(true);
 				textFieldStudent.setEnabled(false);
@@ -344,9 +343,11 @@ public class RegisterStudentWindow extends JPanel implements View{
 
 			public void actionPerformed(ActionEvent e) {
 				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
+				textFieldStudent.setText("roger");
 				MatriculationModalityDAO matriculationModalityDao = null;
 				MatriculationDAO matriculationDao = null;
-				if(textFieldF9.getText().equals("")) {
+				StudentDAO studentDao = null;
+				if(textFieldStudent.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de aluno");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
@@ -427,29 +428,25 @@ public class RegisterStudentWindow extends JPanel implements View{
 					return;
 				}
 				
-				//caso ja exista
-				/*
-				
 				try {
-					modalityDao = new ModalityDAO(config.getConnection());
+					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
+					matriculationDao = new MatriculationDAO(config.getConnection());
 					
-					Modality local_modality = new Modality();
-					local_modality.setModality(textFieldModality.getText());
-					try {
-						Modality temp_modality = (Modality) modalityDao.Select(local_modality);
-						if(temp_modality == null) {
-							
-						}else {
-							throw new Exception("Modalidade ja existente, favor utilizar a busca ou mudar de nome.");
-						}
-					} catch (Exception e1) {
-						config.addToSystemLog(getName()+","+"Tentou criar modalidade ja existente");
-						JOptionPane.showMessageDialog(null, e1.getMessage());
-						resetWindow();
-						return;
-					}
-					modalityDao.Insert(local_modality);
+					Matriculation auxiliar_matriculation = new Matriculation();
 					
+					studentDao = new StudentDAO(config.getConnection());
+					Student auxiliar_student = new Student();
+					
+					auxiliar_student.setName(textFieldStudent.getText());
+					
+					auxiliar_student = (Student) studentDao.Select(auxiliar_student);
+					auxiliar_matriculation.setStudent_code(auxiliar_student.getIndex());
+					auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
+					auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
+					
+
+					matriculationDao.Insert(auxiliar_matriculation);
+					/*
 					graduationDao = new GraduationDAO(config.getConnection());
 					for(int i=0;i<model.getRowCount();i++) {
 						Graduation local_gradual = new Graduation();
@@ -458,9 +455,9 @@ public class RegisterStudentWindow extends JPanel implements View{
 						local_gradual.setGraduation((String) model.getValueAt(i, 0));
 						graduationDao.Insert(local_gradual);
 						
-					}
+					}*/
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
-					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_modality.toString());
+					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+auxiliar_matriculation.toString());
 					
 				} catch (SQLException e1) {
 					
@@ -470,7 +467,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				}
-				*/
+				
 				resetWindow();
 			}
 

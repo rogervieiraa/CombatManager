@@ -131,18 +131,12 @@ public class MatriculationDAO extends MasterDAO{
 		pst_insert.clearParameters();
 		
 		Matriculation mat = (Matriculation)parameter;
+			
+		pst_insert.setInt(1, mat.getStudent_code());
+		pst_insert.setDate(2, dataFixer.fixData(mat.getMatriculation_date(), "-"));
+		pst_insert.setInt(3, mat.getDue_date());
+		pst_insert.setDate(4, dataFixer.fixData(mat.getClosing_date(), "-"));
 		
-		String[] aux = mat.getMatriculation_date().split("-");
-		
-		
-		pst_insert.setInt(1, mat.getCode());
-		pst_insert.setInt(2, mat.getStudent_code());
-		pst_insert.setDate(3, new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2])));
-		pst_insert.setInt(4, mat.getDue_date());
-		aux = mat.getClosing_date().split("-");
-		pst_insert.setDate(5, new Date(Integer.parseInt(aux[0]),Integer.parseInt(aux[1]),Integer.parseInt(aux[2])));
-		
-
 		pst_insert.execute();
 		
 	}
