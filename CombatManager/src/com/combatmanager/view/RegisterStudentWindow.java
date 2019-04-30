@@ -337,8 +337,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 				resetWindow();
 			}
 		});
-		
-		
+			
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -471,6 +470,13 @@ public class RegisterStudentWindow extends JPanel implements View{
 				resetWindow();
 			}
 
+		});
+		
+		btnAdicionarModalidade.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//open window
+			}
 		});
 		
 		return contentPane;
