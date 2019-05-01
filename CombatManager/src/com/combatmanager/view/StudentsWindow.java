@@ -155,7 +155,7 @@ public class StudentsWindow extends JPanel implements View {
 						return;
 					}else {
 						//System.out.println(auxiliar_student.toString());						
-						city = auxiliar_student.getCity();						
+						//city = auxiliar_student.getCity();						
 					}
 					textFieldAddress.setText(auxiliar_student.getAdress());
 					textFieldLocal.setText(auxiliar_student.getLocal());
@@ -176,7 +176,10 @@ public class StudentsWindow extends JPanel implements View {
 						comboBoxSex.setSelectedIndex(0);
 					}else {
 						comboBoxSex.setSelectedIndex(1);
-					}									
+					}	
+					
+					startSave();
+					btnRemove.setEnabled(true);
 					
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
@@ -185,9 +188,7 @@ public class StudentsWindow extends JPanel implements View {
 					e1.showAcessWindowDenied();
 					resetWindow();
 				}
-				
-				startSave();
-				btnRemove.setEnabled(true);
+							
 			}
 		
 		});

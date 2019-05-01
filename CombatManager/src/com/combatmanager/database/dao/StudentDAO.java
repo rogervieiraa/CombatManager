@@ -145,8 +145,10 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_select, 2, student.getEmail());
 		
 		ResultSet rst = pst_select.executeQuery();
+		
 		student.setName("");
 		student.setEmail("");
+		
 		if (rst.next()) {
 			student = new Student();
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
