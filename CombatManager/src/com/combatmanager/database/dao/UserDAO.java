@@ -13,7 +13,7 @@ public class UserDAO extends MasterDAO{
 	
 	
 	private String selectAll = "select * from usuarios order by usuario";
-	private String select = "select * from usuarios where usuario = ? and perfil = ? order by usuario";
+	private String select = "select * from usuarios where usuario = ? or perfil = ? order by usuario";
 	private String insert = "INSERT INTO usuarios			"
 								+"	(						" 
 								+"		usuario, 			"

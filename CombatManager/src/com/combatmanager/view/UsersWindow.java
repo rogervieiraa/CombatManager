@@ -9,8 +9,12 @@ import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import com.combatmanager.security.Configuration;
+import com.combatmanager.database.dao.StudentDAO;
 import com.combatmanager.database.dao.UserDAO;
+import com.combatmanager.database.model.City;
+import com.combatmanager.database.model.Student;
 import com.combatmanager.database.model.User;
+import com.combatmanager.error.AccessException;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -22,6 +26,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseMotionListener;
+import java.sql.SQLException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -29,6 +34,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class UsersWindow extends JPanel implements View {
 	public UsersWindow() {
@@ -36,6 +42,8 @@ public class UsersWindow extends JPanel implements View {
 	
 	private final String NAME = "Tela Usuarios";
 	private final int ACCESS = 0;
+	private Boolean search = false;
+	private String save_user;
 	
 	@Override
 	public int getAccess() {
@@ -50,6 +58,11 @@ public class UsersWindow extends JPanel implements View {
 	private JTextField textField;
 	private JPasswordField pwdPassword;
 	private JPasswordField pwdConfirmPassword;
+	private JButton btnSearch;
+	private JButton btnAdd;
+	private JButton btnRemove;
+	private JButton btnSave;
+	private JComboBox comboBox;
 	private JInternalFrame internalFrame;
 	
 	/**
@@ -93,10 +106,75 @@ public class UsersWindow extends JPanel implements View {
 		toolBar.setFloatable(false);
 		internalFrame.getContentPane().add(toolBar);
 		
-		JButton btnSearch = new JButton("Buscar");
+		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
 		btnSearch.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSearch.setMaximumSize(new Dimension(100, 40));
+		btnSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!search) {
+					textField.setEnabled(true);
+					comboBox.setEnabled(true);
+					btnAdd.setEnabled(false);
+					search = true;
+					return;
+				}
+				save_user = textField.getText();
+				UserDAO userDao = null;
+				
+				User user = new User();
+				user.setUser(textField.getText());
+				
+				if (comboBox.getSelectedIndex() == 1) {
+					user.setProfile("Cadastrar");
+				}else if (comboBox.getSelectedIndex() == 2) {
+					user.setProfile("Matricular");
+				}else if (comboBox.getSelectedIndex() == 3) {
+					user.setProfile("Financeiro");
+				}else if (comboBox.getSelectedIndex() == 4) {
+					user.setProfile("Completo");
+				}
+				
+				
+				try {
+					
+					userDao = new UserDAO(config.getConnection());
+					User auxiliar_user = (User) userDao.Select(user);
+					if(auxiliar_user == null) {
+						JOptionPane.showMessageDialog(null, "Usuário não nao encontrado.");
+						resetWindow();
+						return;
+					}
+					System.out.println(auxiliar_user.getUser());
+					textField.setText(auxiliar_user.getUser());
+					
+					if ("Cadastrar".equals(auxiliar_user.getProfile())) {
+						comboBox.setSelectedIndex(1);
+					}else if ("Matricular".equals(auxiliar_user.getProfile())) {
+						comboBox.setSelectedIndex(2);
+					}else if ("Financeiro".equals(auxiliar_user.getProfile())) {
+						comboBox.setSelectedIndex(3);
+					}else if ("Completo".equals(auxiliar_user.getProfile())) {
+						comboBox.setSelectedIndex(4);
+					}
+					
+					
+					startSave();
+					btnRemove.setEnabled(true);
+					
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
+					resetWindow();
+				} catch (AccessException e1) {
+					e1.showAcessWindowDenied();
+					resetWindow();
+				}
+							
+			}
+				
+		});
 		toolBar.add(btnSearch);
 		
 		
@@ -104,16 +182,23 @@ public class UsersWindow extends JPanel implements View {
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
 		
-		JButton btnAdd = new JButton("Adicionar");
+		btnAdd = new JButton("Adicionar");
 		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnAdd.setMaximumSize(new Dimension(100, 40));
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				startSave();
+			}
+		});
 		toolBar.add(btnAdd);
 		
 		JLabel space2 = new JLabel("  ");
 		toolBar.add(space2);
 		
-		JButton btnRemove = new JButton("Remover");
+		btnRemove = new JButton("Remover");
 		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnRemove.setMaximumSize(new Dimension(100, 40));
@@ -122,7 +207,7 @@ public class UsersWindow extends JPanel implements View {
 		JLabel space3 = new JLabel("  ");
 		toolBar.add(space3);
 		
-		JButton btnSave = new JButton("Salvar");
+		btnSave = new JButton("Salvar");
 		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSave.setMaximumSize(new Dimension(100, 40));
@@ -161,12 +246,38 @@ public class UsersWindow extends JPanel implements View {
 		lblProfile.setBounds(20, 214, 133, 14);
 		internalFrame.getContentPane().add(lblProfile);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--selecione--", "Cadastrar", "Matricular", "Financeiro", "Completo"}));
 		comboBox.setBounds(153, 213, 271, 20);
 		internalFrame.getContentPane().add(comboBox);
 		
+		resetWindow();
+		
 		return contentPane;
 		
+	}
+	
+	private void resetWindow () {
+
+		textField.setEnabled(false);
+		pwdPassword.setEnabled(false);
+		pwdConfirmPassword.setEnabled(false);
+		comboBox.setEnabled(false);
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnSearch.setEnabled(true);
+		btnAdd.setEnabled(true);
+		search = false;
+	}
+	
+	private void startSave() {
+		textField.setEnabled(true);
+		pwdPassword.setEnabled(true);
+		pwdConfirmPassword.setEnabled(true);
+		comboBox.setEnabled(true);
+		btnSave.setEnabled(true);
+		btnAdd.setEnabled(false);
+		btnSearch.setEnabled(false);
+	
 	}
 }
