@@ -310,13 +310,7 @@ public class StudentsWindow extends JPanel implements View {
 						new_student.setLocal(textFieldLocal.getText());
 						new_student.setNote(textFieldObs.getText());
 						new_student.setPhoneNumber(textFieldPhone.getText());
-						
-						if (comboBoxSex.getSelectedIndex() == 1) {
-							sex = 'M';
-						}else {
-							sex = 'F';
-						}												
-						
+												
 						new_student.setSex(comboBoxSex.getSelectedItem().toString());
 												
 						
@@ -364,17 +358,8 @@ public class StudentsWindow extends JPanel implements View {
 					student.setNote(textFieldObs.getText());
 					student.setPhoneNumber(textFieldPhone.getText());
 					
-					if (comboBoxSex.getSelectedIndex() == 1) {
-						sex = 'F';
-					}else {
-						sex = 'M';
-					}	
 					
-					System.out.println(sex);
-					
-					student.setSex(comboBoxSex.getSelectedItem().toString());
-					
-					System.out.println(student.toString());
+					student.setSex(comboBoxSex.getSelectedItem().toString());								
 					
 					studentDao.Insert(student);
 										

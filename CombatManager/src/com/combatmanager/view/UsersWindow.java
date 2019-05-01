@@ -202,6 +202,34 @@ public class UsersWindow extends JPanel implements View {
 		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnRemove.setMaximumSize(new Dimension(100, 40));
+		btnRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				User user = new User();
+				UserDAO userDao;
+				try {
+					userDao = new UserDAO(config.getConnection());
+					
+					user.setUser(textField.getText());
+					
+					
+					user = (User) userDao.Select(user);
+					
+					System.out.println(user.toString());
+					
+					userDao.Delete(user);
+					
+				
+				} catch (SQLException | AccessException e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao remover!");
+					e1.printStackTrace();
+					resetWindow();
+				}
+				resetWindow();
+			}
+				
+		});
 		toolBar.add(btnRemove);
 		
 		JLabel space3 = new JLabel("  ");
@@ -211,6 +239,125 @@ public class UsersWindow extends JPanel implements View {
 		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
 		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSave.setMaximumSize(new Dimension(100, 40));
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
+				UserDAO userDao = null;
+				if(textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de usuario");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}else if (pwdPassword.getPassword().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de senha");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}else if (pwdConfirmPassword.getPassword().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de confirmacao de senha");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}else if (pwdConfirmPassword.getPassword().equals(pwdPassword.getPassword())) {
+					JOptionPane.showMessageDialog(null, "As senhas nao coincidem!");
+					config.addToSystemLog(getName()+","+"Campo de confirmacao nao coincide com senha");
+					return;
+				}
+				// 0=yes, 1=no, 2=cancel
+				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
+				if (save_option == 1) {
+					JOptionPane.showMessageDialog(null, "As alteracoes NAO foram salvas.");
+					config.addToSystemLog(getName()+","+"Negou em salvar e descartou as alteracoes");
+					resetWindow();
+					return;
+				}
+				else if(save_option == 2) {
+					JOptionPane.showMessageDialog(null, "Operacao de salvar cancelada.");
+					config.addToSystemLog(getName()+","+"Cancelou a operacao de salvar");
+					return;
+				}
+				if(search) {
+					
+					try {
+						userDao = new UserDAO(config.getConnection());
+						User last_user = new User();
+						User new_user = new User();
+						
+						last_user.setUser(save_user);
+						
+						last_user = (User) userDao.Select(last_user);
+						
+						new_user.setUser(textField.getText());
+						new_user.setPassword(pwdPassword.getPassword().toString());
+						if (comboBox.getSelectedIndex() == 1) {
+							new_user.setProfile("Cadastrar");
+						}else if (comboBox.getSelectedIndex() == 2) {
+							new_user.setProfile("Matricular");
+						}else if (comboBox.getSelectedIndex() == 3) {
+							new_user.setProfile("Financeiro");
+						}else if (comboBox.getSelectedIndex() == 4) {
+							new_user.setProfile("Completo");
+						}
+												
+						
+						userDao.Update(last_user, new_user);
+						
+						config.addToSystemLog(getName()+","+"Salvou com sucesso");
+						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+						resetWindow();
+					} catch (SQLException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
+						e1.printStackTrace();
+					} catch (AccessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					return;
+				}
+				
+				//caso ja exista
+				
+				
+				try {
+					userDao = new UserDAO(config.getConnection());
+					User user = new User();
+
+					
+					
+					user.setUser(textField.getText());
+					user.setPassword(pwdPassword.getPassword().toString());
+					if (comboBox.getSelectedIndex() == 1) {
+						user.setProfile("Cadastrar");
+					}else if (comboBox.getSelectedIndex() == 2) {
+						user.setProfile("Matricular");
+					}else if (comboBox.getSelectedIndex() == 3) {
+						user.setProfile("Financeiro");
+					}else if (comboBox.getSelectedIndex() == 4) {
+						user.setProfile("Completo");
+					}
+					
+					System.out.println(user.toString());
+					
+					userDao.Insert(user);
+										
+					
+					config.addToSystemLog(getName()+","+"Salvou com sucesso");
+					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+					resetWindow();
+					
+				} catch (SQLException e1) {
+					
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
+					e1.printStackTrace();
+				}
+				
+				resetWindow();
+				
+			}
+		});
 		toolBar.add(btnSave);
 		
 		textField = new JTextField();
@@ -259,6 +406,10 @@ public class UsersWindow extends JPanel implements View {
 	
 	private void resetWindow () {
 
+		textField.setText("");
+		pwdPassword.setText("");
+		pwdConfirmPassword.setText("");
+		comboBox.setSelectedIndex(0);
 		textField.setEnabled(false);
 		pwdPassword.setEnabled(false);
 		pwdConfirmPassword.setEnabled(false);

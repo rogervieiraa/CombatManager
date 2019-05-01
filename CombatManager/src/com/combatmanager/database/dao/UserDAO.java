@@ -33,11 +33,11 @@ public class UserDAO extends MasterDAO{
 	private String delete = "DELETE FROM usuarios WHERE usuario = ?";
 	private String is_create_role		=	"create	role		?" +
 												"	with		login" +
-												"			encrypted password		'?'" +
+												"			encrypted password		? " +
 												"			in role				admin";
 	private String is_alter_role	=	"alter	role		?" +
 												"	with		login" +
-												"			encrypted password		'?'";
+												"			encrypted password		?";
 
 	private String is_drop_role		=	"drop	role		?";
 	
@@ -114,12 +114,14 @@ public class UserDAO extends MasterDAO{
 		
 		user = (User) new_parameter;
 		
-		Set(pst_update, 1, user.getProfile());
+		Set(pst_update, 1, user.getUser());
+		Set(pst_update, 2, user.getProfile());
+		
 		Set(pst_alterRole, 2, user.getPassword());
 		
 		user = (User) last_parameter;
 		
-		Set(pst_update, 2, user.getUser());
+		Set(pst_update, 3, user.getUser());
 		Set(pst_alterRole, 1, user.getUser());
 		
 		pst_update.execute();
