@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import com.combatmanager.database.dao.AttendanceDAO;
 import com.combatmanager.database.dao.GraduationDAO;
@@ -478,13 +479,28 @@ public class RegisterStudentWindow extends JPanel implements View{
 				
 				AddModalityWindow addModalityWindow = new AddModalityWindow();
 				addModalityWindow.setVisible(true);
+				while(addModalityWindow.isEnabled()) {
+					
+				}
 				
+				MatriculationModality auxiliar_mm = addModalityWindow.getMatriculationModality();
+				addMMToTable(auxiliar_mm);
 			}
 		});
 		
 		return contentPane;
 	}
 	
+	
+	public void addMMToTable(MatriculationModality mm) {
+		if(mm == null) {
+			return;
+		}
+		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.addRow(new Object[] {mm.getModality(),mm.getGraduation(),mm.getPlan(),mm.getBegin_date(),mm.getEnd_date()});
+		table.setModel(model);
+	}
 	
 	public void resetWindow() {
 		search = false;

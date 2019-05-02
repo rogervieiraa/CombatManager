@@ -5,6 +5,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ import com.combatmanager.database.dao.GraduationDAO;
 import com.combatmanager.database.dao.ModalityDAO;
 import com.combatmanager.database.dao.PlanDAO;
 import com.combatmanager.database.model.Graduation;
+import com.combatmanager.database.model.MatriculationModality;
 import com.combatmanager.database.model.Modality;
 import com.combatmanager.database.model.Plan;
 import com.combatmanager.error.AccessException;
@@ -27,18 +30,20 @@ import javax.swing.JButton;
 public class AddModalityWindow extends JFrame implements View {
 	private JTextField textFieldStart;
 	private JTextField textFieldEnd;
-	private JComboBox comboModalidade;
-	private JComboBox comboGraduacao;
-	private JComboBox comboPlano;
+	private JComboBox comboModality;
+	private JComboBox comboGraduation;
+	private JComboBox comboPlan;
 	private JButton btnNewButton;
 	private Configuration config;
 	private int acess = 0;
 	private Modality save_modality;
+	private MatriculationModality save_matriculationModality;
 	
 	/**
 	 * Create the panel.
 	 */
 	public AddModalityWindow() {
+		save_matriculationModality = null;
 		setLayout(null);
 		setBounds(0, 0, 450, 403);
 		
@@ -47,18 +52,18 @@ public class AddModalityWindow extends JFrame implements View {
 		add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
-		comboModalidade = new JComboBox();
-		comboModalidade.setBounds(95, 9, 177, 20);
-		internalFrame.getContentPane().add(comboModalidade);
-		comboModalidade.addItem("--- Selecione ---");
+		comboModality = new JComboBox();
+		comboModality.setBounds(95, 9, 177, 20);
+		internalFrame.getContentPane().add(comboModality);
+		comboModality.addItem("--- Selecione ---");
 				
-		comboModalidade.addActionListener(new ActionListener() {
+		comboModality.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(comboModalidade.getSelectedIndex() != 0) {
+				if(comboModality.getSelectedIndex() != 0) {
 					save_modality = new Modality();
-					save_modality.setModality(comboModalidade.getSelectedItem().toString());
+					save_modality.setModality(comboModality.getSelectedItem().toString());
 					startComboBoxes();
 				}
 				else {
@@ -111,24 +116,70 @@ public class AddModalityWindow extends JFrame implements View {
 		internalFrame.getContentPane().add(btnNewButton);
 		internalFrame.setVisible(true);
 		
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(comboPlan.getSelectedIndex() == 0) {
+					JOptionPane.showMessageDialog(null, "Favor escolher plano");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}
+				
+				MatriculationModality matriculationModality = new MatriculationModality();
+				
+				matriculationModality.setGraduation(comboModality.getSelectedItem().toString());
+				matriculationModality.setPlan(comboPlan.getSelectedItem().toString());
+				if(comboGraduation.getSelectedIndex() == 0) {
+					matriculationModality.setGraduation(null);
+				}
+				else {
+					matriculationModality.setGraduation(comboGraduation.getSelectedItem().toString());
+				}
+				
+				if(textFieldEnd.equals("")) {
+					matriculationModality.setEnd_date(null);
+				}
+				else {
+					matriculationModality.setEnd_date(textFieldEnd.getText());
+				}
+				
+				if(textFieldStart.equals("")) {
+					matriculationModality.setEnd_date(null);
+				}
+				else {
+					matriculationModality.setBegin_date(textFieldStart.getText());
+				}
+
+				save_matriculationModality = matriculationModality;
+				setEnabled(false);
+			}
+		});
+		
 		resetWindow();
-		internalFrame.getContentPane().add(comboGraduacao);
-		internalFrame.getContentPane().add(comboPlano);
+		internalFrame.getContentPane().add(comboGraduation);
+		internalFrame.getContentPane().add(comboPlan);
+	}
+	
+	public MatriculationModality getMatriculationModality() {
+		return this.save_matriculationModality;
 	}
 	
 	void resetWindow() {
-		comboGraduacao = new JComboBox();
-		comboGraduacao.setBounds(95, 42, 177, 20);
-		comboPlano = new JComboBox();
-		comboPlano.setBounds(95, 73, 177, 20);
+		comboGraduation = new JComboBox();
+		comboGraduation.setBounds(95, 42, 177, 20);
+		comboPlan = new JComboBox();
+		comboPlan.setBounds(95, 73, 177, 20);
 
-		comboModalidade.setEnabled(true);
-		comboPlano.setEnabled(false);
-		comboGraduacao.setEnabled(false);
-		comboGraduacao.addItem("--- Selecione ---");
-		comboPlano.addItem("--- Selecione ---");
-		comboModalidade.addItem("--- Selecione ---");
-		comboPlano.setEnabled(false);
+		comboModality.setEnabled(true);
+		comboPlan.setEnabled(false);
+		comboGraduation.setEnabled(false);
+		comboGraduation.addItem("--- Selecione ---");
+		comboPlan.addItem("--- Selecione ---");
+		comboModality.addItem("--- Selecione ---");
+		comboPlan.setEnabled(false);
 		textFieldStart.setEnabled(false);
 		textFieldEnd.setEnabled(false);
 		save_modality = null;
@@ -139,7 +190,7 @@ public class AddModalityWindow extends JFrame implements View {
 			List<Object> modality_list = modalityDao.SelectAll();
 			for(int i=0;i<modality_list.size();i++) {
 				Modality auxiliar_modality = (Modality) modality_list.get(i);
-				comboModalidade.addItem(auxiliar_modality.getModality());
+				comboModality.addItem(auxiliar_modality.getModality());
 			}
 			
 		} catch (SQLException e) {
@@ -165,14 +216,18 @@ public class AddModalityWindow extends JFrame implements View {
 			
 			for(int i=0;i<graduation_list.size();i++) {
 				Graduation graduation = graduation_list.get(i);
-				comboGraduacao.addItem(graduation.getGraduation());
+				comboGraduation.addItem(graduation.getGraduation());
 			}
 			
 			for(int i=0;i<plan_list.size();i++) {
 				Plan plan = plan_list.get(i);
-				comboGraduacao.addItem(plan.getPlan());
+				comboGraduation.addItem(plan.getPlan());
 			}
 			
+			comboGraduation.setEnabled(true);
+			comboPlan.setEnabled(true);
+			textFieldEnd.setEnabled(true);
+			textFieldStart.setEnabled(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
