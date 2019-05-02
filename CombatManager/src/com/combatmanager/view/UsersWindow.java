@@ -143,7 +143,7 @@ public class UsersWindow extends JPanel implements View {
 					userDao = new UserDAO(config.getConnection());
 					User auxiliar_user = (User) userDao.Select(user);
 					if(auxiliar_user == null) {
-						JOptionPane.showMessageDialog(null, "Usuário não nao encontrado.");
+						JOptionPane.showMessageDialog(null, "Usuario  nao encontrado.");
 						resetWindow();
 						return;
 					}
