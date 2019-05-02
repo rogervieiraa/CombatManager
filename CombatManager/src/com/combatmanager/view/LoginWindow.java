@@ -69,12 +69,12 @@ public class LoginWindow extends JFrame {
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserDAO userDao = null;
-				User admin_user = new User("admin","Completo","admin");
-				Configuration standart_config;
+				//UserDAO userDao = null;
+				//User admin_user = new User("admin","Completo","admin");
+				//Configuration standart_config;
 				try {
-					standart_config = new Configuration(admin_user);
-					userDao = new UserDAO(standart_config.getConnection());
+					//standart_config = new Configuration(admin_user);
+					//userDao = new UserDAO(standart_config.getConnection());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

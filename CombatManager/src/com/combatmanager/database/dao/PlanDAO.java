@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.combatmanager.database.model.City;
+import com.combatmanager.database.model.Graduation;
+import com.combatmanager.database.model.Modality;
 import com.combatmanager.database.model.Plan;
 
 public class PlanDAO extends MasterDAO{
@@ -15,6 +17,8 @@ public class PlanDAO extends MasterDAO{
 	
 	private String selectAll = "select * from planos order by plano";
 	private String select = "select * from planos where plano = ? AND modalidade = ? order by plano";
+	private String selectByModality = "select * from planos where modalidade = ? order by plano";
+
 	private String insert = "INSERT INTO planos			"
 								+"	(						" 
 								+"		modalidade, 		"
@@ -31,6 +35,7 @@ public class PlanDAO extends MasterDAO{
 	private String delete = "DELETE FROM planos WHERE plano = ? AND modalidade = ?";
 	
 	private PreparedStatement pst_selectAll;
+	private PreparedStatement pst_selectByModality;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
@@ -47,6 +52,7 @@ public class PlanDAO extends MasterDAO{
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
+		pst_selectByModality = connection.prepareStatement(selectByModality);
 		
 	}
 	
@@ -132,5 +138,24 @@ public class PlanDAO extends MasterDAO{
 		pst_delete.execute();
 		
 		
+	}
+
+	public List<Plan> SelectPlanByModality(Modality modality) throws SQLException {
+		List<Plan> arlPlan = new ArrayList<Plan>();
+
+		Set(pst_selectByModality, 1, (modality.getModality()));
+
+		ResultSet rst= pst_selectByModality.executeQuery();
+
+		while(rst.next()) {
+			Plan plan = new Plan();
+			plan.setPlan(rst.getString("plano"));
+			plan.setModality(rst.getString("modalidade"));
+			plan.setModality(rst.getString("valor_mensal"));
+			
+			arlPlan.add(plan);
+		}
+
+		return arlPlan;
 	}
 }
