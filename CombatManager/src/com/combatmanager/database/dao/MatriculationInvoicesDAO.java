@@ -14,7 +14,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	
 	
 	private String selectAll = "select * from faturas_matriculas order by codigo_matricula";
-	private String select = "select * from faturas_matriculas where codigo_matricula = ? order by codigo_matricula";
+	private String select = "select * from faturas_matriculas where (data_vencimento between ? and ?);";
 	private String insert = "INSERT INTO faturas_matriculas			"
 								+"	(						" 
 								+"		codigo_matricula, 		"
