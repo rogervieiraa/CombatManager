@@ -18,7 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 public class EnrollmentReportWindow extends JPanel implements View {
 	
 	private final String NAME = "Tela Relatorio";
-	private final int ACCESS = 5*11;
+	private final int ACCESS = 7*11;
 	
 	@Override
 	public int getAccess() {
