@@ -22,7 +22,7 @@ public class CheckInvoiceWindow extends JPanel implements View {
 	private JTable table;
 
 	private final String NAME = "Tela Consultar Fatura";
-	private final int ACCESS = 0;
+	private final int ACCESS = 7*11;
 
 	@Override
 	public int getAccess() {

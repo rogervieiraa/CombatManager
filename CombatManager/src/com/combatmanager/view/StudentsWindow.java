@@ -77,7 +77,7 @@ public class StudentsWindow extends JPanel implements View {
 
 	
 	private final String NAME = "Tela Estudantes";
-	private final int ACCESS = 0;
+	private final int ACCESS = 3*11;
 	private Boolean search = false;
 	private String save_student = "";
 

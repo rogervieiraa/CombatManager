@@ -59,7 +59,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	private Matriculation save_matriculation;
 	private List<MatriculationModality> save_matriculationModality;
 	private final String NAME = "Tela Cadastro Alunos";
-	private final int ACCESS = 0;
+	private final int ACCESS = 5*11;
 
 	@Override
 	public int getAccess() {

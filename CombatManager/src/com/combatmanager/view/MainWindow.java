@@ -97,47 +97,51 @@ public class MainWindow extends JFrame implements View {
 
 		JMenu mnRegisted = new JMenu("Cadastros");
 		menuBar.add(mnRegisted);
-
-		JMenuItem mntmStudents = new JMenuItem(new AbstractAction("Alunos"){
-		
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new StudentsWindow());
-				revalidate();
-			}
+		if(new StudentsWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmStudents = new JMenuItem(new AbstractAction("Alunos"){
 				
-		});
-		mntmStudents.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
-		mnRegisted.add(mntmStudents);
-
-		JMenuItem mntmModalities = new JMenuItem(new AbstractAction("Modalidades"){
-			
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new ModalityWindow());
-				revalidate();
-			}
+				public void actionPerformed(ActionEvent e)
+				{
 				
-		});
-		mntmModalities.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
-		mnRegisted.add(mntmModalities);
+					CreateContentPane(new StudentsWindow());
+					revalidate();
+				}
+					
+			});
+			mntmStudents.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+			mnRegisted.add(mntmStudents);
+		}
 		
-		JMenuItem mntmPlans = new JMenuItem(new AbstractAction("Planos"){
-			
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new PlansWindow());
-				revalidate();
-			}
+		
+		if(new ModalityWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmModalities = new JMenuItem(new AbstractAction("Modalidades"){
 				
-		});
-		
-		mntmPlans.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
-		mnRegisted.add(mntmPlans);
-
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new ModalityWindow());
+					revalidate();
+				}
+					
+			});
+			mntmModalities.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+			mnRegisted.add(mntmModalities);
+		}
+		if(new PlansWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmPlans = new JMenuItem(new AbstractAction("Planos"){
+				
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new PlansWindow());
+					revalidate();
+				}
+					
+			});
+			
+			mntmPlans.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+			mnRegisted.add(mntmPlans);
+		}
 		JMenu mnProcesses = new JMenu("Processos");
 		menuBar.add(mnProcesses);
 
@@ -146,86 +150,99 @@ public class MainWindow extends JFrame implements View {
 		mnRegister.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnRegister.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcesses.add(mnRegister);
-
-		JMenuItem mntmStudent = new JMenuItem(new AbstractAction("Aluno"){
-			
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new RegisterStudentWindow());
-				revalidate();
-			}
+		if(new RegisterStudentWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmStudent = new JMenuItem(new AbstractAction("Aluno"){
 				
-		});
-		mnRegister.add(mntmStudent);
-
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new RegisterStudentWindow());
+					revalidate();
+				}
+					
+			});
+			mnRegister.add(mntmStudent);
+		}
+		
 		JMenu mnBilling = new JMenu("Faturamento");
 		mnBilling.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnProcesses.add(mnBilling);
-
-		JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){
-		public void actionPerformed(ActionEvent e)
-		{
-		
-			CreateContentPane(new EnrollmentReportWindow());
-			revalidate();
+		if(new EnrollmentReportWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new EnrollmentReportWindow());
+					revalidate();
+				}
+				
+			});
+			mnBilling.add(mntmGenerateBill);
 		}
-		});
-		mnBilling.add(mntmGenerateBill);
-
-		JMenuItem mntmCheckBills = new JMenuItem(new AbstractAction("Consultar Faturas"){
-			
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new CheckInvoiceWindow());
-				revalidate();
-			}
-				
-		});
-		mnBilling.add(mntmCheckBills);
-
-		JMenuItem mntmMakePayment = new JMenuItem(new AbstractAction("Pagamento de Faturas"){
-			
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new PayInvoiceWindow());
-				revalidate();
-			}
-				
-		});
 		
-		mntmMakePayment.setSelected(true);
-		mnBilling.add(mntmMakePayment);
+		
+		if(new CheckInvoiceWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmCheckBills = new JMenuItem(new AbstractAction("Consultar Faturas"){
+				
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new CheckInvoiceWindow());
+					revalidate();
+				}
+					
+			});
+			mnBilling.add(mntmCheckBills);
+		}
+		
+		if(new PayInvoiceWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmMakePayment = new JMenuItem(new AbstractAction("Pagamento de Faturas"){
+				
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new PayInvoiceWindow());
+					revalidate();
+				}
+					
+			});
+			
+			mntmMakePayment.setSelected(true);
+			mnBilling.add(mntmMakePayment);
+		}
+		
 
 		JMenu mnReports = new JMenu("Relat\u00F3rios");
 		menuBar.add(mnReports);
-
-		JMenuItem mntmMtrcula = new JMenuItem(new AbstractAction("Matricula"){
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new EnrollmentReportWindow());
-				revalidate();
-			}
-			});
-		mnReports.add(mntmMtrcula);
+		if(new EnrollmentReportWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmMtrcula = new JMenuItem(new AbstractAction("Matricula"){
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new EnrollmentReportWindow());
+					revalidate();
+				}
+				});
+			mnReports.add(mntmMtrcula);
+		}
+		
 
 		JMenu mnBills = new JMenu("Faturas");
 		mnReports.add(mnBills);
 
 		JMenu mnUtilities = new JMenu("Utilit\u00E1rios");
+		if(new BackupWindow().getAccess()%config.getPermissionValue() == 0) {
+			JMenuItem mntmBackup = new JMenuItem(new AbstractAction("Backup"){
+				public void actionPerformed(ActionEvent e)
+				{
+				
+					CreateContentPane(new BackupWindow());
+					revalidate();
+				}
+				});
+			mnUtilities.add(mntmBackup);
+		}
 		
-		JMenuItem mntmBackup = new JMenuItem(new AbstractAction("Backup"){
-			public void actionPerformed(ActionEvent e)
-			{
-			
-				CreateContentPane(new BackupWindow());
-				revalidate();
-			}
-			});
-		mnUtilities.add(mntmBackup);
 		
 		menuBar.add(mnUtilities);
 		
@@ -236,8 +253,6 @@ public class MainWindow extends JFrame implements View {
 		Container contentPane = this.CreateContentPane(new HomeWindow());
 		
 		
-
-
 		this.addWindowListener((WindowListener) new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				config.printLog();

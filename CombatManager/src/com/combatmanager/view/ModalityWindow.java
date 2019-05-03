@@ -62,7 +62,7 @@ public class ModalityWindow extends JPanel implements View{
 	private JButton btnOk;
 
 	private final String NAME = "Tela Modalidades";
-	private final int ACCESS = 0;
+	private final int ACCESS = 3*11;
 	private Boolean search;
 	
 	@Override

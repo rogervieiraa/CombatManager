@@ -45,7 +45,7 @@ public class PlansWindow extends JPanel implements View{
 	JComboBox comboBox;
 	
 	private final String NAME = "Tela Planos";
-	private final int ACCESS = 0;
+	private final int ACCESS = 3*11;
 	private Boolean search;
 	private Configuration config;
 	private Plan save_plan;

@@ -41,7 +41,7 @@ public class UsersWindow extends JPanel implements View {
 	}
 	
 	private final String NAME = "Tela Usuarios";
-	private final int ACCESS = 0;
+	private final int ACCESS = 11;
 	private Boolean search = false;
 	private String save_user;
 	

@@ -29,7 +29,7 @@ public class BackupWindow extends JPanel implements View{
 	private JPanel contentPane;
 	
 	private final String NAME = "Tela Backup";
-	private final int ACCESS = 0;
+	private final int ACCESS = 11;
 
 	@Override
 	public int getAccess() {

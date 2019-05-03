@@ -35,7 +35,7 @@ public class AddModalityWindow extends JFrame implements View {
 	private JComboBox comboPlan;
 	private JButton btnNewButton;
 	private Configuration config;
-	private int acess = 0;
+	private int acess = 5*11;
 	private Modality save_modality;
 	private MatriculationModality save_matriculationModality;
 	
