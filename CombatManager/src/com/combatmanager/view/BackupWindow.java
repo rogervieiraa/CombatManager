@@ -63,7 +63,10 @@ public class BackupWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent e) {
 				Backup backup = new Backup(config);
         		if(textFieldLocal.getText() != "") {
-            		backup.doBackup(textFieldLocal.getText());
+            		if(backup.doBackup(textFieldLocal.getText())) {
+            			JOptionPane.showMessageDialog(null, "Backup realizado com sucesso!");
+            			resetWindow();
+            		}
         		}
         		else {
         			JOptionPane.showMessageDialog(null, "Favor selecionar local do arquivo.");
@@ -105,6 +108,10 @@ public class BackupWindow extends JPanel implements View{
 		
 		return contentPane;
 
+	}
+	
+	public void resetWindow() {
+		textFieldLocal.setText("");
 	}
 	
 	public String folderChooser() {
