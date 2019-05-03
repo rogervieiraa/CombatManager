@@ -287,7 +287,8 @@ public class UsersWindow extends JPanel implements View {
 						last_user = (User) userDao.Select(last_user);
 						
 						new_user.setUser(textField.getText());
-						new_user.setPassword(pwdPassword.getPassword().toString());
+						new_user.setPassword(pwdPassword.getText());				
+						
 						if (comboBox.getSelectedIndex() == 1) {
 							new_user.setProfile("Cadastrar");
 						}else if (comboBox.getSelectedIndex() == 2) {
@@ -325,7 +326,7 @@ public class UsersWindow extends JPanel implements View {
 					
 					
 					user.setUser(textField.getText());
-					user.setPassword(pwdPassword.getPassword().toString());
+					user.setPassword(pwdPassword.getText());
 					if (comboBox.getSelectedIndex() == 1) {
 						user.setProfile("Cadastrar");
 					}else if (comboBox.getSelectedIndex() == 2) {
