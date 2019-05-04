@@ -70,12 +70,24 @@ public class LoginWindow extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserDAO userDao = null;
-				User admin_user = new User(textField.getText(), "Completo", passwordField.getText());
+				
+				User default_user = new User("admin", "Completo", "admin");
+				
+				User admin_user = new User();;
+					
+				
 				Configuration standart_config;
+				
 				try {
+					standart_config = new Configuration(default_user);
+					userDao = new UserDAO(standart_config.getConnection());
+					
+					admin_user.setUser(textField.getText());
+					admin_user = (User) userDao.Select(admin_user);
+					admin_user.setPassword(passwordField.getText());
+					
 					standart_config = new Configuration(admin_user);
 					userDao = new UserDAO(standart_config.getConnection());
-					admin_user = (User) userDao.Select(admin_user);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
