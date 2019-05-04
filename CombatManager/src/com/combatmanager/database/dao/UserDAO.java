@@ -31,13 +31,8 @@ public class UserDAO extends MasterDAO{
 							+ "WHERE			"
 							+ "		usuario = ?";
 	private String delete = "DELETE FROM usuarios WHERE usuario = ?";
-	private String is_create_role		=	"create	role		?" +
-												"	with		login" +
-												"			encrypted password		? " +
-												"			in role				admin";
-	private String is_alter_role	=	"alter	role		?" +
-												"	with		login" +
-												"			encrypted password		?";
+	private String is_create_role;
+	private String is_alter_role;
 
 	private String is_drop_role		=	"drop	role		?";
 	
@@ -61,8 +56,6 @@ public class UserDAO extends MasterDAO{
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
-		pst_createRole = connection.prepareStatement(is_create_role);
-		pst_alterRole = connection.prepareStatement(is_alter_role);
 		pst_dropRole = connection.prepareStatement(is_drop_role);
 		
 	}
@@ -107,7 +100,6 @@ public class UserDAO extends MasterDAO{
 
 	@Override
 	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
-		pst_alterRole.clearParameters();
 		pst_update.clearParameters();
 		
 		User user = new User();
@@ -117,12 +109,11 @@ public class UserDAO extends MasterDAO{
 		Set(pst_update, 1, user.getUser());
 		Set(pst_update, 2, user.getProfile());
 		
-		Set(pst_alterRole, 2, user.getPassword());
-		
 		user = (User) last_parameter;
 		
 		Set(pst_update, 3, user.getUser());
-		Set(pst_alterRole, 1, user.getUser());
+		
+		alterUser((User) last_parameter,(User) new_parameter);
 		
 		pst_update.execute();
 		pst_alterRole.execute();
@@ -133,7 +124,6 @@ public class UserDAO extends MasterDAO{
 	@Override
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
-		pst_createRole.clearParameters();
 		
 		User user = (User)parameter;
 		
@@ -142,8 +132,7 @@ public class UserDAO extends MasterDAO{
 
 		pst_insert.execute();
 		
-		Set(pst_createRole, 1, user.getUser());
-		Set(pst_createRole, 2, user.getPassword());
+		createUser(user);
 		
 		pst_createRole.execute();
 	}
@@ -163,5 +152,22 @@ public class UserDAO extends MasterDAO{
 		pst_dropRole.execute();
 		
 		
+	}
+	private void createUser (User parameter) throws SQLException {
+		
+		is_create_role		=	"create	role  " + parameter.getUser() +
+				"	with		login" +
+				"			encrypted password		 " + "'" + parameter.getPassword() + "'" +
+				"			in role				admin";
+		
+		pst_createRole = io_connection.prepareStatement(is_create_role);
+	}
+	private void alterUser (User last_parameter, User new_parameter) throws SQLException {
+		
+		is_alter_role		=	"alter	role  " + last_parameter.getUser() +
+				"	with		login" +
+				"			encrypted password		 '" + new_parameter.getPassword() + "'" ;
+		
+		pst_alterRole = io_connection.prepareStatement(is_alter_role);
 	}
 }
