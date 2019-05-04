@@ -34,7 +34,7 @@ public class UserDAO extends MasterDAO{
 	private String is_create_role;
 	private String is_alter_role;
 
-	private String is_drop_role		=	"drop	role		?";
+	private String is_drop_role;
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
@@ -56,7 +56,6 @@ public class UserDAO extends MasterDAO{
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
-		pst_dropRole = connection.prepareStatement(is_drop_role);
 		
 	}
 	
@@ -140,13 +139,13 @@ public class UserDAO extends MasterDAO{
 	@Override
 	public void Delete(Object parameter) throws SQLException {
 		pst_delete.clearParameters();
-		pst_dropRole.clearParameters();
 		
 		User user = new User();
 		user = (User) parameter;
 		
 		Set(pst_delete, 1, user.getUser());
-		Set(pst_dropRole, 1, user.getUser());
+		
+		dropUser(user);
 		
 		pst_delete.execute();
 		pst_dropRole.execute();
@@ -169,5 +168,12 @@ public class UserDAO extends MasterDAO{
 				"			encrypted password		 '" + new_parameter.getPassword() + "'" ;
 		
 		pst_alterRole = io_connection.prepareStatement(is_alter_role);
+	}
+	private void dropUser (User parameter) throws SQLException {
+		
+		is_drop_role		=	"drop	role  " + parameter.getUser() ;
+				
+		
+		pst_dropRole = io_connection.prepareStatement(is_drop_role);
 	}
 }
