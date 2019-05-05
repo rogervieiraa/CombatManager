@@ -16,7 +16,7 @@ public class StudentDAO extends MasterDAO {
 	
 	private String selectAll = "select * from alunos order by aluno";
 	private String selectById = "select * from alunos where codigo_aluno = ? order by aluno";
-	private String select = "select * from alunos where (codigo_aluno = ?) or (aluno = ?) or (email = ?) order by aluno";
+	private String select = "select * from alunos where (aluno = ?) order by aluno";
 	private String insert = "INSERT INTO alunos			"
 								+"	(						" 
 								+"		codigo_aluno, 		"
@@ -141,9 +141,7 @@ public class StudentDAO extends MasterDAO {
 		
 		String aux ;
 		
-		pst_select.setInt(1, student.getIndex());
-		Set(pst_select, 2, student.getName());
-		Set(pst_select, 3, student.getEmail());
+		Set(pst_select, 1, student.getName());
 		
 		ResultSet rst = pst_select.executeQuery();
 		

@@ -132,7 +132,6 @@ public class StudentsWindow extends JPanel implements View {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!search) {
 					textFieldStudent.setEnabled(true);
-					textFieldEmail.setEnabled(true);
 					btnAdd.setEnabled(false);
 					search = true;
 					return;
@@ -566,6 +565,7 @@ public class StudentsWindow extends JPanel implements View {
 	}
 	
 	private void resetWindow() {
+		textFieldEmail.setText("");
 		textFieldAddress.setText("");
 		textFieldLocal.setText("");
 		textFieldState.setText("");

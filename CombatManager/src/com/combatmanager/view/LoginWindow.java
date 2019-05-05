@@ -73,9 +73,9 @@ public class LoginWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				UserDAO userDao = null;
 				
-				User default_user = new User("admin", "Completo", "admin");
 				
-				User admin_user = new User();;
+				
+				
 				if(textField.getText().equals("")) {
 					JOptionPane.showMessageDialog(null,"Favor preencher campo de usuario.");
 					return;
@@ -85,6 +85,8 @@ public class LoginWindow extends JFrame {
 					return;
 				}
 				
+				User default_user = new User("admin", "Completo", "admin");
+				User admin_user = new User();
 				Configuration standart_config;
 				
 				try {
@@ -96,10 +98,12 @@ public class LoginWindow extends JFrame {
 					admin_user.setPassword(passwordField.getText());
 					
 					standart_config = new Configuration(admin_user);
-					System.out.println(standart_config.toString());
 					userDao = new UserDAO(standart_config.getConnection());
+					admin_user = (User) userDao.Select(admin_user);
+					admin_user.setPassword(passwordField.getText());
 					
 				} catch (Exception e1) {
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null,"Usuario ou senha invalido");
 					return;
 				}
