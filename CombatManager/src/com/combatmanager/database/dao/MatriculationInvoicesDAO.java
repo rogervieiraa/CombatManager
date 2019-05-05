@@ -13,8 +13,8 @@ import com.combatmanager.database.model.MatriculationInvoices;
 public class MatriculationInvoicesDAO extends MasterDAO{
 	
 	
-	private String selectAll = "select * from faturas_matriculas order by codigo_matricula";
-	private String select = "select * from faturas_matriculas where (data_vencimento between ? and ?);";
+	private String selectAll = "select * from faturas_matriculas";
+	private String select = "select * from faturas_matriculas where (data_vencimento between cast(? as date) and cast(? as date))";
 	private String insert = "INSERT INTO faturas_matriculas			"
 								+"	(						" 
 								+"		codigo_matricula, 		"
@@ -38,7 +38,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 							+ "		data_pagamento = ?,  "
 							+ "		data_cancelamento = ?"
 							+ "WHERE					 "
-							+ "		codigo_matricula = ? ";
+							+ "		data_vencimento = ? ";
 	private String delete = "DELETE FROM faturas_matriculas WHERE codigo_matricula = ?";
 	
 	private PreparedStatement pst_selectAll;
@@ -54,8 +54,6 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 
 		io_connection = connection;
 		
-		pst_selectAll = connection.prepareStatement(selectAll);
-		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
@@ -64,10 +62,92 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	
 	public List<Object> SelectAll() throws SQLException {
 		List<Object> arlMatriculationInvoices = new ArrayList<Object>();
-		ResultSet rst= pst_selectAll.executeQuery();
+		return arlMatriculationInvoices;
+	}
+	
+	public List<MatriculationInvoices> SelectAlll(String opt) throws SQLException {
+			
+			if (opt.equals("Todas")) {
+				selectAll += " order by data_vencimento";
+				
+				pst_selectAll = io_connection.prepareStatement(selectAll);
+			}else if (opt.equals("Em aberto")) {
+				selectAll += " where data_pagamento is null order by data_vencimento";
+				
+				pst_selectAll = io_connection.prepareStatement(selectAll);
+			}else if (opt.equals("Pagas")) {
+				selectAll += " where data_pagamento is not null order by data_vencimento";
+				
+				pst_selectAll = io_connection.prepareStatement(selectAll);
+			}else if (opt.equals("Canceladas")) {
+				selectAll += " where data_cancelamento is not null order by data_vencimento";
+				
+				pst_selectAll = io_connection.prepareStatement(selectAll);
+			}
+			
+			List<MatriculationInvoices> arlMatriculationInvoices = new ArrayList<MatriculationInvoices>();
+			ResultSet rst= pst_selectAll.executeQuery();
+			
+			while(rst.next()) {
+				MatriculationInvoices mi = new MatriculationInvoices();
+				mi.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
+				mi.setDue_date(rst.getString("data_vencimento"));
+				mi.setValue(Float.parseFloat(rst.getString("valor")));
+				mi.setPay_date(rst.getString("data_pagamento"));
+				mi.setCancel_date(rst.getString("data_cancelamento"));		
+				
+				
+				arlMatriculationInvoices.add(mi);
+			}
+			
+			selectAll = "select * from faturas_matriculas order";
+			
+			return arlMatriculationInvoices;
+		}
+
+	@Override
+	public Object Select(Object parameter) throws SQLException {
+		MatriculationInvoices mi = new MatriculationInvoices();
+		
+		return mi;
+	}
+	
+	public List<MatriculationInvoices> SelectFilter(String data1, String data2, String opt) throws SQLException {
+		
+		if (opt.equals("Todas")) {
+			select += " order by data_vencimento";
+			
+			pst_select = io_connection.prepareStatement(select);
+			pst_select.clearParameters();
+		}else if (opt.equals("Em aberto")) {
+			select += " and data_pagamento is null order by data_vencimento";
+			
+			pst_select = io_connection.prepareStatement(select);
+			pst_select.clearParameters();
+		}else if (opt.equals("Pagas")) {
+			select += " and data_pagamento is not null order by data_vencimento";
+			
+			pst_select = io_connection.prepareStatement(select);
+			pst_select.clearParameters();
+		}else if (opt.equals("Canceladas")) {
+			select += " and data_cancelamento is not null order by data_vencimento";
+			
+			pst_select = io_connection.prepareStatement(select);
+			pst_select.clearParameters();
+		}
+		
+		List<MatriculationInvoices> arlMatriculationInvoices = new ArrayList<MatriculationInvoices>();
+		
+		MatriculationInvoices mi = null;
+		
+		Set(pst_select, 1, data1);
+		Set(pst_select, 2, data2);
+
+		
+		ResultSet rst = pst_select.executeQuery();
 		
 		while(rst.next()) {
-			MatriculationInvoices mi = new MatriculationInvoices();
+			mi = new MatriculationInvoices();
 			mi.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
 			mi.setDue_date(rst.getString("data_vencimento"));
 			mi.setValue(Float.parseFloat(rst.getString("valor")));
@@ -78,32 +158,9 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 			arlMatriculationInvoices.add(mi);
 		}
 		
+		select = "select * from faturas_matriculas where (data_vencimento between ? and ?)";
+		
 		return arlMatriculationInvoices;
-	}
-
-	@Override
-	public Object Select(Object parameter) throws SQLException {
-		pst_select.clearParameters();
-		
-		MatriculationInvoices mi = null;
-		
-		Set(pst_select, 1, ((MatriculationInvoices)parameter).getMatriculation_code());
-
-		
-		ResultSet rst = pst_select.executeQuery();
-		
-		if (rst.next()) {
-			mi = new MatriculationInvoices();
-			mi.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
-			mi.setDue_date(rst.getString("data_vencimento"));
-			mi.setValue(Float.parseFloat(rst.getString("valor")));
-			mi.setPay_date(rst.getString("data_pagamento"));
-			mi.setCancel_date(rst.getString("data_cancelamento"));	
-			
-			
-		}
-		
-		return mi;
 	}
 
 	@Override
