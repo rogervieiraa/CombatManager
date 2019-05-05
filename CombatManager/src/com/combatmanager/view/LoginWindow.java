@@ -6,6 +6,8 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -74,7 +76,14 @@ public class LoginWindow extends JFrame {
 				User default_user = new User("admin", "Completo", "admin");
 				
 				User admin_user = new User();;
-					
+				if(textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(null,"Favor preencher campo de usuario.");
+					return;
+				}
+				if(passwordField.getText().equals("")) {
+					JOptionPane.showMessageDialog(null,"Favor preencher campo de senha.");
+					return;
+				}
 				
 				Configuration standart_config;
 				
@@ -87,17 +96,17 @@ public class LoginWindow extends JFrame {
 					admin_user.setPassword(passwordField.getText());
 					
 					standart_config = new Configuration(admin_user);
+					System.out.println(standart_config.toString());
 					userDao = new UserDAO(standart_config.getConnection());
+					
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null,"Usuario ou senha invalido");
+					return;
 				}
-				
-				
-				local_user = new User(admin_user.getUser(),admin_user.getProfile(),admin_user.getPassword());
+			
 				setVisible(false);
 				MainController mc = new MainController();
-				mc.run(local_user);
+				mc.run(admin_user);
 			}
 		});
 		btnNewButton.setBounds(111, 309, 221, 23);

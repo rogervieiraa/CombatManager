@@ -22,17 +22,22 @@ public class Configuration {
 	private final String DB_IP = null;
 	private final String DB_PORT = null;
 	private final String DB_NAME = "master";
-	private final String DB_USER_NAME = "admin";
-	private final String DB_PASSWORD = "admin";	
+	private String DB_USER_NAME;
+	private String DB_PASSWORD;	
 	private HashMap<Integer, String> sysLog;
 	private Integer logKey;
 	
 	public Configuration(User userLoged) throws Exception {
 		sysLog = new HashMap<Integer, String>();
 		logKey = 0;
+		
 		if(userLoged == null) {
 			throw new Exception("ERRO 000: Usuario nulo!");
 		}
+		
+		DB_USER_NAME = userLoged.getUser();
+		DB_PASSWORD = userLoged.getPassword();
+		
 		this.userLoged = userLoged;
 	}
 	
@@ -43,7 +48,7 @@ public class Configuration {
 	public User getUserLoged() {
 		return userLoged;
 	}
-	
+
 	/**
 	 * @author Roger
 	 * @return the a prime value of the user permission
@@ -90,5 +95,13 @@ public class Configuration {
 	public void saveLog() {
 		// TO DO
 	}
+
+	@Override
+	public String toString() {
+		return "Configuration [DB_IP=" + DB_IP + ", DB_PORT=" + DB_PORT + ", DB_NAME=" + DB_NAME + ", DB_USER_NAME="
+				+ DB_USER_NAME + ", DB_PASSWORD=" + DB_PASSWORD + "]";
+	}
+	
+	
 	
 }
