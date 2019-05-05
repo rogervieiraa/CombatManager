@@ -8,8 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -39,10 +42,12 @@ public class AddModalityWindow extends JFrame implements View {
 	private Modality save_modality;
 	private MatriculationModality save_matriculationModality;
 	
+	
 	/**
 	 * Create the panel.
 	 */
-	public AddModalityWindow() {
+	public AddModalityWindow(Configuration config) {
+		this.config = config;
 		save_matriculationModality = null;
 		setLayout(null);
 		setBounds(0, 0, 450, 403);
@@ -130,7 +135,7 @@ public class AddModalityWindow extends JFrame implements View {
 				
 				MatriculationModality matriculationModality = new MatriculationModality();
 				
-				matriculationModality.setGraduation(comboModality.getSelectedItem().toString());
+				matriculationModality.setModality(comboModality.getSelectedItem().toString());
 				matriculationModality.setPlan(comboPlan.getSelectedItem().toString());
 				if(comboGraduation.getSelectedIndex() == 0) {
 					matriculationModality.setGraduation(null);
@@ -154,7 +159,9 @@ public class AddModalityWindow extends JFrame implements View {
 				}
 
 				save_matriculationModality = matriculationModality;
-				setEnabled(false);
+				
+				dispatchEvent(new WindowEvent(getFrames()[0], WindowEvent.WINDOW_CLOSING));
+				
 			}
 		});
 		
@@ -193,6 +200,7 @@ public class AddModalityWindow extends JFrame implements View {
 				comboModality.addItem(auxiliar_modality.getModality());
 			}
 			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -204,6 +212,7 @@ public class AddModalityWindow extends JFrame implements View {
 	}
 	
 	public void startComboBoxes() {
+
 		GraduationDAO graduationDao = null;
 		PlanDAO planDao = null;
 		
@@ -221,9 +230,9 @@ public class AddModalityWindow extends JFrame implements View {
 			
 			for(int i=0;i<plan_list.size();i++) {
 				Plan plan = plan_list.get(i);
-				comboGraduation.addItem(plan.getPlan());
+				comboPlan.addItem(plan.getPlan());
 			}
-			
+			comboModality.setEnabled(false);
 			comboGraduation.setEnabled(true);
 			comboPlan.setEnabled(true);
 			textFieldEnd.setEnabled(true);

@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -60,6 +61,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	private List<MatriculationModality> save_matriculationModality;
 	private final String NAME = "Tela Cadastro Alunos";
 	private final int ACCESS = 5*11;
+	private Boolean waiting;
 
 	@Override
 	public int getAccess() {
@@ -89,7 +91,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		internalFrame.setVisible(true);
-		
+		waiting = false;
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
@@ -209,6 +211,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 			public void actionPerformed(ActionEvent arg0) {
 				if(!search) {
 					textFieldRegistration.setEnabled(true);
+					
 					btnAdd.setEnabled(false);
 					search = true;
 					config.addToSystemLog(getName()+","+"Iniciou a operacao de busca");
@@ -258,7 +261,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 					config.addToSystemLog(getName()+","+"Erro em buscar");
 					resetWindow();
 				}
-				
+				btnAdicionarModalidade.setEnabled(true);
 				btnRemove.setEnabled(true);
 				btnSave.setEnabled(true);
 				btnSearch.setEnabled(false);
@@ -476,21 +479,25 @@ public class RegisterStudentWindow extends JPanel implements View{
 		btnAdicionarModalidade.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
-				AddModalityWindow addModalityWindow = new AddModalityWindow();
+				AddModalityWindow addModalityWindow = new AddModalityWindow(config);
 				addModalityWindow.setVisible(true);
-				while(addModalityWindow.isEnabled()) {
-					
-				}
+				addModalityWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				        MatriculationModality mm = addModalityWindow.getMatriculationModality();
+				        addMMToTable(mm);
+				        System.out.println(mm);
+				    }
+				});
 				
-				MatriculationModality auxiliar_mm = addModalityWindow.getMatriculationModality();
-				addMMToTable(auxiliar_mm);
 			}
 		});
+		
 		
 		return contentPane;
 	}
 	
+
 	
 	public void addMMToTable(MatriculationModality mm) {
 		if(mm == null) {
@@ -503,11 +510,13 @@ public class RegisterStudentWindow extends JPanel implements View{
 	}
 	
 	public void resetWindow() {
+		waiting = false;
 		search = false;
 		btnAdd.setEnabled(true);
 		btnSearch.setEnabled(true);
 		btnRemove.setEnabled(false);
 		btnSave.setEnabled(false);
+		btnAdicionarModalidade.setEnabled(false);
 		textFieldF9.setText("Teclar F9");
 		textFieldF9.setEnabled(false);
 		textFieldRegisterDay.setText("");
