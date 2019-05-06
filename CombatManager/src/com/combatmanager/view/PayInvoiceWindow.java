@@ -157,7 +157,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 						mat = (Matriculation) matDao.Select(mat);
 						
 						student.setIndex(mat.getStudent_code());
-						student = (Student) studentDao.Select(student);
+						student = (Student) studentDao.SelectById(student);
 						
 						model.addRow(new Object[] {listMi.get(i).getMatriculation_code(), student.getName(), listMi.get(i).getDue_date(), listMi.get(i).getValue(), listMi.get(i).getPay_date(), listMi.get(i).getCancel_date()});
 					}

@@ -100,8 +100,6 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 				arlMatriculationInvoices.add(mi);
 			}
 			
-			selectAll = "select * from faturas_matriculas order";
-			
 			return arlMatriculationInvoices;
 		}
 
@@ -157,8 +155,6 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 			
 			arlMatriculationInvoices.add(mi);
 		}
-		
-		select = "select * from faturas_matriculas where (data_vencimento between ? and ?)";
 		
 		return arlMatriculationInvoices;
 	}

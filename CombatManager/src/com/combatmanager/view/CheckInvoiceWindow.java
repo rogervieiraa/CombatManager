@@ -159,7 +159,7 @@ public class CheckInvoiceWindow extends JPanel implements View {
 						mat = (Matriculation) matDao.Select(mat);
 						
 						student.setIndex(mat.getStudent_code());
-						student = (Student) studentDao.Select(student);
+						student = (Student) studentDao.SelectById(student);
 						
 						System.out.println(student.toString());
 						
