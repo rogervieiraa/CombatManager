@@ -398,6 +398,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
+				
 				if(textFieldRegisterDay.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo data registro");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
@@ -407,6 +408,12 @@ public class RegisterStudentWindow extends JPanel implements View{
 				if(textFieldFinishDay.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de vencimento");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}
+				
+				if(Integer.parseInt(textFieldFinishDay.getText()) > 29 || Integer.parseInt(textFieldFinishDay.getText()) < 0) {
+					JOptionPane.showMessageDialog(null, "Dia de encerramento incorreto");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em incorreto");
 					return;
 				}
 				//ALUNO INCORRETO
@@ -470,6 +477,15 @@ public class RegisterStudentWindow extends JPanel implements View{
 					auxiliar_student.setName(textFieldStudent.getText());
 					
 					auxiliar_student = (Student) studentDao.Select(auxiliar_student);
+					
+					List<Matriculation> aux_mmm =  matriculationDao.SelectAllMatriculationByStudent(auxiliar_student);
+					if(aux_mmm.size() > 0) {
+						JOptionPane.showMessageDialog(null, "Aluno ja cadastrado");
+						config.addToSystemLog(getName()+","+"Tentou salvar aluno ja matriculado");
+						resetWindow();
+						return;
+					}
+					
 					auxiliar_matriculation.setStudent_code(auxiliar_student.getIndex());
 					auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
 					auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
