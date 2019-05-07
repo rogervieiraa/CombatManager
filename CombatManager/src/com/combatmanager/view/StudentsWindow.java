@@ -407,6 +407,10 @@ public class StudentsWindow extends JPanel implements View {
 				                       City aux_city = ccw.getCity();
 				                       if(aux_city.getName() != null) {
 				                    	   System.out.println(aux_city.toString());
+				                    	   txtTeclarF.setText(aux_city.getName());
+				                    	   txtTeclarF.setEnabled(false);
+				                    	   textFieldState.setText(aux_city.getState());
+				                    	   textFieldCountry.setText(aux_city.getCountry());
 				                       }
 				                     
 				                    }
@@ -646,6 +650,7 @@ public class StudentsWindow extends JPanel implements View {
 	}
 	
 	private void resetWindow() {
+		txtTeclarF.setText("Teclar F9");
 		textFieldEmail.setText("");
 		textFieldAddress.setText("");
 		textFieldLocal.setText("");
