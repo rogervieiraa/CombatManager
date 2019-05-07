@@ -35,6 +35,8 @@ import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.database.model.Student;
 import com.combatmanager.security.Configuration;
 
+import controller.CombatImage;
+
 import javax.swing.ImageIcon;
 
 public class PayInvoiceWindow extends JPanel implements View {
@@ -86,13 +88,13 @@ public class PayInvoiceWindow extends JPanel implements View {
 		JInternalFrame internalFrame = new JInternalFrame("Pagamento de Faturas");
 		internalFrame.setResizable(true);
 		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(new ImageIcon(PayInvoiceWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 600, 575);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
 		JLabel lblDe = new JLabel("De: ");
-		lblDe.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDe.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDe.setBounds(10, 11, 46, 14);
 		internalFrame.getContentPane().add(lblDe);
 		
@@ -102,7 +104,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 		textFieldFrom.setColumns(10);
 		
 		JLabel lblTo = new JLabel("At\u00E9: ");
-		lblTo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTo.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTo.setBounds(133, 12, 46, 14);
 		internalFrame.getContentPane().add(lblTo);
 		
@@ -112,7 +114,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(textFieldTo);
 		
 		JLabel lblStatus = new JLabel("Situa\u00E7\u00E3o: ");
-		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblStatus.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblStatus.setBounds(259, 12, 68, 14);
 		internalFrame.getContentPane().add(lblStatus);
 		
