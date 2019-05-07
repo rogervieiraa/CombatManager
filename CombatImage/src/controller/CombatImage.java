@@ -16,6 +16,7 @@ public final class CombatImage extends ImageIcon {
 	public static final CombatImage salvar_22x22 = loadImage("/22x22/salvar.png");
 	public static final CombatImage confirmar_16x16 = loadImage("/16x16/confirmar.png");
 	public static final CombatImage pasta_16x16 = loadImage("/16x16/pasta.png");
+	public static final CombatImage novo_16x16 = loadImage("/16x16/novo.png");
 	public static CombatImage loadImage(String title) {
 		return new CombatImage(title);
 	}

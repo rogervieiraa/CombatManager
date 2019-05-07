@@ -69,7 +69,7 @@ public class GenerateBillWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(lblDadosDaFatura);
 		
 		btnNewButton = new JButton("Gerar Faturas");
-		btnNewButton.setIcon(new ImageIcon(GenerateBillWindow.class.getResource("/img16/novo.png")));
+		btnNewButton.setIcon(CombatImage.novo_16x16);
 		btnNewButton.setBounds(129, 61, 185, 26);
 		internalFrame.getContentPane().add(btnNewButton);
 		internalFrame.setVisible(true);
