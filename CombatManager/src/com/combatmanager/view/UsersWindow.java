@@ -9,6 +9,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import com.combatmanager.security.Configuration;
+
+import controller.CombatImage;
+
 import com.combatmanager.database.dao.StudentDAO;
 import com.combatmanager.database.dao.UserDAO;
 import com.combatmanager.database.model.City;
@@ -72,13 +75,12 @@ public class UsersWindow extends JPanel implements View {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
-		internalFrame = new JInternalFrame("Tela Usuarios");
-		internalFrame.setFrameIcon(new ImageIcon(ModalityWindow.class.getResource("/img/combat.png")));		
+		internalFrame = new JInternalFrame("Tela Usuarios");	
 		internalFrame.setBounds(0, 0, 450, 300);
 		contentPane.add(internalFrame);
 		internalFrame.setVisible(true);
 		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setFrameIcon(new ImageIcon(ModalityWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		
 		BasicInternalFrameUI ui = (BasicInternalFrameUI)internalFrame.getUI();
 
@@ -107,7 +109,7 @@ public class UsersWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
+		btnSearch.setIcon(CombatImage.localizar_22x22);
 		btnSearch.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSearch.setMaximumSize(new Dimension(100, 40));
 		btnSearch.addActionListener(new ActionListener() {
@@ -183,7 +185,7 @@ public class UsersWindow extends JPanel implements View {
 		toolBar.add(space1);
 		
 		btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
+		btnAdd.setIcon(CombatImage.adicionar_22x22);
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnAdd.setMaximumSize(new Dimension(100, 40));
 		btnAdd.addActionListener(new ActionListener() {
@@ -199,7 +201,7 @@ public class UsersWindow extends JPanel implements View {
 		toolBar.add(space2);
 		
 		btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
+		btnRemove.setIcon(CombatImage.remover_22x22);
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnRemove.setMaximumSize(new Dimension(100, 40));
 		btnRemove.addActionListener(new ActionListener() {
@@ -236,7 +238,7 @@ public class UsersWindow extends JPanel implements View {
 		toolBar.add(space3);
 		
 		btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
+		btnSave.setIcon(CombatImage.salvar_22x22);
 		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSave.setMaximumSize(new Dimension(100, 40));
 		btnSave.addActionListener(new ActionListener() {
