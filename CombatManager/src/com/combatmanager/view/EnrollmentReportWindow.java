@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 
 import com.combatmanager.security.Configuration;
 
+import controller.CombatImage;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -42,23 +44,23 @@ public class EnrollmentReportWindow extends JPanel implements View {
 		
 		JInternalFrame internalFrame = new JInternalFrame("Relat\u00F3rio de Matricula ");
 		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(new ImageIcon(EnrollmentReportWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 270, 217);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
 		JLabel lblPeriod = new JLabel("Perido");
-		lblPeriod.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPeriod.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPeriod.setBounds(101, 11, 46, 14);
 		internalFrame.getContentPane().add(lblPeriod);
 		
 		JLabel lblfrom = new JLabel("De:");
-		lblfrom.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblfrom.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblfrom.setBounds(65, 60, 46, 14);
 		internalFrame.getContentPane().add(lblfrom);
 		
 		JLabel lblTo = new JLabel("At\u00E9:");
-		lblTo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTo.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTo.setBounds(65, 102, 46, 14);
 		internalFrame.getContentPane().add(lblTo);
 		
