@@ -147,7 +147,7 @@ public class ModalityWindow extends JPanel implements View{
 		toolBar.add(btnSave);
 		
 		JLabel lblModality = new JLabel("Modalidade: ");
-		lblModality.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblModality.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblModality.setBounds(10, 63, 78, 14);
 		internalFrame.getContentPane().add(lblModality);
 		
@@ -158,7 +158,7 @@ public class ModalityWindow extends JPanel implements View{
 		
 		
 		JLabel lblGraduation = new JLabel("Gradua\u00E7\u00E3o:  ");
-		lblGraduation.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblGraduation.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblGraduation.setBounds(10, 100, 78, 14);
 		internalFrame.getContentPane().add(lblGraduation);
 		
@@ -177,7 +177,7 @@ public class ModalityWindow extends JPanel implements View{
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 		
 		JLabel lblWarning = new JLabel("Duplo Clique na linha da gradua\u00E7\u00E3o para remov\u00EA-la");
-		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblWarning.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblWarning.setBounds(10, 289, 414, 14);
 		internalFrame.getContentPane().add(lblWarning);
 		
@@ -190,7 +190,7 @@ public class ModalityWindow extends JPanel implements View{
 		model.addColumn("Graduacao");
 		table.setModel(model);
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.setFont(new Font("Tahoma", Font.BOLD, 11));
+		table.setFont(new Font("Dialog", Font.BOLD, 11));
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel = new JLabel("New label");
