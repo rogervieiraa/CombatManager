@@ -4,12 +4,14 @@
 
 package			com.combatmanager.util;
 
+import java.awt.AWTEvent;
 import			java.awt.BorderLayout;
 import java.awt.Color;
 import			java.awt.event.ActionEvent;
 import			java.awt.event.ActionListener;
 import			java.util.Calendar;
 import			java.util.Date;
+import java.util.EventListener;
 import			java.util.GregorianCalendar;
 import			javax.swing.BorderFactory;
 import			javax.swing.JLabel;
@@ -406,13 +408,15 @@ public class		MasterMonthChooser
   	}
   	
   	/**
-  	M�todo para ser sobrescrito pela classe que usar�
-  	este objeto, afim de executar alguma a��o quando
+  	Mtodo para ser sobrescrito pela classe que usar
+  	este objeto, afim de executar alguma ao quando
   	a data for alterada.
   	*/
   	public
   	void			ExecuteSomething()
   	{
-  		
+
+
   	}
+
 }

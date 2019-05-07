@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.combatmanager.database.model.Matriculation;
 import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.util.DataFixer;
 
@@ -16,6 +17,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	
 	
 	private String selectAll = "select * from faturas_matriculas";
+	private String selectAllByMatriculation = "select * from faturas_matriculas where codigo_matricula = ?";
 	private String select = "select * from faturas_matriculas where (data_vencimento between cast(? as date) and cast(? as date))";
 	private String insert = "INSERT INTO faturas_matriculas			"
 								+"	(						" 
@@ -42,11 +44,13 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 							+ "		data_vencimento = ? ";
 	private String delete = "DELETE FROM faturas_matriculas WHERE codigo_matricula = ?";
 	
+	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
+	private PreparedStatement pst_selectAllByMatriculation;
 	DataFixer dataFixer;
 	
 	private DataFixer datafixer;
@@ -59,11 +63,34 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
-		
+		pst_selectAllByMatriculation = connection.prepareStatement(selectAllByMatriculation);
 	}
 	
 	public List<Object> SelectAll() throws SQLException {
 		List<Object> arlMatriculationInvoices = new ArrayList<Object>();
+		return arlMatriculationInvoices;
+	}
+	
+	
+	public List<MatriculationInvoices> SelectAllByMatriculation(Matriculation m) throws SQLException {
+		pst_selectAllByMatriculation.clearParameters();
+		pst_selectAllByMatriculation.setInt(1, m.getCode());;
+		List<MatriculationInvoices> arlMatriculationInvoices = new ArrayList<MatriculationInvoices>();
+		
+		ResultSet rst= pst_selectAllByMatriculation.executeQuery();
+		
+		while(rst.next()) {
+			MatriculationInvoices mi = new MatriculationInvoices();
+			mi.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
+			mi.setDue_date(rst.getString("data_vencimento"));
+			mi.setValue(Float.parseFloat(rst.getString("valor")));
+			mi.setPay_date(rst.getString("data_pagamento"));
+			mi.setCancel_date(rst.getString("data_cancelamento"));		
+			
+			
+			arlMatriculationInvoices.add(mi);
+		}
+		
 		return arlMatriculationInvoices;
 	}
 	
@@ -210,11 +237,10 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	public void Delete(Object parameter) throws SQLException {
 		pst_delete.clearParameters();
 		
-		MatriculationInvoices mi = new MatriculationInvoices();
+		Matriculation mi = new Matriculation();
 		
-		mi = (MatriculationInvoices) parameter;
-		
-		Set(pst_delete, 1, mi.getMatriculation_code());
+		mi = (Matriculation) parameter;
+		pst_delete.setInt(1, mi.getCode());
 		
 		pst_delete.execute();
 		

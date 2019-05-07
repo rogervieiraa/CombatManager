@@ -8,7 +8,12 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
+
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 
 import com.combatmanager.database.dao.AttendanceDAO;
 import com.combatmanager.database.dao.MatriculationDAO;
@@ -31,9 +36,13 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.ObjectInputFilter.Config;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -54,6 +63,9 @@ public class HomeWindow extends JPanel implements View {
 	private JButton btnEnrollmentInfo;
 	private Student saved_student;
 	private Configuration config;
+	List<Matriculation> student_matriculations;
+	private int saved_year;
+	private int saved_mounth;
 	
 	private final String NAME = "Tela Controle Estudantes";
 	private final int ACCESS = 3*5*7*11;
@@ -103,7 +115,7 @@ public class HomeWindow extends JPanel implements View {
 		JScrollPane scrollPaneStudentInfo = new JScrollPane();
 		scrollPaneStudentInfo.setBounds(217, 50, 426, 104);
 		internalFrame.getContentPane().add(scrollPaneStudentInfo);
-
+		
 		data = new MasterMonthChooser();
 		data.setBounds(10, 230,  185, 26);
 		internalFrame.getContentPane().add(data);
@@ -167,7 +179,6 @@ public class HomeWindow extends JPanel implements View {
 		
 		tableEnrollmentInfo = new JTable();
 		tableEnrollmentInfo.setEnabled(false);
-		tableEnrollmentInfo.setBackground(Color.RED);
 		tableEnrollmentInfo.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -240,12 +251,13 @@ public class HomeWindow extends JPanel implements View {
 		internalFrame.setVisible(true);
 		
 		resetWindow();
-		
+
 		return contentPane;
 	}
 	
 	private void resetWindow() {
 		saved_student = null;
+		student_matriculations = null;
 		textFieldCenterData.setText("Aguardando Consulta");
 		textFieldCenterData.setBackground(new Color(230,232,250));
 		btnEnrollmentInfo.setEnabled(false);
@@ -279,6 +291,33 @@ public class HomeWindow extends JPanel implements View {
 		tableStudentInfo.setEnabled(false);
 	}
 	
+	public void startThread() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					
+					while (!Thread.currentThread().isInterrupted()) {
+
+						if(saved_mounth != data.getDate().getMonth() && 
+								saved_year != data.getDate().getMonth()) {
+							genereteAttendance();
+						}
+						
+						if(saved_student == null) {
+							System.out.println("parou thread");
+							break;
+						}
+						
+						Thread.sleep(2000);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
 	
 	public void addTables() {
 		
@@ -293,9 +332,10 @@ public class HomeWindow extends JPanel implements View {
 			attendanceDao = new AttendanceDAO(config.getConnection());
 			matriculationInvoicesDao = new MatriculationInvoicesDAO(config.getConnection());
 			
-			List<Matriculation> student_matriculations = matriculationDao.SelectAllMatriculationByStudent(saved_student);
+			student_matriculations = matriculationDao.SelectAllMatriculationByStudent(saved_student);
 			
 			if(student_matriculations != null) {
+				System.out.println(student_matriculations);
 				for(int i=0;i<student_matriculations.size();i++) {
 					Matriculation aux_matriculation = student_matriculations.get(i);
 					
@@ -305,16 +345,22 @@ public class HomeWindow extends JPanel implements View {
 						addMMToTable(save_matriculationModality.get(j));
 					}
 					
-					/*  */
+					/* invoices */
+					List<MatriculationInvoices> save_matriculationInvoice = matriculationInvoicesDao.SelectAllByMatriculation(aux_matriculation);
 					
+					for(int j=0;j<save_matriculationInvoice.size();j++) {
+						addInvoiceToTable(save_matriculationInvoice.get(j));
+					}
 					
+					/* assuidade */
+					genereteAttendance();
 				}
 			}
 			else {
 				System.out.println("null??");
 			}
 			
-			
+			startThread();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -332,29 +378,77 @@ public class HomeWindow extends JPanel implements View {
 			return;
 		}
 
-		DefaultTableModel model12 = (DefaultTableModel) tableStudentInfo.getModel();
-		model12.addRow(new Object[] {mm.getModality(),mm.getGraduation(),mm.getPlan(),mm.getBegin_date(),mm.getEnd_date()});
-		tableStudentInfo.setModel(model12);
+		DefaultTableModel model11 = (DefaultTableModel) tableStudentInfo.getModel();
+		model11.addRow(new Object[] {mm.getModality(),mm.getGraduation(),mm.getPlan(),mm.getBegin_date(),mm.getEnd_date()});
+		tableStudentInfo.setModel(model11);
 	}
 	
 	public void addAttendanceToTable(Attendance mm) {
 		if(mm == null) {
 			return;
 		}
-		
 
+		DefaultTableModel model12 = (DefaultTableModel) tableAssiduity.getModel();
+		model12.addRow(new Object[] {mm.getEntry_date()});
+		tableAssiduity.setModel(model12);
+
+	}
+	
+	public void genereteAttendance() {
+		DefaultTableModel model12 = (DefaultTableModel) tableAssiduity.getModel();
+
+		
+		
+		Date dd = data.getDate();
+		saved_year = dd.getYear();
+		saved_mounth = dd.getMonth();
+		dd.setYear(dd.getYear() + 1900);
+		dd.setMonth(dd.getMonth() + 1);
+		AttendanceDAO attendanceDao = null;
+		
+		try {
+			attendanceDao = new AttendanceDAO(config.getConnection());
+			String data1 = Integer.toString(dd.getYear()) + "-" +
+					Integer.toString(dd.getMonth()) + "-01";
+			System.out.println(data1);
+			String data2;
+			if(dd.getMonth() == 12) {
+				data2 = Integer.toString(dd.getYear() + 1) + "-" +
+					Integer.toString(dd.getMonth() - 11) + "-01";
+			}
+			else {
+				data2 = Integer.toString(dd.getYear()) + "-" +
+						Integer.toString(dd.getMonth() + 1) + "-01";
+			}
+			
+			
+			List<Attendance> list_att = attendanceDao.SelectAllByDate(data1, data2);
+			
+			while(model12.getRowCount() > 0) {
+				model12.removeRow(0);
+			}
+			for(int j=0;j<list_att.size();j++) {
+				addAttendanceToTable(list_att.get(j));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void addInvoiceToTable(MatriculationInvoices mm) {
 		if(mm == null) {
 			return;
 		}
-		
+		DefaultTableModel model12 = (DefaultTableModel) tableEnrollmentInfo.getModel();
+		model12.addRow(new Object[] {mm.getDue_date(),mm.getValue(),mm.getDue_date(),mm.getCancel_date()});
+		tableEnrollmentInfo.setModel(model12);
 
-	}
-	
-	public void refreshAttendanceTable() {
-		
 	}
 	
 }

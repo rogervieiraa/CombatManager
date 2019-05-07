@@ -189,9 +189,8 @@ public class MatriculationDAO extends MasterDAO{
 	public void Delete(Object parameter) throws SQLException {
 		pst_delete.clearParameters();
 		
-		Matriculation mat = new Matriculation();
+		Matriculation mat = (Matriculation) parameter;
 		
-		mat = (Matriculation) parameter;
 		pst_delete.setInt(1, mat.getCode());
 		
 		pst_delete.execute();

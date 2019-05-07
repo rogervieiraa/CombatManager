@@ -40,11 +40,13 @@ import javax.swing.table.TableModel;
 import com.combatmanager.database.dao.AttendanceDAO;
 import com.combatmanager.database.dao.GraduationDAO;
 import com.combatmanager.database.dao.MatriculationDAO;
+import com.combatmanager.database.dao.MatriculationInvoicesDAO;
 import com.combatmanager.database.dao.MatriculationModalityDAO;
 import com.combatmanager.database.dao.ModalityDAO;
 import com.combatmanager.database.dao.StudentDAO;
 import com.combatmanager.database.model.Graduation;
 import com.combatmanager.database.model.Matriculation;
+import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.database.model.MatriculationModality;
 import com.combatmanager.database.model.Modality;
 import com.combatmanager.database.model.Student;
@@ -353,13 +355,17 @@ public class RegisterStudentWindow extends JPanel implements View{
 				
 				MatriculationDAO matriculationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
+				MatriculationInvoicesDAO matriculationInvoiceDao = null;
 				AttendanceDAO attendenceDao = null;
 				try {
-					
+					matriculationInvoiceDao = new MatriculationInvoicesDAO(config.getConnection());
+					attendenceDao = new AttendanceDAO(config.getConnection());
 					matriculationDao = new MatriculationDAO(config.getConnection());
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
 					Matriculation auxiliar_matriculation = save_matriculation;
 					System.out.println(auxiliar_matriculation.toString());
+					attendenceDao.Delete(auxiliar_matriculation);
+					matriculationInvoiceDao.Delete(auxiliar_matriculation);
 					matriculationModalityDao.DeleteByMatriculation(auxiliar_matriculation);
 					matriculationDao.Delete(auxiliar_matriculation);
 					config.addToSystemLog(getName()+","+"Deletou com sucesso"+","+auxiliar_matriculation.toString());
