@@ -10,7 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -59,6 +63,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	private Boolean search;
 	private Matriculation save_matriculation;
 	private List<MatriculationModality> save_matriculationModality;
+	private List<MatriculationModality> newers_mm;
 	private final String NAME = "Tela Cadastro Alunos";
 	private final int ACCESS = 5*11;
 	private Boolean waiting;
@@ -82,6 +87,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	 * Create the panel.
 	 */
 	public JPanel run(Configuration config) {
+		newers_mm = new ArrayList<MatriculationModality>();
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
@@ -244,11 +250,10 @@ public class RegisterStudentWindow extends JPanel implements View{
 					textFieldRegistration.setText(Integer.toString(save_matriculation.getCode()));
 					
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
-					//save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(save_matriculation);
-					//for(int i=0;i<save_matriculationModality.size();i++) {
-						//System.out.println(save_matriculationModality.get(i).toString());
-						//TO DO put on table
-					//}
+					save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(save_matriculation);
+					for(int i=0;i<save_matriculationModality.size();i++) {
+						addMMToTable(save_matriculationModality.get(i));
+					}
 					
 					config.addToSystemLog(getName()+","+"Busca realizada com sucesso"+","+auxiliar_matriculation.toString());
 				} catch (SQLException e1) {
@@ -393,30 +398,14 @@ public class RegisterStudentWindow extends JPanel implements View{
 						auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
 						auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
 						matriculationDao.Update(save_matriculation, auxiliar_matriculation);
-						/*
-						for(int i=0;i<model.getRowCount();i++) {
-							String model_value_graduation = (String) model.getValueAt(i, 0);
-							Boolean found = false;
-							for(int j=0;j<save_graduation.size();j++) {
-								if(save_graduation.get(j).getGraduation().equals(model_value_graduation)) {
-									save_graduation.remove(j);
-									found = true;
-									break;
-								}
-							}
-							if(!found) {
-								Graduation local_graduation = new Graduation();
-								local_graduation.setModality(save_modality.getModality());
-								local_graduation.setGraduation(model_value_graduation);
-								graduationDao.Insert(local_graduation);
-							}
+												
+						for(int i=0;i<newers_mm.size();i++) {
+							MatriculationModality aux_mm = newers_mm.get(i);
+							aux_mm.setMatriculation_code(Integer.parseInt(textFieldRegistration.getText()));
+							matriculationModalityDao.Insert(aux_mm);
 						}
-						//delete
-						for(int i=0;i<save_graduation.size();i++) {
-							matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
-							graduationDao.Delete(save_graduation.get(i));
-						}
-						*/
+
+						
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
@@ -447,18 +436,15 @@ public class RegisterStudentWindow extends JPanel implements View{
 					auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
 					auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
 					
-
 					matriculationDao.Insert(auxiliar_matriculation);
-					/*
-					graduationDao = new GraduationDAO(config.getConnection());
-					for(int i=0;i<model.getRowCount();i++) {
-						Graduation local_gradual = new Graduation();
-						
-						local_gradual.setModality(local_modality.getModality());
-						local_gradual.setGraduation((String) model.getValueAt(i, 0));
-						graduationDao.Insert(local_gradual);
-						
-					}*/
+					auxiliar_matriculation.setCode(matriculationDao.GetCode(auxiliar_matriculation));
+					for(int i=0;i<newers_mm.size();i++) {
+						MatriculationModality aux_mm = newers_mm.get(i);
+						aux_mm.setMatriculation_code(auxiliar_matriculation.getCode());
+						System.out.println(aux_mm.toString());
+						matriculationModalityDao.Insert(aux_mm);
+					}
+					
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+auxiliar_matriculation.toString());
 					
@@ -485,19 +471,28 @@ public class RegisterStudentWindow extends JPanel implements View{
 				    @Override
 				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				        MatriculationModality mm = addModalityWindow.getMatriculationModality();
-				        addMMToTable(mm);
-				        System.out.println(mm);
+				        
+				        if(!mm.equals(null)) {
+				        	addMMToTable(mm);
+				        	newers_mm.add(mm);
+				        }
+				        
 				    }
 				});
 				
 			}
 		});
 		
-		
 		return contentPane;
 	}
 	
-
+	public void resetTable() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		while(model.getRowCount() > 0) {
+			model.removeRow(0);
+		}
+		table.setModel(model);
+	}
 	
 	public void addMMToTable(MatriculationModality mm) {
 		if(mm == null) {
@@ -510,6 +505,8 @@ public class RegisterStudentWindow extends JPanel implements View{
 	}
 	
 	public void resetWindow() {
+		newers_mm = new ArrayList<MatriculationModality>();
+		resetTable();
 		waiting = false;
 		search = false;
 		btnAdd.setEnabled(true);
@@ -527,7 +524,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		textFieldRegistration.setEnabled(false);
 		textFieldStudent.setEnabled(false);
 		textFieldFinishDay.setEnabled(false);
-		
+		table.setEnabled(false);
 	}
 	
 }

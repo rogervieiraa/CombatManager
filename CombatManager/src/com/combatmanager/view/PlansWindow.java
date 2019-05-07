@@ -34,6 +34,8 @@ import com.combatmanager.database.model.Plan;
 import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 
+import controller.CombatImage;
+
 public class PlansWindow extends JPanel implements View{
 	private JTextField textFieldPlans;
 	private JTextField textFieldPrice;
@@ -75,7 +77,7 @@ public class PlansWindow extends JPanel implements View{
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Planos");
-		internalFrame.setFrameIcon(new ImageIcon(PlansWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 450, 200);
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -96,13 +98,13 @@ public class PlansWindow extends JPanel implements View{
 		internalFrame.getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
+		btnSearch.setIcon(CombatImage.localizar_22x22);
 	
 		btnSearch.setMaximumSize(new Dimension(98, 80));
 		toolBar.add(btnSearch);
 		
 		btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
+		btnAdd.setIcon(CombatImage.adicionar_22x22);
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
@@ -113,7 +115,7 @@ public class PlansWindow extends JPanel implements View{
 		toolBar.add(space2);
 		
 		btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
+		btnRemove.setIcon(CombatImage.remover_22x22);
 		btnRemove.setMaximumSize(new Dimension(98, 80));
 		
 		toolBar.add(btnRemove);
@@ -122,7 +124,7 @@ public class PlansWindow extends JPanel implements View{
 		toolBar.add(space3);
 		
 		btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
+		btnSave.setIcon(CombatImage.salvar_22x22);
 		btnSave.setMaximumSize(new Dimension(98, 80));
 	
 		toolBar.add(btnSave);

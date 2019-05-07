@@ -10,6 +10,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.combatmanager.security.Configuration;
+import com.combatmanager.util.MasterMonthChooser;
 
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -19,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
-public class StudentControl extends JPanel implements View {
+public class StudentControlWindow extends JPanel implements View {
 	private JTable tableLeftUpBox;
 	private JTable tableColor;
 	private JTextField textFieldName;
@@ -29,7 +30,9 @@ public class StudentControl extends JPanel implements View {
 	private JTable tableEnrollmentInfo;
 	private JScrollPane scrollPaneAssiduity;
 	private JTable tableAssiduity;
-
+	MasterMonthChooser data;
+	
+	
 	private final String NAME = "Tela Controle Estudantes";
 	private final int ACCESS = 7*11;
 	
@@ -51,7 +54,7 @@ public class StudentControl extends JPanel implements View {
 		contentPane.setLayout(null);
 		
 		JInternalFrame internalFrame = new JInternalFrame("Controle de Alunos");
-		internalFrame.setFrameIcon(new ImageIcon(StudentControl.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(new ImageIcon(StudentControlWindow.class.getResource("/img/combatvinte.png")));
 		internalFrame.getContentPane().setEnabled(false);
 		internalFrame.setBounds(0, 0, 665, 515);
 		contentPane.add(internalFrame);
@@ -100,6 +103,10 @@ public class StudentControl extends JPanel implements View {
 		});
 		tableStudentInfo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tableStudentInfo.setBackground(new Color(255, 255, 255));
+		
+		data = new MasterMonthChooser();
+		data.setBounds(10, 230,  185, 26);
+		internalFrame.getContentPane().add(data);
 		
 		txtChooser = new JTextField();
 		txtChooser.setEditable(false);
@@ -151,6 +158,8 @@ public class StudentControl extends JPanel implements View {
 		scrollPaneAssiduity = new JScrollPane();
 		scrollPaneAssiduity.setBounds(12, 262, 178, 208);
 		internalFrame.getContentPane().add(scrollPaneAssiduity);
+		
+		
 		
 		tableAssiduity = new JTable();
 		tableAssiduity.setModel(new DefaultTableModel(
