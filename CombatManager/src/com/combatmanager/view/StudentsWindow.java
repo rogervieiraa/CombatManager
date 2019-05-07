@@ -118,13 +118,14 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		
 		conf = config;
 		
+		addKeyListener(this);
+		
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
 		internalFrame.setBounds(0, 0, 546, 520);
 		
-		addKeyListener(this);
 		
 		
 		contentPane.add(internalFrame);
@@ -655,7 +656,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		System.out.println("Aqui");
-		if (e.getKeyCode() == KeyEvent.VK_F9) {
+		if (e.getKeyCode() == e.VK_F9) {
         	System.out.println("Aqui2");
 			ChooseCityWindow ccw = new ChooseCityWindow(conf);
 			ccw.setVisible(true);
@@ -673,7 +674,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		System.out.println("Aqui");
-		if (e.getKeyCode() == KeyEvent.VK_F9) {
+		if (e.getKeyCode() == e.VK_F9) {
         	System.out.println("Aqui2");
 			ChooseCityWindow ccw = new ChooseCityWindow(conf);
 			ccw.setVisible(true);

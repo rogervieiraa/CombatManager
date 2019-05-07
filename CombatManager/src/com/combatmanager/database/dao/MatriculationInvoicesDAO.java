@@ -50,7 +50,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	private PreparedStatement pst_delete;
 	DataFixer dataFixer;
 	
-	
+	private DataFixer datafixer;
 	Connection io_connection;
 	
 	public  MatriculationInvoicesDAO(Connection connection) throws SQLException{
@@ -169,15 +169,20 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 		MatriculationInvoices mi = new MatriculationInvoices();
 		
 		mi = (MatriculationInvoices) new_parameter;
+		Date dt1 = datafixer.fixData(mi.getDue_date(), "-");
+		Date dt2 = datafixer.fixData(mi.getCancel_date(), "-");
+		Date dt3 = datafixer.fixData(mi.getPay_date(), "-");
 		
-		Set(pst_update, 1, mi.getDue_date());
-		Set(pst_update, 2, mi.getValue());
-		Set(pst_update, 3, mi.getPay_date());
-		Set(pst_update, 4, mi.getCancel_date());
+		pst_update.setDate( 1, dt1);
+		pst_update.setFloat(2, mi.getValue());
+		pst_update.setDate(3, dt3);
+		pst_update.setDate(4, dt2);
 		
 		mi = (MatriculationInvoices) last_parameter;
 		
-		Set(pst_update, 5, mi.getMatriculation_code());
+		
+		
+		pst_update.setDate(5, dt1);
 		
 		pst_update.execute();
 		

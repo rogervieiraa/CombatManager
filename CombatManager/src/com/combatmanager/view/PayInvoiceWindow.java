@@ -1,13 +1,22 @@
 package com.combatmanager.view;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JTextField;
@@ -33,13 +42,17 @@ public class PayInvoiceWindow extends JPanel implements View {
 	private JTextField textFieldTo;
 	private JTable table;
 	private JButton btnSearch;
+	private JPopupMenu popMenu;
+	private JMenuItem menuItempay;
+	private JMenuItem menuItemcancel;
+	private JMenuItem menuItemdesc;
 	private List<MatriculationInvoices> listMi;
 	private DefaultTableModel model = new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"Matr\u00EDcula", "Aluno", "Vencimento", "Valor", "Pagamento", "Cancelamento"
+				"Matricula", "Aluno", "Vencimento", "Valor", "Pagamento", "Cancelamento"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -173,6 +186,74 @@ public class PayInvoiceWindow extends JPanel implements View {
 		scrollPane.setBounds(20, 47, 558, 483);
 		internalFrame.getContentPane().add(scrollPane);
 		
+		popMenu = new JPopupMenu();
+		menuItempay = new JMenuItem("Pagar Fatura");
+		menuItemcancel = new JMenuItem("Cancelar Fatura");
+		menuItemdesc = new JMenuItem("Desconto/Acrecimo");
+		
+		menuItempay.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = table.getSelectedRow();
+				if(model.getValueAt(index, 4) == null) {
+					MatriculationInvoices mi = new MatriculationInvoices();
+					MatriculationInvoicesDAO miDao;
+					
+					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
+					mi.setDue_date(model.getValueAt(index, 2).toString());
+					mi.setValue(Float.parseFloat(model.getValueAt(index, 3).toString()));
+					mi.setPay_date(getDataAtual().toString());
+					
+					try {
+						miDao = new MatriculationInvoicesDAO(config.getConnection());
+						miDao.Update(mi, mi);
+					} catch (Exception e2) {
+						e2.getMessage();
+					}
+					
+					btnSearch.doClick();
+				}else {
+					return;
+				}
+				
+			}
+		});
+		menuItemcancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = table.getSelectedRow();
+				if(model.getValueAt(index, 5) == null) {
+					MatriculationInvoices mi = new MatriculationInvoices();
+					MatriculationInvoicesDAO miDao;
+					
+					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
+					mi.setDue_date(model.getValueAt(index, 2).toString());
+					mi.setValue(Float.parseFloat(model.getValueAt(index, 3).toString()));
+					mi.setCancel_date(getDataAtual().toString());
+					
+					try {
+						miDao = new MatriculationInvoicesDAO(config.getConnection());
+						miDao.Update(mi, mi);
+					} catch (Exception e2) {
+						e2.getMessage();
+					}
+					
+					btnSearch.doClick();
+				}else {
+					return;
+				}
+				
+			}
+		});
+		
+		
+		popMenu.add(menuItempay);
+		popMenu.add(menuItemcancel);
+		popMenu.add(menuItemdesc);
+		
+		
 		table = new JTable();
 		table.setModel(model);
 		table.getColumnModel().getColumn(0).setResizable(false);
@@ -180,9 +261,35 @@ public class PayInvoiceWindow extends JPanel implements View {
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(5).setResizable(false);
+		table.addMouseListener(new MouseAdapter() {
+			
+			public void mousePressed(MouseEvent e) {
+				if (table.getSelectedRow() != -1) {
+					if (e.isPopupTrigger()) {
+			            popMenu.show(e.getComponent(),
+			                       e.getX(), e.getY());
+			        }
+				}
+				
+		    }
+			public void mouseReleased(MouseEvent e) {
+				if (table.getSelectedRow() != -1) {
+					if (e.isPopupTrigger()) {
+			            popMenu.show(e.getComponent(),
+			                       e.getX(), e.getY());
+			        }
+				}
+		    }
+			
+		});
 		scrollPane.setViewportView(table);
 		internalFrame.setVisible(true);
 		
 		return contentPane;
+	}
+	private  LocalDate getDataAtual(){
+		LocalDate ld = LocalDate.now();
+		
+		return ld;
 	}
 }
