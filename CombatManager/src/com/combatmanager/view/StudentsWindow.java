@@ -13,6 +13,8 @@ import java.awt.event.TextEvent;
 import java.awt.event.WindowAdapter;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import javax.swing.border.MatteBorder;
@@ -43,6 +45,8 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import javax.swing.JTabbedPane;
@@ -60,7 +64,7 @@ import javax.swing.JTextArea;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-public class StudentsWindow extends JPanel implements View {
+public class StudentsWindow extends JPanel implements View, KeyListener {
 	
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
@@ -89,6 +93,7 @@ public class StudentsWindow extends JPanel implements View {
 	private final int ACCESS = 3*11;
 	private Boolean search = false;
 	private Boolean add = false;
+	private Configuration conf;
 	private String save_student = "";
 
 	@Override
@@ -110,33 +115,16 @@ public class StudentsWindow extends JPanel implements View {
 	 * Create the panel.
 	 */
 	public JPanel run(Configuration config) {
+		
+		conf = config;
+		
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
 		internalFrame.setBounds(0, 0, 546, 520);
 		
-		addKeyListener(new KeyAdapter() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				System.out.println("Aqui");
-				if (e.getKeyCode() == e.VK_F9) {
-					System.out.println("Aqui2");
-					ChooseCityWindow ccw = new ChooseCityWindow(config);
-					ccw.setVisible(true);
-					ccw.addWindowListener(new WindowAdapter() {
-						public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-							txtTeclarF.setText(city.getName());
-							textFieldState.setText(city.getState());
-							textFieldCountry.setText(city.getCountry());
-	                    }
-					});
-					
-				}
-				
-			}
-		});
+		addKeyListener(this);
 		
 		
 		contentPane.add(internalFrame);
@@ -655,6 +643,49 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldStudent.setEnabled(true);
 		formattedTextFieldDate.setEnabled(true);
 		comboBoxSex.setEnabled(true);
+	}
+	
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("Aqui");
+		if (e.getKeyCode() == KeyEvent.VK_F9) {
+        	System.out.println("Aqui2");
+			ChooseCityWindow ccw = new ChooseCityWindow(conf);
+			ccw.setVisible(true);
+			ccw.addWindowListener(new WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					txtTeclarF.setText(city.getName());
+					textFieldState.setText(city.getState());
+					textFieldCountry.setText(city.getCountry());
+                }
+			});
+        }
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		System.out.println("Aqui");
+		if (e.getKeyCode() == KeyEvent.VK_F9) {
+        	System.out.println("Aqui2");
+			ChooseCityWindow ccw = new ChooseCityWindow(conf);
+			ccw.setVisible(true);
+			ccw.addWindowListener(new WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					txtTeclarF.setText(city.getName());
+					textFieldState.setText(city.getState());
+					textFieldCountry.setText(city.getCountry());
+                }
+			});
+        }
+		
 	}
 }
 
