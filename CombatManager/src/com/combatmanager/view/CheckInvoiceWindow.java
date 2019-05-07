@@ -163,8 +163,6 @@ public class CheckInvoiceWindow extends JPanel implements View {
 						student.setIndex(mat.getStudent_code());
 						student = (Student) studentDao.SelectById(student);
 						
-						System.out.println(student.toString());
-						
 						model.addRow(new Object[] {listMi.get(i).getMatriculation_code(), student.getName(), listMi.get(i).getDue_date(), listMi.get(i).getValue(), listMi.get(i).getPay_date(), listMi.get(i).getCancel_date()});
 					}
 				} catch (Exception e2) {
