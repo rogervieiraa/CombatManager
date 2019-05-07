@@ -1,6 +1,7 @@
 package com.combatmanager.database.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.combatmanager.database.model.MatriculationInvoices;
+import com.combatmanager.util.DataFixer;
 
 
 public class MatriculationInvoicesDAO extends MasterDAO{
@@ -46,12 +48,13 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
+	DataFixer dataFixer;
 	
 	
 	Connection io_connection;
 	
 	public  MatriculationInvoicesDAO(Connection connection) throws SQLException{
-
+		dataFixer = new DataFixer();
 		io_connection = connection;
 		
 		pst_insert = connection.prepareStatement(insert);
@@ -184,13 +187,16 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
 		
-		MatriculationInvoices mi = new MatriculationInvoices();
+		MatriculationInvoices mi = (MatriculationInvoices) parameter;
 		
-		Set(pst_insert, 1, mi.getMatriculation_code());
-		Set(pst_insert, 2, mi.getDue_date());
-		Set(pst_insert, 3, mi.getValue());
-		Set(pst_insert, 4, mi.getPay_date());
-		Set(pst_insert, 5, mi.getCancel_date());
+		pst_insert.setInt(1, mi.getMatriculation_code());
+		Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
+		pst_insert.setDate(2, dt3);
+		pst_insert.setDouble(3, mi.getValue());
+		Date dt1 = dataFixer.fixData(mi.getPay_date(), "-");
+		pst_insert.setDate(4, dt1);
+		Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
+		pst_insert.setDate(5, dt2);
 
 		pst_insert.execute();
 		

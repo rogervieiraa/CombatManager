@@ -2,8 +2,14 @@ package com.combatmanager.view;
 
 import javax.swing.JPanel;
 
+import com.combatmanager.database.dao.MatriculationDAO;
+import com.combatmanager.database.dao.MatriculationInvoicesDAO;
 import com.combatmanager.database.dao.MatriculationModalityDAO;
+import com.combatmanager.database.dao.PlanDAO;
+import com.combatmanager.database.model.Matriculation;
+import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.database.model.MatriculationModality;
+import com.combatmanager.database.model.Plan;
 import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 import com.combatmanager.util.MasterMonthChooser;
@@ -77,12 +83,42 @@ public class GenerateBillWindow extends JPanel implements View {
 
 			public void actionPerformed(ActionEvent arg0) {
 				MatriculationModalityDAO matriculationModalityDao;
-				
+				MatriculationInvoicesDAO matriculationInvoiceDao;
+				PlanDAO planDao;
+				MatriculationDAO matriculationDao;
+				java.util.Date dat = data.getDate();
+				String ddd = Integer.toString(dat.getYear() + 1900) + "-" +
+						Integer.toString(dat.getMonth() + 1) + "-";
+				System.out.println(ddd);
 				try {
+					planDao = new PlanDAO(config.getConnection());
+					matriculationDao = new MatriculationDAO(config.getConnection());
+					matriculationInvoiceDao = new MatriculationInvoicesDAO(config.getConnection());
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
 					List<MatriculationModality> list_mm = matriculationModalityDao.SelectAllActive();
 					for(int i=0;i<list_mm.size();i++) {
-						System.out.println(list_mm.get(i).toString());
+						
+						MatriculationInvoices mi = new MatriculationInvoices();
+						MatriculationModality aux_mm = list_mm.get(i);
+						mi.setMatriculation_code(aux_mm.getMatriculation_code());
+						Matriculation aux_matriculation = new Matriculation();
+						aux_matriculation.setCode(mi.getMatriculation_code());;
+						
+						Matriculation matriculation = (Matriculation) matriculationDao.Select(aux_matriculation);
+						Plan aux_plan = new Plan();
+						aux_plan.setPlan(aux_mm.getPlan());
+						aux_plan.setModality(aux_mm.getModality());
+						Plan plan = (Plan) planDao.Select(aux_plan);
+						
+						
+						mi.setDue_date(ddd + matriculation.getDue_date());
+						mi.setPay_date(null);
+						
+						
+						mi.setValue(plan.getMonth_value()); // pegar do plano
+						mi.setCancel_date(null);
+						
+						matriculationInvoiceDao.Insert(mi);
 					}
 					
 				} catch (SQLException e) {
