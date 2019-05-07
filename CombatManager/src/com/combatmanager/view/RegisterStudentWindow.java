@@ -7,6 +7,9 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -66,7 +69,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	private List<MatriculationModality> newers_mm;
 	private final String NAME = "Tela Cadastro Alunos";
 	private final int ACCESS = 5*11;
-	private Boolean waiting;
+	private Boolean searchOrAdd;
 
 	@Override
 	public int getAccess() {
@@ -87,8 +90,11 @@ public class RegisterStudentWindow extends JPanel implements View{
 	 * Create the panel.
 	 */
 	public JPanel run(Configuration config) {
+		
+		searchOrAdd = false;
 		newers_mm = new ArrayList<MatriculationModality>();
 		JPanel contentPane= new JPanel();
+		contentPane.setFocusable(true);
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Matricular Aluno");
@@ -97,7 +103,6 @@ public class RegisterStudentWindow extends JPanel implements View{
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		internalFrame.setVisible(true);
-		waiting = false;
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
@@ -216,6 +221,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!search) {
+					searchOrAdd = true;
 					textFieldRegistration.setEnabled(true);
 					
 					btnAdd.setEnabled(false);
@@ -281,6 +287,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				searchOrAdd = true;
 				config.addToSystemLog(getName()+","+"Iniciou adicao de nova modalidade");
 				textFieldFinishDay.setEnabled(true);
 				textFieldRegisterDay.setEnabled(true);
@@ -291,6 +298,29 @@ public class RegisterStudentWindow extends JPanel implements View{
 				btnAdd.setEnabled(false);
 				btnRemove.setEnabled(false);
 				btnAdicionarModalidade.setEnabled(true);
+				textFieldStudent.setEnabled(true);
+				textFieldStudent.addKeyListener(new KeyAdapter() {
+					
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_F9) {
+							ChooseStudentWindow csw = new ChooseStudentWindow(config);
+							csw.setVisible(true);
+							csw.addWindowListener(new java.awt.event.WindowAdapter() {
+			                    @Override
+			                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			                      
+			                       Student aux_student = csw.getStudentId();
+			                       if(aux_student.getName() != null) {
+			                    	   textFieldStudent.setText(aux_student.getName()); 
+				                       textFieldStudent.setEnabled(false);
+			                       }
+			                     
+			                    }
+			                });
+						}
+					}
+				});
 				
 			}
 		});
@@ -355,8 +385,8 @@ public class RegisterStudentWindow extends JPanel implements View{
 				MatriculationModalityDAO matriculationModalityDao = null;
 				MatriculationDAO matriculationDao = null;
 				StudentDAO studentDao = null;
-				if(textFieldStudent.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Favor preencher o campo de aluno");
+				if(textFieldStudent.isEnabled()) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de aluno utilizando F9");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
@@ -479,9 +509,10 @@ public class RegisterStudentWindow extends JPanel implements View{
 				        
 				    }
 				});
-				
 			}
 		});
+		
+		
 		
 		return contentPane;
 	}
@@ -507,7 +538,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	public void resetWindow() {
 		newers_mm = new ArrayList<MatriculationModality>();
 		resetTable();
-		waiting = false;
+		searchOrAdd = false;
 		search = false;
 		btnAdd.setEnabled(true);
 		btnSearch.setEnabled(true);

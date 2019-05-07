@@ -153,7 +153,10 @@ public class StudentDAO extends MasterDAO {
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			student.setName(rst.getString("aluno"));
 			aux = rst.getString("data_nascimento");
-			aux = aux.replace("-", "/");
+			if(aux != null) {
+				aux = aux.replace("-", "/");
+			}
+			
 			student.setBirthday(aux);
 			student.setSex(rst.getString("sexo"));
 			student.setPhoneNumber(rst.getString("telefone"));

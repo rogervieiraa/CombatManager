@@ -58,7 +58,7 @@ public class MainWindow extends JFrame implements View {
 		
 		this.config = config; // TO DO
 		setTitle("Combat Manager 1.0");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/img/combat.png")));
+		setIconImage(CombatImage.combatvinte_20x20.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 	

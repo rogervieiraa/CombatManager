@@ -97,9 +97,7 @@ public class MatriculationDAO extends MasterDAO{
 		ResultSet rst = pst_getcode.executeQuery();
 		
 		if (rst.next()) {
-			System.out.println(rst.toString());
 			return Integer.parseInt(rst.getString("codigo_matricula"));
-			
 		}
 		
 		return null;
@@ -134,7 +132,6 @@ public class MatriculationDAO extends MasterDAO{
 		
 		Matriculation mat = new Matriculation();
 		mat = (Matriculation) new_parameter;
-		System.out.println(mat.getMatriculation_date());
 		Date dt1 = dataFixer.fixData(mat.getMatriculation_date(), "-");
 		pst_update.setDate(1, dt1);
 		pst_update.setInt(2, mat.getDue_date());

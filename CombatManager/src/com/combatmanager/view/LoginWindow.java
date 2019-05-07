@@ -39,7 +39,7 @@ public class LoginWindow extends JFrame {
 	 */
 	public LoginWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginWindow.class.getResource("/img/combatvinte.png")));
+		setIconImage(CombatImage.combatvinte_20x20.getImage());
 		
 		setResizable(false);
 		setTitle("Combat Manager 1.0");
@@ -57,13 +57,13 @@ public class LoginWindow extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Login:");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblNewLabel.setBounds(111, 220, 46, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(Color.WHITE);
-		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSenha.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblSenha.setBounds(111, 249, 102, 14);
 		contentPane.add(lblSenha);
 		
