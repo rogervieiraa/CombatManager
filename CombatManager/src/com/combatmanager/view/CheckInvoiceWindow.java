@@ -82,7 +82,7 @@ public class CheckInvoiceWindow extends JPanel implements View {
 		internalFrame.getContentPane().setLayout(null);
 		
 		JLabel lblDe = new JLabel("De: ");
-		lblDe.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDe.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDe.setBounds(10, 11, 46, 14);
 		internalFrame.getContentPane().add(lblDe);
 		
@@ -92,7 +92,7 @@ public class CheckInvoiceWindow extends JPanel implements View {
 		textFieldFrom.setColumns(10);
 		
 		JLabel lblTo = new JLabel("At\u00E9: ");
-		lblTo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTo.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTo.setBounds(133, 12, 46, 14);
 		internalFrame.getContentPane().add(lblTo);
 		
@@ -102,7 +102,7 @@ public class CheckInvoiceWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(textFieldTo);
 		
 		JLabel lblStatus = new JLabel("Situa\u00E7\u00E3o: ");
-		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblStatus.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblStatus.setBounds(259, 12, 68, 14);
 		internalFrame.getContentPane().add(lblStatus);
 		
