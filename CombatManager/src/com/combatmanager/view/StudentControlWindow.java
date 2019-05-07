@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import com.combatmanager.security.Configuration;
 import com.combatmanager.util.MasterMonthChooser;
 
+import controller.CombatImage;
+
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -54,7 +56,7 @@ public class StudentControlWindow extends JPanel implements View {
 		contentPane.setLayout(null);
 		
 		JInternalFrame internalFrame = new JInternalFrame("Controle de Alunos");
-		internalFrame.setFrameIcon(new ImageIcon(StudentControlWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.getContentPane().setEnabled(false);
 		internalFrame.setBounds(0, 0, 665, 515);
 		contentPane.add(internalFrame);
