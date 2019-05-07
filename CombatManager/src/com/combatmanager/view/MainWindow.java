@@ -80,7 +80,7 @@ public class MainWindow extends JFrame implements View {
 			}
 				
 		});
-		mntmUsers.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+		mntmUsers.setIcon(CombatImage.aplicacao_16x16);
 		mnSystem.add(mntmUsers);
 
 		JMenuItem mntmExit = new JMenuItem( new AbstractAction("Sair") {
@@ -107,7 +107,7 @@ public class MainWindow extends JFrame implements View {
 				}
 					
 			});
-			mntmStudents.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+			mntmStudents.setIcon(CombatImage.aplicacao_16x16);
 			mnRegisted.add(mntmStudents);
 		}
 		
@@ -123,7 +123,7 @@ public class MainWindow extends JFrame implements View {
 				}
 					
 			});
-			mntmModalities.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+			mntmModalities.setIcon(CombatImage.aplicacao_16x16);
 			mnRegisted.add(mntmModalities);
 		}
 		if(new PlansWindow().getAccess()%config.getPermissionValue() == 0) {
@@ -138,7 +138,7 @@ public class MainWindow extends JFrame implements View {
 					
 			});
 			
-			mntmPlans.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+			mntmPlans.setIcon(CombatImage.aplicacao_16x16);
 			mnRegisted.add(mntmPlans);
 		}
 		JMenu mnProcesses = new JMenu("Processos");
@@ -146,7 +146,7 @@ public class MainWindow extends JFrame implements View {
 
 		;
 		JMenu mnRegister = new JMenu("Matricular");
-		mnRegister.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+		mnRegister.setIcon(CombatImage.aplicacao_16x16);
 		mnRegister.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcesses.add(mnRegister);
 		if(new RegisterStudentWindow().getAccess()%config.getPermissionValue() == 0) {
@@ -164,7 +164,7 @@ public class MainWindow extends JFrame implements View {
 		}
 		
 		JMenu mnBilling = new JMenu("Faturamento");
-		mnBilling.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
+		mnBilling.setIcon(CombatImage.aplicacao_16x16);
 		mnProcesses.add(mnBilling);
 		if(new GenerateBillWindow().getAccess()%config.getPermissionValue() == 0) {
 			JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){

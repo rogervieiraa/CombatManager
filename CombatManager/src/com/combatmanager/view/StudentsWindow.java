@@ -64,7 +64,7 @@ import javax.swing.JTextArea;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-public class StudentsWindow extends JPanel implements View, KeyListener {
+public class StudentsWindow extends JPanel implements View {
 	
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
@@ -93,7 +93,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 	private final int ACCESS = 3*11;
 	private Boolean search = false;
 	private Boolean add = false;
-	private Configuration conf;
+	private Configuration config;
 	private String save_student = "";
 
 	@Override
@@ -116,17 +116,14 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 	 */
 	public JPanel run(Configuration config) {
 		
-		conf = config;
+		this.config = config;
 		
-		addKeyListener(this);
 		
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
 		internalFrame.setBounds(0, 0, 546, 520);
-		
-		
 		
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
@@ -150,79 +147,10 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(CombatImage.localizar_22x22);
 		btnSearch.setMaximumSize(new Dimension(100, 80));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(!search) {
-					textFieldStudent.setEnabled(true);
-					btnAdd.setEnabled(false);
-					search = true;
-					return;
-				}
-				save_student = textFieldStudent.getText();
-				StudentDAO studentDao = null;
-				
-				Student student = new Student();
-				student.setName(textFieldStudent.getText());
-				student.setEmail(textFieldEmail.getText());
-				try {
-					
-					studentDao = new StudentDAO(config.getConnection());
-					Student auxiliar_student = (Student) studentDao.Select(student);
-					System.out.println(auxiliar_student.toString());
-					City city = new City();
-					if(auxiliar_student.getName().equals("")) {
-						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
-						resetWindow();
-						return;
-					}else {
-						//System.out.println(auxiliar_student.toString());						
-						//city = auxiliar_student.getCity();						
-					}
-					textFieldAddress.setText(auxiliar_student.getAdress());
-					textFieldLocal.setText(auxiliar_student.getLocal());
-					textFieldState.setText(city.getState());
-					textFieldCellPhone.setText(auxiliar_student.getCellPhoneNumber());
-					textFieldComplement.setText(auxiliar_student.getExtraInformation());
-					textFieldEmail.setText(auxiliar_student.getEmail());
-					textFieldObs.setText(auxiliar_student.getNote());
-					textFieldPhone.setText(auxiliar_student.getPhoneNumber());
-					textFieldAddress.setText(auxiliar_student.getAdress());
-					textFieldCep.setText(auxiliar_student.getCep());
-					textFieldStudent.setText(auxiliar_student.getName());
-					textFieldCountry.setText(city.getCountry());
-					formattedTextFieldDate.setText(auxiliar_student.getBirthday());	
-					textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
-					
-					if ("M".equals(auxiliar_student.getSex())) {
-						comboBoxSex.setSelectedIndex(0);
-					}else {
-						comboBoxSex.setSelectedIndex(1);
-					}	
-					
-					startSave();
-					btnRemove.setEnabled(true);
-					
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
-					resetWindow();
-				} catch (AccessException e1) {
-					e1.showAcessWindowDenied();
-					resetWindow();
-				}
-							
-			}
-		
-		});
 		toolBar.add(btnSearch);
 		
 		btnAdd = new JButton("Adicionar");
 		btnAdd.setIcon(CombatImage.adicionar_22x22);
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				startSave();
-				add = true;
-			}
-		});
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
@@ -235,36 +163,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		btnRemove = new JButton("Remover");
 		btnRemove.setIcon(CombatImage.remover_22x22);
 		btnRemove.setMaximumSize(new Dimension(100, 80));
-		btnRemove.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
 				
-				Student studentr = new Student();
-				StudentDAO studentDao;
-				try {
-					studentDao = new StudentDAO(config.getConnection());
-					
-					studentr.setName(textFieldStudent.getText());
-					studentr.setEmail(textFieldEmail.getText());
-					
-					
-					studentr = (Student) studentDao.Select(studentr);
-					
-					System.out.println(studentr.toString());
-					
-					studentDao.Delete(studentr);
-					
-				
-				} catch (SQLException | AccessException e) {
-					JOptionPane.showMessageDialog(null, "Erro ao remover!");
-					e.printStackTrace();
-					resetWindow();
-				}
-				resetWindow();
-			}
-		});
-		
 		toolBar.add(btnRemove);
 		
 		JLabel space3 = new JLabel("  ");
@@ -273,139 +172,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		btnSave = new JButton("Salvar");
 		btnSave.setIcon(CombatImage.salvar_22x22);
 		btnSave.setMaximumSize(new Dimension(100, 80));
-		btnSave.addActionListener(new ActionListener() {
 			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
-				StudentDAO studentDao = null;
-				char sex = ' ';
-				if(textFieldStudent.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Favor preencher o campo de nome");
-					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
-					return;
-				}else if (comboBoxSex.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, "Favor preencher o campo de sexo");
-					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
-					return;
-				}
-				// 0=yes, 1=no, 2=cancel
-				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
-				if (save_option == 1) {
-					JOptionPane.showMessageDialog(null, "As alteracoes NAO foram salvas.");
-					config.addToSystemLog(getName()+","+"Negou em salvar e descartou as alteracoes");
-					resetWindow();
-					return;
-				}
-				else if(save_option == 2) {
-					JOptionPane.showMessageDialog(null, "Operacao de salvar cancelada.");
-					config.addToSystemLog(getName()+","+"Cancelou a operacao de salvar");
-					return;
-				}
-				if(search) {
-					
-					try {
-						studentDao = new StudentDAO(config.getConnection());
-						Student last_student = new Student();
-						Student new_student = new Student();
-						City city = new City();
-						
-						last_student.setName(save_student);
-						
-						last_student = (Student) studentDao.Select(last_student);
-						
-						new_student.setName(textFieldStudent.getText());
-						new_student.setAdress(textFieldAddress.getText());
-						new_student.setBirthday(formattedTextFieldDate.getText());
-						new_student.setCellPhoneNumber(textFieldCellPhone.getText());
-						new_student.setCep(textFieldCep.getText());
-						
-						//Set City
-						city.setName(txtTeclarF.getText());
-						city.setCountry(textFieldCountry.getText());
-						city.setState(textFieldState.getText());
-						
-						new_student.setCity(city);
-						new_student.setEmail(textFieldEmail.getText());
-						new_student.setExtraInformation(textFieldComplement.getText());
-						new_student.setHomeNumber(textFieldHomeNumber.getText());
-						new_student.setLocal(textFieldLocal.getText());
-						new_student.setNote(textFieldObs.getText());
-						new_student.setPhoneNumber(textFieldPhone.getText());
-												
-						new_student.setSex(comboBoxSex.getSelectedItem().toString());
-												
-						
-						studentDao.Update(last_student, new_student);
-						
-						config.addToSystemLog(getName()+","+"Salvou com sucesso");
-						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
-						resetWindow();
-					} catch (SQLException e1) {
-						config.addToSystemLog(getName()+","+"Erro ao salvar");
-						e1.printStackTrace();
-					} catch (AccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					return;
-				}
-				
-				//caso ja exista
-				
-				
-				try {
-					studentDao = new StudentDAO(config.getConnection());
-					Student student = new Student();
-					City city = new City();
-					
-					
-					student.setName(textFieldStudent.getText());
-					student.setAdress(textFieldAddress.getText());
-					student.setBirthday(formattedTextFieldDate.getText().toString());
-					student.setCellPhoneNumber(textFieldCellPhone.getText());
-					student.setCep(textFieldCep.getText());
-					
-					//Set City
-					//city.setName(txtTeclarF.getText());
-					//city.setCountry(textFieldCountry.getText());
-					//city.setState(textFieldState.getText());
-					
-					student.setCity(city);
-					student.setEmail(textFieldEmail.getText());
-					student.setExtraInformation(textFieldComplement.getText());
-					student.setHomeNumber(textFieldHomeNumber.getText());
-					student.setLocal(textFieldLocal.getText());
-					student.setNote(textFieldObs.getText());
-					student.setPhoneNumber(textFieldPhone.getText());
-					
-					
-					student.setSex(comboBoxSex.getSelectedItem().toString());								
-					
-					studentDao.Insert(student);
-										
-					
-					config.addToSystemLog(getName()+","+"Salvou com sucesso");
-					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
-					resetWindow();
-					
-				} catch (SQLException e1) {
-					
-					config.addToSystemLog(getName()+","+"Erro ao salvar");
-					e1.printStackTrace();
-				} catch (AccessException e1) {
-					config.addToSystemLog(getName()+","+"Erro ao salvar");
-					e1.printStackTrace();
-				}
-				
-				add = false;
-				
-				resetWindow();
-				
-			}
-		});
-	
 		toolBar.add(btnSave);
 		
 		JLabel lblStudent = new JLabel("Aluno:");
@@ -584,6 +351,241 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		textFieldCellPhone.setBounds(372, 123, 148, 20);
 		internalFrame.getContentPane().add(textFieldCellPhone);
 		
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!search) {
+					textFieldStudent.setEnabled(true);
+					btnAdd.setEnabled(false);
+					search = true;
+					return;
+				}
+				save_student = textFieldStudent.getText();
+				StudentDAO studentDao = null;
+				
+				Student student = new Student();
+				student.setName(textFieldStudent.getText());
+				student.setEmail(textFieldEmail.getText());
+				try {
+					
+					studentDao = new StudentDAO(config.getConnection());
+					Student auxiliar_student = (Student) studentDao.Select(student);
+					System.out.println(auxiliar_student.toString());
+					City city = new City();
+					if(auxiliar_student.getName().equals("")) {
+						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
+						resetWindow();
+						return;
+					}else {
+						//System.out.println(auxiliar_student.toString());						
+						//city = auxiliar_student.getCity();						
+					}
+					textFieldAddress.setText(auxiliar_student.getAdress());
+					textFieldLocal.setText(auxiliar_student.getLocal());
+					textFieldState.setText(city.getState());
+					textFieldCellPhone.setText(auxiliar_student.getCellPhoneNumber());
+					textFieldComplement.setText(auxiliar_student.getExtraInformation());
+					textFieldEmail.setText(auxiliar_student.getEmail());
+					textFieldObs.setText(auxiliar_student.getNote());
+					textFieldPhone.setText(auxiliar_student.getPhoneNumber());
+					textFieldAddress.setText(auxiliar_student.getAdress());
+					textFieldCep.setText(auxiliar_student.getCep());
+					textFieldStudent.setText(auxiliar_student.getName());
+					textFieldCountry.setText(city.getCountry());
+					formattedTextFieldDate.setText(auxiliar_student.getBirthday());	
+					textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
+					
+					if ("M".equals(auxiliar_student.getSex())) {
+						comboBoxSex.setSelectedIndex(0);
+					}else {
+						comboBoxSex.setSelectedIndex(1);
+					}	
+					
+					startSave();
+					btnRemove.setEnabled(true);
+					
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
+					resetWindow();
+				} catch (AccessException e1) {
+					e1.showAcessWindowDenied();
+					resetWindow();
+				}
+							
+			}
+		
+		});
+
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startSave();
+				add = true;
+			}
+		});
+		
+		btnRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Student studentr = new Student();
+				StudentDAO studentDao;
+				try {
+					studentDao = new StudentDAO(config.getConnection());
+					
+					studentr.setName(textFieldStudent.getText());
+					studentr.setEmail(textFieldEmail.getText());
+					
+					
+					studentr = (Student) studentDao.Select(studentr);
+					
+					System.out.println(studentr.toString());
+					
+					studentDao.Delete(studentr);
+					
+				
+				} catch (SQLException | AccessException e) {
+					JOptionPane.showMessageDialog(null, "Erro ao remover!");
+					e.printStackTrace();
+					resetWindow();
+				}
+				resetWindow();
+			}
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
+				StudentDAO studentDao = null;
+				char sex = ' ';
+				if(textFieldStudent.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de nome");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}else if (comboBoxSex.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Favor preencher o campo de sexo");
+					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
+					return;
+				}
+				// 0=yes, 1=no, 2=cancel
+				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
+				if (save_option == 1) {
+					JOptionPane.showMessageDialog(null, "As alteracoes NAO foram salvas.");
+					config.addToSystemLog(getName()+","+"Negou em salvar e descartou as alteracoes");
+					resetWindow();
+					return;
+				}
+				else if(save_option == 2) {
+					JOptionPane.showMessageDialog(null, "Operacao de salvar cancelada.");
+					config.addToSystemLog(getName()+","+"Cancelou a operacao de salvar");
+					return;
+				}
+				if(search) {
+					
+					try {
+						studentDao = new StudentDAO(config.getConnection());
+						Student last_student = new Student();
+						Student new_student = new Student();
+						City city = new City();
+						
+						last_student.setName(save_student);
+						
+						last_student = (Student) studentDao.Select(last_student);
+						
+						new_student.setName(textFieldStudent.getText());
+						new_student.setAdress(textFieldAddress.getText());
+						new_student.setBirthday(formattedTextFieldDate.getText());
+						new_student.setCellPhoneNumber(textFieldCellPhone.getText());
+						new_student.setCep(textFieldCep.getText());
+						
+						//Set City
+						city.setName(txtTeclarF.getText());
+						city.setCountry(textFieldCountry.getText());
+						city.setState(textFieldState.getText());
+						
+						new_student.setCity(city);
+						new_student.setEmail(textFieldEmail.getText());
+						new_student.setExtraInformation(textFieldComplement.getText());
+						new_student.setHomeNumber(textFieldHomeNumber.getText());
+						new_student.setLocal(textFieldLocal.getText());
+						new_student.setNote(textFieldObs.getText());
+						new_student.setPhoneNumber(textFieldPhone.getText());
+												
+						new_student.setSex(comboBoxSex.getSelectedItem().toString());
+												
+						
+						studentDao.Update(last_student, new_student);
+						
+						config.addToSystemLog(getName()+","+"Salvou com sucesso");
+						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+						resetWindow();
+					} catch (SQLException e1) {
+						config.addToSystemLog(getName()+","+"Erro ao salvar");
+						e1.printStackTrace();
+					} catch (AccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					return;
+				}
+				
+				//caso ja exista
+				
+				
+				try {
+					studentDao = new StudentDAO(config.getConnection());
+					Student student = new Student();
+					City city = new City();
+					
+					
+					student.setName(textFieldStudent.getText());
+					student.setAdress(textFieldAddress.getText());
+					student.setBirthday(formattedTextFieldDate.getText().toString());
+					student.setCellPhoneNumber(textFieldCellPhone.getText());
+					student.setCep(textFieldCep.getText());
+					
+					//Set City
+					//city.setName(txtTeclarF.getText());
+					//city.setCountry(textFieldCountry.getText());
+					//city.setState(textFieldState.getText());
+					
+					student.setCity(city);
+					student.setEmail(textFieldEmail.getText());
+					student.setExtraInformation(textFieldComplement.getText());
+					student.setHomeNumber(textFieldHomeNumber.getText());
+					student.setLocal(textFieldLocal.getText());
+					student.setNote(textFieldObs.getText());
+					student.setPhoneNumber(textFieldPhone.getText());
+					
+					
+					student.setSex(comboBoxSex.getSelectedItem().toString());								
+					
+					studentDao.Insert(student);
+										
+					
+					config.addToSystemLog(getName()+","+"Salvou com sucesso");
+					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+					resetWindow();
+					
+				} catch (SQLException e1) {
+					
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
+					e1.printStackTrace();
+				} catch (AccessException e1) {
+					config.addToSystemLog(getName()+","+"Erro ao salvar");
+					e1.printStackTrace();
+				}
+				
+				add = false;
+				
+				resetWindow();
+				
+			}
+		});
+
+		
 		resetWindow();
 		
 		return contentPane;
@@ -642,52 +644,34 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		textFieldHomeNumber.setEnabled(true);
 		textFieldCep.setEnabled(true);
 		textFieldStudent.setEnabled(true);
+		textFieldLocal.setEnabled(true);
 		formattedTextFieldDate.setEnabled(true);
 		comboBoxSex.setEnabled(true);
-	}
-	
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		System.out.println("Aqui");
-		if (e.getKeyCode() == e.VK_F9) {
-        	System.out.println("Aqui2");
-			ChooseCityWindow ccw = new ChooseCityWindow(conf);
-			ccw.setVisible(true);
-			ccw.addWindowListener(new WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-					txtTeclarF.setText(city.getName());
-					textFieldState.setText(city.getState());
-					textFieldCountry.setText(city.getCountry());
-                }
-			});
-        }
-		
+		txtTeclarF.setEnabled(true);
+		txtTeclarF.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_F9) {
+					ChooseStudentWindow csw = new ChooseStudentWindow(config);
+					csw.setVisible(true);
+					csw.addWindowListener(new java.awt.event.WindowAdapter() {
+	                    @Override
+	                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+	                      
+	                       Student aux_student = csw.getStudentId();
+	                       if(aux_student.getName() != null) {
+	                    	   textFieldStudent.setText(aux_student.getName()); 
+		                       textFieldStudent.setEnabled(false);
+	                       }
+	                     
+	                    }
+	                });
+				}
+			}
+		});
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		System.out.println("Aqui");
-		if (e.getKeyCode() == e.VK_F9) {
-        	System.out.println("Aqui2");
-			ChooseCityWindow ccw = new ChooseCityWindow(conf);
-			ccw.setVisible(true);
-			ccw.addWindowListener(new WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-					txtTeclarF.setText(city.getName());
-					textFieldState.setText(city.getState());
-					textFieldCountry.setText(city.getCountry());
-                }
-			});
-        }
-		
-	}
 }
 
 
