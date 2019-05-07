@@ -8,6 +8,8 @@ import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 import com.combatmanager.util.MasterMonthChooser;
 
+import controller.CombatImage;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -53,7 +55,7 @@ public class GenerateBillWindow extends JPanel implements View {
 		contentPane.setLayout(null);
 		JInternalFrame internalFrame = new JInternalFrame("Gerar Faturas");
 		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(new ImageIcon(GenerateBillWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 336, 132);
 		add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
