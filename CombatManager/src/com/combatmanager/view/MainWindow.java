@@ -250,8 +250,7 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnHelp = new JMenu("Ajuda");
 		menuBar.add(mnHelp);
 
-		Container contentPane = this.CreateContentPane(new HomeWindow());
-		
+		Container contentPane = this.CreateContentPane(new StudentControlWindow());
 		
 		this.addWindowListener((WindowListener) new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
