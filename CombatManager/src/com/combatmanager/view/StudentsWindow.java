@@ -408,7 +408,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		toolBar.add(btnSave);
 		
 		JLabel lblStudent = new JLabel("Aluno:");
-		lblStudent.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblStudent.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblStudent.setBounds(10, 63, 46, 14);
 		internalFrame.getContentPane().add(lblStudent);
 		
@@ -435,24 +435,24 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		internalFrame.getContentPane().add(comboBoxSex);
 		
 		JLabel lblBirthDate = new JLabel("Data de nascimento:");
-		lblBirthDate.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblBirthDate.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblBirthDate.setBounds(10, 94, 153, 14);
 		internalFrame.getContentPane().add(lblBirthDate);
 		
 		JLabel lblSex = new JLabel("Sexo:");
 		lblSex.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblSex.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSex.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblSex.setBounds(301, 94, 61, 14);
 		internalFrame.getContentPane().add(lblSex);
 		
 		JLabel lblPhone = new JLabel("Telefone:");
-		lblPhone.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPhone.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPhone.setBounds(10, 125, 153, 14);
 		internalFrame.getContentPane().add(lblPhone);
 		
 		JLabel lblCellPhone = new JLabel("Celular:");
 		lblCellPhone.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCellPhone.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCellPhone.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblCellPhone.setBounds(301, 125, 61, 14);
 		internalFrame.getContentPane().add(lblCellPhone);
 		
@@ -462,12 +462,12 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		internalFrame.getContentPane().add(textFieldEmail);
 		
 		JLabel lblEmail = new JLabel("E-mail:");
-		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEmail.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblEmail.setBounds(10, 157, 153, 14);
 		internalFrame.getContentPane().add(lblEmail);
 		
 		JLabel lblObs = new JLabel("Observa\u00E7\u00F5es:");
-		lblObs.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblObs.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblObs.setBounds(10, 185, 153, 14);
 		internalFrame.getContentPane().add(lblObs);
 		
@@ -487,7 +487,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setBounds(10, 11, 68, 15);
-		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEndereo.setFont(new Font("Dialog", Font.BOLD, 12));
 		addressPanel.add(lblEndereo);
 		
 		textFieldAddress = new JTextField();
@@ -496,7 +496,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		textFieldAddress.setColumns(10);
 		
 		JLabel lblComplemento = new JLabel("Complemento: ");
-		lblComplemento.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblComplemento.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblComplemento.setBounds(10, 42, 93, 15);
 		addressPanel.add(lblComplemento);
 		
@@ -512,7 +512,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		
 		JLabel lblTelefone = new JLabel("Numero:");
 		lblTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTelefone.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTelefone.setBounds(272, 12, 68, 15);
 		addressPanel.add(lblTelefone);
 		
@@ -543,23 +543,23 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCidade.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCidade.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblCidade.setBounds(272, 74, 68, 15);
 		addressPanel.add(lblCidade);
 		
 		JLabel lblPas = new JLabel("Pais:");
 		lblPas.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPas.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPas.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPas.setBounds(272, 105, 68, 15);
 		addressPanel.add(lblPas);
 		
 		JLabel lblBairro = new JLabel("Bairro: ");
-		lblBairro.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblBairro.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblBairro.setBounds(10, 74, 93, 15);
 		addressPanel.add(lblBairro);
 		
 		JLabel lblEstado = new JLabel("Estado:");
-		lblEstado.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEstado.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblEstado.setBounds(10, 105, 93, 15);
 		addressPanel.add(lblEstado);
 		
@@ -569,7 +569,7 @@ public class StudentsWindow extends JPanel implements View, KeyListener {
 		addressPanel.add(textFieldCep);
 		
 		JLabel lblCep = new JLabel("Cep:");
-		lblCep.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCep.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblCep.setBounds(10, 136, 93, 15);
 		addressPanel.add(lblCep);
 		
