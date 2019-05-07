@@ -4,11 +4,15 @@ import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -17,6 +21,8 @@ import com.combatmanager.controller.MainController;
 import com.combatmanager.database.dao.UserDAO;
 import com.combatmanager.database.model.User;
 import com.combatmanager.security.Configuration;
+
+import controller.CombatImage;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,41 +38,43 @@ public class LoginWindow extends JFrame {
 	 * Create the panel.
 	 */
 	public LoginWindow() {
-		setLayout(null);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginWindow.class.getResource("/img/combatvinte.png")));
+		
+		setResizable(false);
+		setTitle("Combat Manager 1.0");
+		getContentPane().setLayout(null);
 		setBounds(0, 0, 450, 403);
 		local_user = null;
-		JInternalFrame internalFrame = new JInternalFrame("Combat Manager");
-		internalFrame.setResizable(true);
-		internalFrame.setClosable(true);
-		internalFrame.getContentPane().setBackground(Color.DARK_GRAY);
-		internalFrame.getContentPane().setLayout(null);
+		JPanel contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
+		contentPane.setLayout(null);
 		
 		textField = new JTextField();
 		textField.setBounds(167, 218, 165, 20);
-		internalFrame.getContentPane().add(textField);
+		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Login:");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(111, 220, 46, 14);
-		internalFrame.getContentPane().add(lblNewLabel);
+		contentPane.add(lblNewLabel);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(Color.WHITE);
 		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblSenha.setBounds(111, 249, 102, 14);
-		internalFrame.getContentPane().add(lblSenha);
+		contentPane.add(lblSenha);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(167, 249, 165, 20);
-		internalFrame.getContentPane().add(passwordField);
+		contentPane.add(passwordField);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/combat.png")));
-		lblNewLabel_1.setBounds(0, 11, 440, 180);
-		internalFrame.getContentPane().add(lblNewLabel_1);
+		lblNewLabel_1.setIcon(CombatImage.combat);
+		lblNewLabel_1.setBounds(0, 11, 444, 180);
+		contentPane.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -114,12 +122,12 @@ public class LoginWindow extends JFrame {
 			}
 		});
 		btnNewButton.setBounds(111, 309, 221, 23);
-		internalFrame.getContentPane().add(btnNewButton);
-		internalFrame.setFrameIcon(new ImageIcon(LoginWindow.class.getResource("/img/combatvinte.png")));
-		internalFrame.setBounds(0, 0, 450, 403);
-		add(internalFrame);
-		internalFrame.setVisible(true);
-
+		contentPane.add(btnNewButton);
+		contentPane.setBounds(0, 0, 450, 403);
+		contentPane.setVisible(true);
+		setContentPane(contentPane);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 	
 	public User userLoged() {
