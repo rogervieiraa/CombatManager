@@ -136,7 +136,7 @@ public class PlansWindow extends JPanel implements View{
 		internalFrame.getContentPane().add(comboBox);
 		
 		JLabel lblModality = new JLabel("Modalidade:");
-		lblModality.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblModality.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblModality.setBounds(10, 61, 92, 20);
 		internalFrame.getContentPane().add(lblModality);
 		
@@ -146,7 +146,7 @@ public class PlansWindow extends JPanel implements View{
 		textFieldPlans.setColumns(10);
 		
 		JLabel lblPlano = new JLabel("Plano:");
-		lblPlano.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPlano.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPlano.setBounds(10, 93, 92, 20);
 		internalFrame.getContentPane().add(lblPlano);
 		
@@ -158,7 +158,7 @@ public class PlansWindow extends JPanel implements View{
 		internalFrame.getContentPane().add(textFieldPrice);
 		
 		JLabel lblPrice = new JLabel("Valor:");
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPrice.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPrice.setBounds(10, 125, 92, 20);
 		internalFrame.getContentPane().add(lblPrice);
 		
