@@ -212,7 +212,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 						miDao = new MatriculationInvoicesDAO(config.getConnection());
 						miDao.Update(mi, mi);
 					} catch (Exception e2) {
-						e2.getMessage();
+						e2.printStackTrace();
 					}
 					
 					btnSearch.doClick();
@@ -235,7 +235,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
 					mi.setDue_date(model.getValueAt(index, 2).toString());
 					mi.setValue(Float.parseFloat(model.getValueAt(index, 3).toString()));
-					mi.setPay_date(null);
+					mi.setPay_date("");
 					mi.setCancel_date(getDataAtual().toString());
 					
 					System.out.println(mi.toString());
@@ -244,7 +244,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 						miDao = new MatriculationInvoicesDAO(config.getConnection());
 						miDao.Update(mi, mi);
 					} catch (Exception e2) {
-						e2.getMessage();
+						e2.printStackTrace();
 					}
 					
 					btnSearch.doClick();

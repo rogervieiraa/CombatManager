@@ -11,12 +11,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-<<<<<<< HEAD
 import javax.swing.JOptionPane;
-
-=======
 import com.combatmanager.database.model.Matriculation;
->>>>>>> 70c96f60f00535d4d0eaca651a00aa2e3d310e43
+
 import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.util.DataFixer;
 
@@ -45,11 +42,12 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 								+"	)";
 	private String update = "UPDATE faturas_matriculas"
 							+ "SET"
+							+ "		data_vencimento = ?,  "
 							+ "		valor = ?,			  "
 							+ "		data_pagamento = ?,   "
 							+ "		data_cancelamento = ? "
-							+ "WHERE					 "
-							+ "		data_vencimento = ? ";
+							+ "WHERE					  "
+							+ "		data_vencimento = ?   ";
 	private String delete = "DELETE FROM faturas_matriculas WHERE codigo_matricula = ?";
 	
 	
@@ -58,12 +56,9 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
-<<<<<<< HEAD
 	private Calendar cal;
-=======
 	private PreparedStatement pst_selectAllByMatriculation;
-	DataFixer dataFixer;
->>>>>>> 70c96f60f00535d4d0eaca651a00aa2e3d310e43
+
 	
 	DataFixer dataFixer;
 	Connection io_connection;
@@ -214,15 +209,17 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 		
 		//pst_update.setDate( 1, dt1);
 		try {
-			pst_update.setFloat(1, mi.getValue());
-			cal = setDate(mi.getPay_date());
-			System.out.println("teste");
-			System.out.println(cal.getTime().toString());
-			pst_update.setDate(2, (java.sql.Date) cal.getTime());
-			cal = setDate(mi.getCancel_date());
-			pst_update.setDate(3, (java.sql.Date) cal.getTime());
-			cal = setDate(mi.getDue_date());
-			pst_update.setDate(4, (java.sql.Date) cal.getTime());
+			Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
+			pst_update.setDate(1, dt3);
+			pst_update.setDouble(2, mi.getValue());
+			Date dt1 = dataFixer.fixData(mi.getPay_date(), "-");
+			pst_update.setDate(3, dt1);
+			System.out.println(dt1);
+			Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
+			pst_update.setDate(4, dt2);
+			System.out.println(dt2);
+			pst_update.setDate(5, dt3);
+			System.out.println(dt3);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

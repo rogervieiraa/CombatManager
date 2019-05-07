@@ -1,6 +1,3 @@
-//
-// Pacote ao qual a classe pertence
-//
 package 		com.combatmanager.util;
 
 //
