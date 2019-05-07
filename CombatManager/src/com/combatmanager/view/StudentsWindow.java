@@ -6,7 +6,11 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.TextEvent;
+import java.awt.event.WindowAdapter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
@@ -48,8 +52,10 @@ import javax.swing.JOptionPane;
 import java.awt.ScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
 public class StudentsWindow extends JPanel implements View {
@@ -74,11 +80,13 @@ public class StudentsWindow extends JPanel implements View {
 	private JButton btnSearch;
 	private JButton btnOk;
 	private JComboBox comboBoxSex;
+	public City city;
 
 	
 	private final String NAME = "Tela Estudantes";
 	private final int ACCESS = 3*11;
 	private Boolean search = false;
+	private Boolean add = false;
 	private String save_student = "";
 
 	@Override
@@ -106,6 +114,30 @@ public class StudentsWindow extends JPanel implements View {
 		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
 		internalFrame.setFrameIcon(new ImageIcon(ModalityWindow.class.getResource("/img/combat.png")));
 		internalFrame.setBounds(0, 0, 546, 520);
+		
+		addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println("Aqui");
+				if (e.getKeyCode() == e.VK_F9) {
+					System.out.println("Aqui2");
+					ChooseCityWindow ccw = new ChooseCityWindow(config);
+					ccw.setVisible(true);
+					ccw.addWindowListener(new WindowAdapter() {
+						public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+							txtTeclarF.setText(city.getName());
+							textFieldState.setText(city.getState());
+							textFieldCountry.setText(city.getCountry());
+	                    }
+					});
+					
+				}
+				
+			}
+		});
+		
+		
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		contentPane.add(internalFrame, BorderLayout.CENTER);
@@ -198,6 +230,7 @@ public class StudentsWindow extends JPanel implements View {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startSave();
+				add = true;
 			}
 		});
 		
@@ -375,6 +408,8 @@ public class StudentsWindow extends JPanel implements View {
 					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
 				}
+				
+				add = false;
 				
 				resetWindow();
 				
