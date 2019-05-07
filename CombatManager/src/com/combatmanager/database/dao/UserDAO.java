@@ -70,9 +70,11 @@ public class UserDAO extends MasterDAO{
 			
 			
 			arlUser.add(user);
+			
+			return arlUser;
 		}
 		
-		return arlUser;
+		return null;
 	}
 
 	@Override
@@ -91,10 +93,10 @@ public class UserDAO extends MasterDAO{
 			user.setUser(rst.getString("usuario"));
 			user.setProfile(rst.getString("perfil"));
 			
-			
+			return user;
 		}
 		
-		return user;
+		return null;
 	}
 
 	@Override

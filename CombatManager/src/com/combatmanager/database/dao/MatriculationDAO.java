@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.combatmanager.database.model.City;
 import com.combatmanager.database.model.Matriculation;
+import com.combatmanager.database.model.Student;
 import com.combatmanager.util.DataFixer;
 
 public class MatriculationDAO extends MasterDAO{
@@ -46,12 +47,15 @@ public class MatriculationDAO extends MasterDAO{
 			+ "												and data_matricula = ? and dia_vencimento = ?";
 	
 	
+	private String selectAllMatriculationByStudent = "select * from matriculas where codigo_aluno = ?";
+	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
 	private PreparedStatement pst_getcode;
+	private PreparedStatement pst_selectAllMatriculationByStudent;
 	DataFixer dataFixer;
 	
 	Connection io_connection;
@@ -66,11 +70,32 @@ public class MatriculationDAO extends MasterDAO{
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
 		pst_getcode = connection.prepareStatement(getcode);
+		pst_selectAllMatriculationByStudent = connection.prepareStatement(selectAllMatriculationByStudent);
 	}
 	
 	public List<Object> SelectAll() throws SQLException {
 		List<Object> arlMatriculation = new ArrayList<Object>();
 		ResultSet rst= pst_selectAll.executeQuery();
+		
+		while(rst.next()) {
+			Matriculation mat = new Matriculation();
+			mat.setCode(Integer.parseInt(rst.getString("codigo_matricula")));
+			mat.setStudent_code(Integer.parseInt(rst.getString("codigo_aluno")));
+			mat.setMatriculation_date(rst.getString("data_matricula"));
+			mat.setDue_date(Integer.parseInt(rst.getString("dia_vencimento")));
+			mat.setClosing_date(rst.getString("data_encerramento"));
+			
+			
+			arlMatriculation.add(mat);
+		}
+		
+		return arlMatriculation;
+	}
+	
+	public List<Matriculation> SelectAllMatriculationByStudent(Student std) throws SQLException {
+		List<Matriculation> arlMatriculation = new ArrayList<Matriculation>();
+		pst_selectAllMatriculationByStudent.setInt(1, std.getIndex());
+		ResultSet rst= pst_selectAllMatriculationByStudent.executeQuery();
 		
 		while(rst.next()) {
 			Matriculation mat = new Matriculation();
@@ -164,9 +189,8 @@ public class MatriculationDAO extends MasterDAO{
 	public void Delete(Object parameter) throws SQLException {
 		pst_delete.clearParameters();
 		
-		Matriculation mat = new Matriculation();
+		Matriculation mat = (Matriculation) parameter;
 		
-		mat = (Matriculation) parameter;
 		pst_delete.setInt(1, mat.getCode());
 		
 		pst_delete.execute();

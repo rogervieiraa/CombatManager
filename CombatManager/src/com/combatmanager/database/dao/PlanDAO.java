@@ -68,9 +68,10 @@ public class PlanDAO extends MasterDAO{
 			
 			
 			arlPlan.add(plan);
+			return arlPlan;
 		}
 		
-		return arlPlan;
+		return null;
 	}
 
 	@Override
@@ -90,10 +91,10 @@ public class PlanDAO extends MasterDAO{
 			plan.setModality(rst.getString("modalidade"));
 			plan.setMonth_value(Float.parseFloat(rst.getString("valor_mensal")));
 			
-			
+			return plan;
 		}
 		
-		return plan;
+		return null;
 	}
 
 	@Override
