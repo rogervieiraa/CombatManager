@@ -175,10 +175,10 @@ public class StudentDAO extends MasterDAO {
 			
 			student.setCity(city);
 			student.setCep(rst.getString("cep"));
-			
+			return student;
 		}
 		
-		return student;
+		return null;
 	}
 	
 	public Object SelectById(Object parameter) throws SQLException {
@@ -190,19 +190,19 @@ public class StudentDAO extends MasterDAO {
 		ResultSet rst = pst_selectById.executeQuery();
 		
 		if (rst.next()) {
-			student = new Student();
-			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
-			student.setName(rst.getString("aluno"));
-			student.setBirthday(rst.getString("data_nascimento"));
-			student.setSex(rst.getString("sexo"));
-			student.setPhoneNumber(rst.getString("telefone"));
-			student.setCellPhoneNumber(rst.getString("celular"));
-			student.setEmail(rst.getString("email"));
-			student.setNote(rst.getString("observacao"));
-			student.setAdress(rst.getString("endereco"));
-			student.setHomeNumber(rst.getString("numero"));
-			student.setExtraInformation(rst.getString("complemento"));
-			student.setLocal(rst.getString("bairro"));
+			Student return_student = new Student();
+			return_student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
+			return_student.setName(rst.getString("aluno"));
+			return_student.setBirthday(rst.getString("data_nascimento"));
+			return_student.setSex(rst.getString("sexo"));
+			return_student.setPhoneNumber(rst.getString("telefone"));
+			return_student.setCellPhoneNumber(rst.getString("celular"));
+			return_student.setEmail(rst.getString("email"));
+			return_student.setNote(rst.getString("observacao"));
+			return_student.setAdress(rst.getString("endereco"));
+			return_student.setHomeNumber(rst.getString("numero"));
+			return_student.setExtraInformation(rst.getString("complemento"));
+			return_student.setLocal(rst.getString("bairro"));
 			
 			//Creating city object
 			City city = new City();
@@ -212,12 +212,12 @@ public class StudentDAO extends MasterDAO {
 			city.setState(rst.getString("estado"));
 			//End
 			
-			student.setCity(city);
-			student.setCep(rst.getString("cep"));
-			
+			return_student.setCity(city);
+			return_student.setCep(rst.getString("cep"));
+			return return_student;
 		}
-		
-		return student;
+
+		return null;
 	}
 
 	@Override
