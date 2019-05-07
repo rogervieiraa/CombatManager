@@ -51,6 +51,8 @@ import com.combatmanager.database.model.Student;
 import com.combatmanager.error.AccessException;
 import com.combatmanager.security.Configuration;
 
+import controller.CombatImage;
+
 public class RegisterStudentWindow extends JPanel implements View{
 	private JTextField textFieldRegistration;
 	private JTextField textFieldF9;
@@ -98,7 +100,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Matricular Aluno");
-		internalFrame.setFrameIcon(new ImageIcon(RegisterStudentWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 526, 396);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
@@ -117,13 +119,13 @@ public class RegisterStudentWindow extends JPanel implements View{
 		internalFrame.getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
-		btnSearch.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/localizar.png")));
+		btnSearch.setIcon(CombatImage.localizar_22x22);
 	
 		btnSearch.setMaximumSize(new Dimension(98, 80));
 		toolBar.add(btnSearch);
 		
 		btnAdd = new JButton("Adicionar");
-		btnAdd.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/adicionar.png")));
+		btnAdd.setIcon(CombatImage.adicionar_22x22);
 		
 		JLabel space1 = new JLabel("  ");
 		toolBar.add(space1);
@@ -134,7 +136,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		toolBar.add(space2);
 		
 		btnRemove = new JButton("Remover");
-		btnRemove.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/remover.png")));
+		btnRemove.setIcon(CombatImage.remover_22x22);
 		btnRemove.setMaximumSize(new Dimension(98, 80));
 		
 		toolBar.add(btnRemove);
@@ -143,13 +145,13 @@ public class RegisterStudentWindow extends JPanel implements View{
 		toolBar.add(space3);
 		
 		btnSave = new JButton("Salvar");
-		btnSave.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img22/salvar.png")));
+		btnSave.setIcon(CombatImage.salvar_22x22);
 		btnSave.setMaximumSize(new Dimension(98, 80));
 	
 		toolBar.add(btnSave);
 		
 		JLabel lblMatrcula = new JLabel("Matr\u00EDcula: ");
-		lblMatrcula.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblMatrcula.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblMatrcula.setBounds(10, 62, 84, 22);
 		internalFrame.getContentPane().add(lblMatrcula);
 		
@@ -159,7 +161,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		textFieldRegistration.setColumns(10);
 		
 		JLabel lblAluno = new JLabel("Aluno: ");
-		lblAluno.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAluno.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblAluno.setBounds(10, 94, 84, 22);
 		internalFrame.getContentPane().add(lblAluno);
 		
@@ -183,12 +185,12 @@ public class RegisterStudentWindow extends JPanel implements View{
 		internalFrame.getContentPane().add(textFieldRegisterDay);
 		
 		JLabel lblRegisterDay = new JLabel("Data da matr\u00EDcula: ");
-		lblRegisterDay.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblRegisterDay.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblRegisterDay.setBounds(10, 124, 116, 22);
 		internalFrame.getContentPane().add(lblRegisterDay);
 		
 		JLabel lblDiaDoVencimento = new JLabel("Dia do vencimento da fatura: ");
-		lblDiaDoVencimento.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDiaDoVencimento.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDiaDoVencimento.setBounds(237, 124, 183, 22);
 		internalFrame.getContentPane().add(lblDiaDoVencimento);
 		
