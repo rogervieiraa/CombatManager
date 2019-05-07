@@ -38,6 +38,7 @@ public class LoginWindow extends JFrame {
 	 * Create the panel.
 	 */
 	public LoginWindow() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginWindow.class.getResource("/img/combatvinte.png")));
 		
 		setResizable(false);
