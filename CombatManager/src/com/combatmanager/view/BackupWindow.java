@@ -6,6 +6,8 @@ import javax.swing.JTextField;
 import com.combatmanager.security.Backup;
 import com.combatmanager.security.Configuration;
 
+import controller.CombatImage;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -51,13 +53,13 @@ public class BackupWindow extends JPanel implements View{
 		
 		JInternalFrame internalFrame = new JInternalFrame("Fazer Backup");
 		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(new ImageIcon(BackupWindow.class.getResource("/img/combatvinte.png")));
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 358, 145);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
 		JButton btnBackup = new JButton("Backup");
-		btnBackup.setIcon(new ImageIcon(BackupWindow.class.getResource("/img16/confirmar.png")));
+		btnBackup.setIcon(CombatImage.confirmar_16x16);
 		btnBackup.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnBackup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,7 +87,7 @@ public class BackupWindow extends JPanel implements View{
         textFieldLocal.setColumns(10);
         
         JButton btnSearch = new JButton("Procurar");
-        btnSearch.setIcon(new ImageIcon(BackupWindow.class.getResource("/img16/pasta.png")));
+        btnSearch.setIcon(CombatImage.pasta_16x16);
         btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
         btnSearch.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
