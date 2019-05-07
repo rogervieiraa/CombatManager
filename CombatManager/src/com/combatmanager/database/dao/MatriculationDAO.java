@@ -42,12 +42,16 @@ public class MatriculationDAO extends MasterDAO{
 							+ " WHERE"
 							+ "		codigo_matricula = ?";
 	private String delete = "DELETE FROM matriculas WHERE codigo_matricula = ?";
+	private String getcode = "select * from matriculas where codigo_aluno = ? "
+			+ "												and data_matricula = ? and dia_vencimento = ?";
+	
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
+	private PreparedStatement pst_getcode;
 	DataFixer dataFixer;
 	
 	Connection io_connection;
@@ -61,7 +65,7 @@ public class MatriculationDAO extends MasterDAO{
 		pst_insert = connection.prepareStatement(insert);
 		pst_update = connection.prepareStatement(update);
 		pst_delete = connection.prepareStatement(delete);
-		
+		pst_getcode = connection.prepareStatement(getcode);
 	}
 	
 	public List<Object> SelectAll() throws SQLException {
@@ -82,7 +86,25 @@ public class MatriculationDAO extends MasterDAO{
 		
 		return arlMatriculation;
 	}
-
+	
+	public Integer GetCode(Matriculation m) throws SQLException {
+		pst_getcode.clearParameters();
+		
+		pst_getcode.setInt(1, m.getStudent_code());
+		pst_getcode.setDate(2, dataFixer.fixData(m.getMatriculation_date(), "-"));
+		pst_getcode.setInt(3, m.getDue_date());
+		
+		ResultSet rst = pst_getcode.executeQuery();
+		
+		if (rst.next()) {
+			System.out.println(rst.toString());
+			return Integer.parseInt(rst.getString("codigo_matricula"));
+			
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public Object Select(Object parameter) throws SQLException {
 		pst_select.clearParameters();

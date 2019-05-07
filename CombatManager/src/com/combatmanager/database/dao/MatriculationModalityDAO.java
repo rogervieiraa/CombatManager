@@ -1,6 +1,7 @@
 package com.combatmanager.database.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import java.util.List;
 import com.combatmanager.database.model.Matriculation;
 import com.combatmanager.database.model.MatriculationModality;
 import com.combatmanager.database.model.Modality;
+import com.combatmanager.util.DataFixer;
 
 public class MatriculationModalityDAO  extends MasterDAO{
 	
@@ -46,11 +48,11 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private PreparedStatement pst_deleteByModality;
 	private PreparedStatement pst_selectByMatriculation;
 	private PreparedStatement pst_deleteByMatriculation;
-	
+	DataFixer dataFixer;
 	Connection io_connection;
 	
 	public  MatriculationModalityDAO(Connection connection) throws SQLException{
-		
+		dataFixer = new DataFixer();
 		io_connection = connection;
 		
 		pst_selectAll = connection.prepareStatement(selectAll);
@@ -64,6 +66,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	
 	public List<Object> SelectAll() throws SQLException {
 		List<Object> arlMatriculationModality = new ArrayList<Object>();
+
 		ResultSet rst= pst_selectAll.executeQuery();
 		
 		while(rst.next()) {
@@ -110,13 +113,14 @@ public class MatriculationModalityDAO  extends MasterDAO{
 
 	public List<MatriculationModality> SelectGraduationByMatriculation(Matriculation matriculation) throws SQLException {
 		List<MatriculationModality> arlMatriculationModality = new ArrayList<MatriculationModality>();
+		pst_selectByMatriculation.setInt(1, matriculation.getCode());
 		ResultSet rst= pst_selectByMatriculation.executeQuery();
 		
 		while(rst.next()) {
 			MatriculationModality mm = new MatriculationModality();
 			mm.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
 			mm.setModality(rst.getString("modalidade"));
-			mm.setGraduation(rst.getString("graducao"));
+			mm.setGraduation(rst.getString("graduacao"));
 			mm.setPlan(rst.getString("plano"));
 			mm.setBegin_date(rst.getString("data_inicio"));
 			mm.setEnd_date(rst.getString("data_fim"));
@@ -126,6 +130,8 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		
 		return arlMatriculationModality;
 	}
+	
+	
 	
 	@Override
 	public void Update(Object parameter, Object new_parameter) throws SQLException {
@@ -142,14 +148,17 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
 		
-		MatriculationModality mm = new MatriculationModality();
+		MatriculationModality mm = (MatriculationModality) parameter;
 		
-		Set(pst_insert, 1, mm.getMatriculation_code());
+		pst_insert.setInt(1, mm.getMatriculation_code());
 		Set(pst_insert, 2, mm.getModality());
 		Set(pst_insert, 3, mm.getGraduation());
 		Set(pst_insert, 4, mm.getPlan());
-		Set(pst_insert, 5, mm.getBegin_date());
-		Set(pst_insert, 6, mm.getEnd_date());
+		Date dt1 = dataFixer.fixData(mm.getBegin_date(), "-");
+		pst_insert.setDate(5, dt1);
+		Date dt2 = dataFixer.fixData(mm.getEnd_date(), "-");
+		pst_insert.setDate(6, dt2);
+
 
 		pst_insert.execute();
 	}
