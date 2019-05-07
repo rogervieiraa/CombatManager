@@ -46,7 +46,7 @@ public class		MasterMonthChooser
 	TIME_FROZEN		=	3;
   
 	/**
-	Construtor padrão
+	Construtor padro
 	*/
 	public			MasterMonthChooser()
 	{
@@ -223,7 +223,7 @@ public class		MasterMonthChooser
 
 		month		=	new String[] 
 	         		 	{
-			    			"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+			    			"Janeiro", "Fevereiro", "Marï¿½o", "Abril", "Maio", "Junho",
 			    			"Julho", "Agosto", "Setembro","Outubro", "Novembro", "Dezembro"
 			    		}
 	    			;
@@ -406,8 +406,8 @@ public class		MasterMonthChooser
   	}
   	
   	/**
-  	Método para ser sobrescrito pela classe que usará
-  	este objeto, afim de executar alguma ação quando
+  	Mï¿½todo para ser sobrescrito pela classe que usarï¿½
+  	este objeto, afim de executar alguma aï¿½ï¿½o quando
   	a data for alterada.
   	*/
   	public

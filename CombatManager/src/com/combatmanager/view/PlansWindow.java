@@ -77,7 +77,7 @@ public class PlansWindow extends JPanel implements View{
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Planos");
-		internalFrame.setFrameIcon(CombatImage.combat_20x20);
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.setBounds(0, 0, 450, 200);
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();

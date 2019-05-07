@@ -110,7 +110,7 @@ public class StudentsWindow extends JPanel implements View {
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		contentPane.add(internalFrame, BorderLayout.CENTER);
-		internalFrame.setFrameIcon(CombatImage.combat_20x20);
+		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();

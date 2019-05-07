@@ -27,12 +27,12 @@ import			javax.swing.text.SimpleAttributeSet;
 ======================================================================
 Arquivo		:	$RCSfile: MasterWindowCadastroModalidade.java,v $
 Projeto		:	MasterSys
-Criação		:	09/03/2011
-Descrição	:	Componente para tratamento de valores monetarios.
+Criaso		:	09/03/2011
+Descrio	:	Componente para tratamento de valores monetarios.
 ======================================================================
 
 @Matheus 2011-18-04
-- Criação da classe para valores monetarios.
+- Criao da classe para valores monetarios.
 
 */
 
@@ -91,7 +91,7 @@ public class		MasterMoneyField
 			String 
 			original		=	getText(0,getLength());
      		
-			// Permite apenas digitar até 16 caracteres (9.999.999.999,99)
+			// Permite apenas digitar atï¿½ 16 caracteres (9.999.999.999,99)
 			if	(
 					original.length() 	<	16
 				)
@@ -222,7 +222,7 @@ public class		MasterMoneyField
 	}
 	
 	/**
-	Retorna o valor numérico contido no campo.
+	Retorna o valor numrico contido no campo.
 	*/
 	public
     	BigDecimal			getValue
@@ -241,9 +241,9 @@ public class		MasterMoneyField
     	}
 	
 	/**
-	Seta um valor numérico no campo.
+	Seta um valor numrico no campo.
 	@param	an_value
-		Valor numérico.
+		Valor numrico.
 	*/
 	public
     	void			setValue

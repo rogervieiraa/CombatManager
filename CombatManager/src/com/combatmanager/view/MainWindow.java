@@ -91,7 +91,6 @@ public class MainWindow extends JFrame implements View {
 			}
 				
 		});
-		
 		mntmExit.setIcon(CombatImage.alterar_16x16); //COMO USAR AS IMAGENS
 		mnSystem.add(mntmExit);
 
@@ -167,12 +166,12 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnBilling = new JMenu("Faturamento");
 		mnBilling.setIcon(new ImageIcon(ModalityWindow.class.getResource("/img16/aplicacao.png")));
 		mnProcesses.add(mnBilling);
-		if(new EnrollmentReportWindow().getAccess()%config.getPermissionValue() == 0) {
+		if(new GenerateBillWindow().getAccess()%config.getPermissionValue() == 0) {
 			JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new EnrollmentReportWindow());
+					CreateContentPane(new GenerateBillWindow());
 					revalidate();
 				}
 				

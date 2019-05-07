@@ -40,6 +40,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private String updadeGraduation = "";
 	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";
 	private String deleteByMatriculation = "DELETE FROM matriculas_modalidades where codigo_matricula = ?";
+	private String selectByActive = "SELECT * FROM matriculas_modalidades where data_fim is null";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
@@ -48,6 +49,8 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private PreparedStatement pst_deleteByModality;
 	private PreparedStatement pst_selectByMatriculation;
 	private PreparedStatement pst_deleteByMatriculation;
+	private PreparedStatement pst_selectByActive;
+	
 	DataFixer dataFixer;
 	Connection io_connection;
 	
@@ -62,6 +65,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		pst_updadeGraduatio = connection.prepareStatement(updadeGraduation);
 		pst_deleteByModality = connection.prepareStatement(deleteByModality);
 		pst_deleteByMatriculation = connection.prepareStatement(deleteByMatriculation);
+		pst_selectByActive = connection.prepareStatement(selectByActive);
 	}
 	
 	public List<Object> SelectAll() throws SQLException {
@@ -73,7 +77,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 			MatriculationModality mm = new MatriculationModality();
 			mm.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
 			mm.setModality(rst.getString("modalidade"));
-			mm.setGraduation(rst.getString("graducao"));
+			mm.setGraduation(rst.getString("graduacao"));
 			mm.setPlan(rst.getString("plano"));
 			mm.setBegin_date(rst.getString("data_inicio"));
 			mm.setEnd_date(rst.getString("data_fim"));
@@ -84,7 +88,28 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		
 		return arlMatriculationModality;
 	}
+	
+	public List<MatriculationModality> SelectAllActive() throws SQLException {
+		List<MatriculationModality> arlMatriculationModality = new ArrayList<MatriculationModality>();
 
+		ResultSet rst= pst_selectByActive.executeQuery();
+		
+		while(rst.next()) {
+			MatriculationModality mm = new MatriculationModality();
+			mm.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
+			mm.setModality(rst.getString("modalidade"));
+			mm.setGraduation(rst.getString("graduacao"));
+			mm.setPlan(rst.getString("plano"));
+			mm.setBegin_date(rst.getString("data_inicio"));
+			mm.setEnd_date(rst.getString("data_fim"));
+			
+			
+			arlMatriculationModality.add(mm);
+		}
+		
+		return arlMatriculationModality;
+	}
+	
 	@Override
 	public Object Select(Object parameter) throws SQLException {
 		pst_select.clearParameters();
@@ -100,7 +125,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 			mm = new MatriculationModality();
 			mm.setMatriculation_code(Integer.parseInt(rst.getString("codigo_matricula")));
 			mm.setModality(rst.getString("modalidade"));
-			mm.setGraduation(rst.getString("graducao"));
+			mm.setGraduation(rst.getString("graduacao"));
 			mm.setPlan(rst.getString("plano"));
 			mm.setBegin_date(rst.getString("data_inicio"));
 			mm.setEnd_date(rst.getString("data_fim"));
