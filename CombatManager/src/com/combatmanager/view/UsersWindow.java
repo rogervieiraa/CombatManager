@@ -369,7 +369,7 @@ public class UsersWindow extends JPanel implements View {
 		textField.setColumns(10);
 		
 		JLabel lblUser = new JLabel("Usuario:");
-		lblUser.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblUser.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblUser.setBounds(20, 91, 63, 14);
 		internalFrame.getContentPane().add(lblUser);
 		
@@ -378,7 +378,7 @@ public class UsersWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(pwdPassword);
 		
 		JLabel lblPassword = new JLabel("Senha: ");
-		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPassword.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPassword.setBounds(20, 130, 63, 14);
 		internalFrame.getContentPane().add(lblPassword);
 		
@@ -387,12 +387,12 @@ public class UsersWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(pwdConfirmPassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirmar Senha:");
-		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblConfirmPassword.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblConfirmPassword.setBounds(20, 173, 133, 14);
 		internalFrame.getContentPane().add(lblConfirmPassword);
 		
 		JLabel lblProfile = new JLabel("Perfil:");
-		lblProfile.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblProfile.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblProfile.setBounds(20, 214, 133, 14);
 		internalFrame.getContentPane().add(lblProfile);
 		
