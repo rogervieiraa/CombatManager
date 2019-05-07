@@ -5,10 +5,18 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+<<<<<<< HEAD
+import javax.swing.JOptionPane;
+
+=======
 import com.combatmanager.database.model.Matriculation;
+>>>>>>> 70c96f60f00535d4d0eaca651a00aa2e3d310e43
 import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.util.DataFixer;
 
@@ -37,9 +45,9 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 								+"	)";
 	private String update = "UPDATE faturas_matriculas"
 							+ "SET"
-							+ "		valor = ?,			 "
-							+ "		data_pagamento = ?,  "
-							+ "		data_cancelamento = ?"
+							+ "		valor = ?,			  "
+							+ "		data_pagamento = ?,   "
+							+ "		data_cancelamento = ? "
 							+ "WHERE					 "
 							+ "		data_vencimento = ? ";
 	private String delete = "DELETE FROM faturas_matriculas WHERE codigo_matricula = ?";
@@ -50,10 +58,14 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	private PreparedStatement pst_insert;
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
+<<<<<<< HEAD
+	private Calendar cal;
+=======
 	private PreparedStatement pst_selectAllByMatriculation;
 	DataFixer dataFixer;
+>>>>>>> 70c96f60f00535d4d0eaca651a00aa2e3d310e43
 	
-	private DataFixer datafixer;
+	DataFixer dataFixer;
 	Connection io_connection;
 	
 	public  MatriculationInvoicesDAO(Connection connection) throws SQLException{
@@ -194,21 +206,28 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 		
 		MatriculationInvoices mi = new MatriculationInvoices();
 		
+		
 		mi = (MatriculationInvoices) new_parameter;
-		Date dt1 = datafixer.fixData(mi.getDue_date(), "-");
-		Date dt2 = datafixer.fixData(mi.getCancel_date(), "-");
-		Date dt3 = datafixer.fixData(mi.getPay_date(), "-");
+		//Date dt1 = datafixer.fixData(mi.getDue_date(), "-");
+		//Date dt2 = datafixer.fixData(mi.getCancel_date(), "-");
+		//Date dt3 = datafixer.fixData(mi.getPay_date(), "-");
 		
 		//pst_update.setDate( 1, dt1);
-		pst_update.setFloat(1, mi.getValue());
-		pst_update.setDate(2, dt3);
-		pst_update.setDate(3, dt2);
+		try {
+			pst_update.setFloat(1, mi.getValue());
+			cal = setDate(mi.getPay_date());
+			System.out.println("teste");
+			System.out.println(cal.getTime().toString());
+			pst_update.setDate(2, (java.sql.Date) cal.getTime());
+			cal = setDate(mi.getCancel_date());
+			pst_update.setDate(3, (java.sql.Date) cal.getTime());
+			cal = setDate(mi.getDue_date());
+			pst_update.setDate(4, (java.sql.Date) cal.getTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		mi = (MatriculationInvoices) last_parameter;
 		
-		
-		
-		pst_update.setDate(4, dt1);
 		
 		pst_update.execute();
 		
@@ -244,5 +263,24 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 		
 		pst_delete.execute();
 		
+	}
+	
+	private Calendar setDate(String data) {
+		String aux [];
+		int year, month, day;
+		System.out.println(data);
+		aux = data.split("-");
+		year = Integer.parseInt(aux[0]);
+		System.out.println(year);
+		month = Integer.parseInt(aux[1]);
+		System.out.println(month);
+		day = Integer.parseInt(aux[2]);
+		System.out.println(day);
+		
+		cal = new GregorianCalendar();
+		
+		cal.set(year, month, day);
+		
+		return cal;
 	}
 }
