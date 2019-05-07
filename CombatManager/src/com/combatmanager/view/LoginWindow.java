@@ -57,13 +57,13 @@ public class LoginWindow extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Login:");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblNewLabel.setBounds(111, 220, 46, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(Color.WHITE);
-		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSenha.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblSenha.setBounds(111, 249, 102, 14);
 		contentPane.add(lblSenha);
 		
