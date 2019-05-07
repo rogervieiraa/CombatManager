@@ -82,11 +82,11 @@ public class StudentDAO extends MasterDAO {
 	private PreparedStatement pst_update;
 	private PreparedStatement pst_delete;
 	private PreparedStatement pst_selectById;
-	
+	DataFixer fixer;
 	Connection io_connection;
 	
 	public  StudentDAO(Connection connection) throws SQLException{
-		
+		fixer = new DataFixer();
 		io_connection = connection;
 		
 		pst_selectAll = connection.prepareStatement(selectAll);
@@ -153,9 +153,6 @@ public class StudentDAO extends MasterDAO {
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			student.setName(rst.getString("aluno"));
 			aux = rst.getString("data_nascimento");
-			if(aux != null) {
-				aux = aux.replace("-", "/");
-			}
 			
 			student.setBirthday(aux);
 			student.setSex(rst.getString("sexo"));
@@ -276,16 +273,9 @@ public class StudentDAO extends MasterDAO {
 		
 		auxs = student.getBirthday().split("/");
 		
-		int day = Integer.parseInt(auxs[0]);
-		int month = Integer.parseInt(auxs[1]);
-		int year = Integer.parseInt(auxs[2]);
-		
-		System.out.println(day + "/" + month + "/" + year);
-		
-		Date aux = new Date(year, month, day);
-		
 		Set(pst_insert, 1, student.getName());
-		pst_insert.setDate(2, aux);
+		Date dt1 = fixer.fixData(student.getBirthday(), "-");
+		pst_insert.setDate(2, dt1);
 		Set(pst_insert, 3, student.getSex());
 		Set(pst_insert, 4, student.getPhoneNumber());
 		Set(pst_insert, 5, student.getCellPhoneNumber());

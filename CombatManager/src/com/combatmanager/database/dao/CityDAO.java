@@ -27,8 +27,9 @@ public class CityDAO extends MasterDAO {
 								+"		?, 					"
 								+"		?, 					"
 								+"	)";
+	private String selectByCityName = "select * from cidades where cidade = ?";
 	
-	
+	private PreparedStatement pst_selectByCityName;
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
@@ -42,6 +43,7 @@ public class CityDAO extends MasterDAO {
 		pst_selectAll = connection.prepareStatement(selectAll);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
+		pst_selectByCityName = connection.prepareStatement(selectByCityName);
 		
 	}
 	
@@ -61,7 +63,26 @@ public class CityDAO extends MasterDAO {
 		
 		return arlCity;
 	}
-
+	
+	public List<City> SelectByCityName(City aux_city) throws SQLException {
+		List<City> arlCity = new ArrayList<City>();
+		Set(pst_selectByCityName, 1, aux_city.getName());
+		ResultSet rst= pst_selectByCityName.executeQuery();
+		
+		while(rst.next()) {
+			City city = new City();
+			city.setName(rst.getString("cidade"));
+			city.setState(rst.getString("estado"));
+			city.setCountry(rst.getString("pais"));
+			
+			
+			arlCity.add(city);
+		}
+		
+		return arlCity;
+	}
+	
+	
 	@Override
 	public Object Select(Object parameter) throws SQLException {
 		

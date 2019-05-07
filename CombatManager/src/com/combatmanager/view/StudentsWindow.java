@@ -86,9 +86,8 @@ public class StudentsWindow extends JPanel implements View {
 	private JButton btnSearch;
 	private JButton btnOk;
 	private JComboBox comboBoxSex;
-	public City city;
-
 	
+	private String savedcity;
 	private final String NAME = "Tela Estudantes";
 	private final int ACCESS = 3*11;
 	private Boolean search = false;
@@ -375,10 +374,9 @@ public class StudentsWindow extends JPanel implements View {
 						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
 						resetWindow();
 						return;
-					}else {
-						//System.out.println(auxiliar_student.toString());						
-						//city = auxiliar_student.getCity();						
 					}
+					
+					city = auxiliar_student.getCity();	
 					textFieldAddress.setText(auxiliar_student.getAdress());
 					textFieldLocal.setText(auxiliar_student.getLocal());
 					textFieldState.setText(city.getState());
@@ -393,7 +391,29 @@ public class StudentsWindow extends JPanel implements View {
 					textFieldCountry.setText(city.getCountry());
 					formattedTextFieldDate.setText(auxiliar_student.getBirthday());	
 					textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
-					
+					savedcity = city.getName();
+					txtTeclarF.setEnabled(true);
+					txtTeclarF.addKeyListener(new KeyAdapter() {
+						
+						@Override
+						public void keyPressed(KeyEvent e) {
+							if (e.getKeyCode() == KeyEvent.VK_F9) {
+								ChooseCityWindow ccw = new ChooseCityWindow(config);
+								ccw.setVisible(true);
+								ccw.addWindowListener(new java.awt.event.WindowAdapter() {
+				                    @Override
+				                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				                      
+				                       City aux_city = ccw.getCity();
+				                       if(aux_city.getName() != null) {
+				                    	   System.out.println(aux_city.toString());
+				                       }
+				                     
+				                    }
+				                });
+							}
+						}
+					});
 					if ("M".equals(auxiliar_student.getSex())) {
 						comboBoxSex.setSelectedIndex(0);
 					}else {
@@ -419,6 +439,32 @@ public class StudentsWindow extends JPanel implements View {
 			public void actionPerformed(ActionEvent e) {
 				startSave();
 				add = true;
+				txtTeclarF.setEnabled(true);
+				txtTeclarF.addKeyListener(new KeyAdapter() {
+					
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_F9) {
+							ChooseCityWindow ccw = new ChooseCityWindow(config);
+							ccw.setVisible(true);
+							ccw.addWindowListener(new java.awt.event.WindowAdapter() {
+			                    @Override
+			                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			                      
+			                       City aux_city = ccw.getCity();
+			                       if(aux_city != null) {
+			                    	   System.out.println(aux_city.toString());
+			                    	   txtTeclarF.setText(aux_city.getName());
+			                    	   txtTeclarF.setEnabled(false);
+			                    	   textFieldState.setText(aux_city.getState());
+			                    	   textFieldCountry.setText(aux_city.getCountry());
+			                       }
+			                     
+			                    }
+			                });
+						}
+					}
+				});
 			}
 		});
 		
@@ -499,10 +545,16 @@ public class StudentsWindow extends JPanel implements View {
 						new_student.setCellPhoneNumber(textFieldCellPhone.getText());
 						new_student.setCep(textFieldCep.getText());
 						
-						//Set City
-						city.setName(txtTeclarF.getText());
-						city.setCountry(textFieldCountry.getText());
-						city.setState(textFieldState.getText());
+						if(txtTeclarF.isEnabled()) {
+							city.setName(savedcity);
+							city.setCountry(textFieldCountry.getText());
+							city.setState(textFieldState.getText());
+						}
+						else {
+							city.setName(txtTeclarF.getText());
+							city.setCountry(textFieldCountry.getText());
+							city.setState(textFieldState.getText());
+						}
 						
 						new_student.setCity(city);
 						new_student.setEmail(textFieldEmail.getText());
@@ -546,10 +598,12 @@ public class StudentsWindow extends JPanel implements View {
 					student.setCellPhoneNumber(textFieldCellPhone.getText());
 					student.setCep(textFieldCep.getText());
 					
-					//Set City
-					//city.setName(txtTeclarF.getText());
-					//city.setCountry(textFieldCountry.getText());
-					//city.setState(textFieldState.getText());
+					
+					if(!txtTeclarF.isEnabled()) {
+						city.setName(txtTeclarF.getText());
+						city.setCountry(textFieldCountry.getText());
+						city.setState(textFieldState.getText());
+					}
 					
 					student.setCity(city);
 					student.setEmail(textFieldEmail.getText());
@@ -647,29 +701,7 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldLocal.setEnabled(true);
 		formattedTextFieldDate.setEnabled(true);
 		comboBoxSex.setEnabled(true);
-		txtTeclarF.setEnabled(true);
-		txtTeclarF.addKeyListener(new KeyAdapter() {
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_F9) {
-					ChooseStudentWindow csw = new ChooseStudentWindow(config);
-					csw.setVisible(true);
-					csw.addWindowListener(new java.awt.event.WindowAdapter() {
-	                    @Override
-	                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-	                      
-	                       Student aux_student = csw.getStudentId();
-	                       if(aux_student.getName() != null) {
-	                    	   textFieldStudent.setText(aux_student.getName()); 
-		                       textFieldStudent.setEnabled(false);
-	                       }
-	                     
-	                    }
-	                });
-				}
-			}
-		});
+		
 	}
 
 }

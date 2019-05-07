@@ -313,7 +313,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 			                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 			                      
 			                       Student aux_student = csw.getStudentId();
-			                       if(aux_student.getName() != null) {
+			                       if(aux_student != null) {
 			                    	   textFieldStudent.setText(aux_student.getName()); 
 				                       textFieldStudent.setEnabled(false);
 			                       }
