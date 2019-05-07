@@ -81,27 +81,27 @@ public class AddModalityWindow extends JFrame implements View {
 		
 		
 		JLabel lblModalidade = new JLabel("Modalidade:");
-		lblModalidade.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblModalidade.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblModalidade.setBounds(10, 11, 164, 14);
 		internalFrame.getContentPane().add(lblModalidade);
 		
 		JLabel lblGraduao = new JLabel("Gradua\u00E7\u00E3o:");
-		lblGraduao.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblGraduao.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblGraduao.setBounds(10, 45, 164, 14);
 		internalFrame.getContentPane().add(lblGraduao);
 		
 		JLabel lblPlano = new JLabel("Plano:");
-		lblPlano.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPlano.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPlano.setBounds(10, 76, 164, 14);
 		internalFrame.getContentPane().add(lblPlano);
 		
 		JLabel lblDataIncio = new JLabel("Data In\u00EDcio:");
-		lblDataIncio.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDataIncio.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDataIncio.setBounds(10, 104, 164, 14);
 		internalFrame.getContentPane().add(lblDataIncio);
 		
 		JLabel lblDataFim = new JLabel("Data Fim:");
-		lblDataFim.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDataFim.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDataFim.setBounds(10, 137, 164, 14);
 		internalFrame.getContentPane().add(lblDataFim);
 		
@@ -116,7 +116,7 @@ public class AddModalityWindow extends JFrame implements View {
 		internalFrame.getContentPane().add(textFieldEnd);
 		
 		JButton btnNewButton = new JButton("OK");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnNewButton.setBounds(183, 166, 89, 23);
 		internalFrame.getContentPane().add(btnNewButton);
 		internalFrame.setVisible(true);
