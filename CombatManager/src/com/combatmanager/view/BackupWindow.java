@@ -60,7 +60,7 @@ public class BackupWindow extends JPanel implements View{
 		
 		JButton btnBackup = new JButton("Backup");
 		btnBackup.setIcon(CombatImage.confirmar_16x16);
-		btnBackup.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnBackup.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnBackup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Backup backup = new Backup(config);
@@ -88,7 +88,7 @@ public class BackupWindow extends JPanel implements View{
         
         JButton btnSearch = new JButton("Procurar");
         btnSearch.setIcon(CombatImage.pasta_16x16);
-        btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnSearch.setFont(new Font("Dialog", Font.BOLD, 11));
         btnSearch.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
 				String selectedFile = folderChooser();
@@ -103,7 +103,7 @@ public class BackupWindow extends JPanel implements View{
         internalFrame.getContentPane().add(btnSearch);
         
         JLabel lblSave = new JLabel("Salvar em:");
-        lblSave.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblSave.setFont(new Font("Dialog", Font.BOLD, 12));
         lblSave.setBounds(12, 29, 94, 16);
         internalFrame.getContentPane().add(lblSave);
 		internalFrame.setVisible(true);
