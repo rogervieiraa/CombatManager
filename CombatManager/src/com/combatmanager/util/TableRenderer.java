@@ -53,8 +53,8 @@ public class TableRenderer extends DefaultTableCellRenderer{
 	        c = Color.GREEN;	    	
 	    }else if ((table.getValueAt(row, 4) == null) && (table.getValueAt(row, 5) != null)) {
 	    	c = Color.YELLOW;
-	    }else if ((listMat.size() == 1) && (mm.getEnd_date() != null)) {
-	    	c = Color.RED;
+	    }else if ((table.getValueAt(row, 4) == null) && (table.getValueAt(row, 5) == null)) {
+	    	c = Color.GRAY;
 	    }
 	    label.setBackground(c);
     	return label;
