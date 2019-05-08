@@ -330,12 +330,12 @@ public class UsersWindow extends JPanel implements View {
 					user.setUser(textField.getText());
 					user.setPassword(pwdPassword.getText());
 					if (comboBox.getSelectedIndex() == 1) {
-						user.setProfile("Cadastrar");
+						user.setProfile("Cadastral");
 					}else if (comboBox.getSelectedIndex() == 2) {
 						user.setProfile("Matricular");
 					}else if (comboBox.getSelectedIndex() == 3) {
 						user.setProfile("Financeiro");
-					}else if (comboBox.getSelectedIndex() == 4) {
+					}else {
 						user.setProfile("Completo");
 					}
 					

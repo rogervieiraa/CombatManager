@@ -74,7 +74,8 @@ public class RegisterStudentWindow extends JPanel implements View{
 	private final String NAME = "Tela Cadastro Alunos";
 	private final int ACCESS = 5*11;
 	private Boolean searchOrAdd;
-
+	private Configuration config;
+	
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -94,7 +95,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 	 * Create the panel.
 	 */
 	public JPanel run(Configuration config) {
-		
+		this.config = config;
 		searchOrAdd = false;
 		newers_mm = new ArrayList<MatriculationModality>();
 		JPanel contentPane= new JPanel();
@@ -580,6 +581,49 @@ public class RegisterStudentWindow extends JPanel implements View{
 		textFieldStudent.setEnabled(false);
 		textFieldFinishDay.setEnabled(false);
 		table.setEnabled(false);
+	}
+
+	public void setMatriculation(Matriculation matriculation) {
+		btnAdd.setEnabled(false);
+		btnSearch.setEnabled(false);
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnAdicionarModalidade.setEnabled(false);
+		textFieldF9.setEnabled(false);
+		textFieldRegisterDay.setEnabled(false);
+		textFieldRegistration.setEnabled(false);
+		textFieldStudent.setEnabled(false);
+		textFieldFinishDay.setEnabled(false);
+		table.setEnabled(false);
+		
+		textFieldRegistration.setText(matriculation.getCode().toString());
+		textFieldF9.setText(matriculation.getStudent_code().toString());
+		textFieldStudent.setText("");
+		textFieldRegisterDay.setText(matriculation.getMatriculation_date());
+		textFieldFinishDay.setText(matriculation.getDue_date().toString());
+		
+		MatriculationModalityDAO matriculationModalityDao;
+		StudentDAO studentDao;
+		
+		try {
+			Student aux_student = new Student();
+			studentDao = new StudentDAO(config.getConnection());
+			aux_student.setIndex(matriculation.getStudent_code());
+			Student local_student = (Student) studentDao.SelectById(aux_student);
+			textFieldStudent.setText(local_student.getName());
+			matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
+			save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(matriculation);
+			for(int i=0;i<save_matriculationModality.size();i++) {
+				addMMToTable(save_matriculationModality.get(i));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

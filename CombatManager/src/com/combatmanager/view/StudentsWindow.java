@@ -709,6 +709,52 @@ public class StudentsWindow extends JPanel implements View {
 		
 	}
 
+	public void setStudent(Student auxiliar_student) {
+		btnRemove.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnAdd.setEnabled(true);
+		btnSearch.setEnabled(true);
+		search = false;
+		textFieldAddress.setEnabled(false);
+		textFieldLocal.setEnabled(false);
+		textFieldState.setEnabled(false);
+		textFieldCountry.setEnabled(false);
+		textFieldCellPhone.setEnabled(false);
+		textFieldComplement.setEnabled(false);
+		textFieldEmail.setEnabled(false);
+		textFieldObs.setEnabled(false);
+		textFieldPhone.setEnabled(false);
+		textFieldHomeNumber.setEnabled(false);
+		textFieldCep.setEnabled(false);
+		textFieldStudent.setEnabled(false);
+		textFieldStudent.setEnabled(false);
+		formattedTextFieldDate.setEnabled(false);
+		comboBoxSex.setEnabled(false);
+		btnAdd.setEnabled(false);
+		btnSearch.setEnabled(false);
+		City city = auxiliar_student.getCity();	
+		textFieldAddress.setText(auxiliar_student.getAdress());
+		textFieldLocal.setText(auxiliar_student.getLocal());
+		textFieldState.setText(city.getState());
+		textFieldCellPhone.setText(auxiliar_student.getCellPhoneNumber());
+		textFieldComplement.setText(auxiliar_student.getExtraInformation());
+		textFieldEmail.setText(auxiliar_student.getEmail());
+		textFieldObs.setText(auxiliar_student.getNote());
+		textFieldPhone.setText(auxiliar_student.getPhoneNumber());
+		textFieldAddress.setText(auxiliar_student.getAdress());
+		textFieldCep.setText(auxiliar_student.getCep());
+		textFieldStudent.setText(auxiliar_student.getName());
+		textFieldCountry.setText(city.getCountry());
+		formattedTextFieldDate.setText(auxiliar_student.getBirthday());	
+		textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
+		if ("M".equals(auxiliar_student.getSex())) {
+			comboBoxSex.setSelectedIndex(0);
+		}else {
+			comboBoxSex.setSelectedIndex(1);
+		}
+		
+	}
+
 }
 
 

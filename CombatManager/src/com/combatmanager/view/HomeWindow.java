@@ -212,18 +212,28 @@ public class HomeWindow extends JPanel implements View {
 				aux_student.setIndex(index);
 				
 				StudentDAO studentDao;
-				
+				AttendanceDAO attendanceDao;
 				
 				try {
 					resetWindow();
+					
 					studentDao = new StudentDAO(config.getConnection());
+					
 					
 					saved_student = (Student) studentDao.SelectById(aux_student);
 					if(saved_student == null) {
 						throw new SQLException("Nenhum estudante encontrado");
 					}
 					textFieldName.setText(saved_student.getName());
+					
 					addTables();
+					
+					btnStudentsInfo.setEnabled(true);
+					
+					if (student_matriculations.size() > 0) {
+						btnEnrollmentInfo.setEnabled(true);
+					}
+					
 					
 				} catch (SQLException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
@@ -238,11 +248,21 @@ public class HomeWindow extends JPanel implements View {
 		
 		btnStudentsInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				StudentsWindow sw = new StudentsWindow();
+				
+				internalFrame.setContentPane(sw.run(config));
+				Student st = new Student();
+				
+				sw.setStudent(saved_student);
 			}
 		});
 		
 		btnEnrollmentInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				RegisterStudentWindow rsw = new RegisterStudentWindow();
+				
+				internalFrame.setContentPane(rsw.run(config));
+				rsw.setMatriculation(student_matriculations.get(0));
 			}
 		});
 		
@@ -330,11 +350,13 @@ public class HomeWindow extends JPanel implements View {
 			matriculationInvoicesDao = new MatriculationInvoicesDAO(config.getConnection());
 			
 			student_matriculations = matriculationDao.SelectAllMatriculationByStudent(saved_student);
-			
+			AttendanceDAO attendanceDao;
 			if(student_matriculations != null) {
 				System.out.println(student_matriculations);
 				for(int i=0;i<student_matriculations.size();i++) {
 					Matriculation aux_matriculation = student_matriculations.get(i);
+					
+					
 					
 					/* matriculation modality */
 					List<MatriculationModality> save_matriculationModality = matriculationModalityDao.SelectGraduationByMatriculation(aux_matriculation);
@@ -348,6 +370,11 @@ public class HomeWindow extends JPanel implements View {
 					for(int j=0;j<save_matriculationInvoice.size();j++) {
 						addInvoiceToTable(save_matriculationInvoice.get(j));
 					}
+					
+					Attendance aux_att = new Attendance();
+					attendanceDao = new AttendanceDAO(config.getConnection());
+					aux_att.setMatriculation_code(aux_matriculation.getCode());
+					attendanceDao.Insert(aux_att);
 					
 					/* assuidade */
 					genereteAttendance();
@@ -393,8 +420,10 @@ public class HomeWindow extends JPanel implements View {
 	
 	public void genereteAttendance() {
 		DefaultTableModel model12 = (DefaultTableModel) tableAssiduity.getModel();
-
-		
+		if(student_matriculations.size() == 0) {
+			return;
+		}
+		Matriculation m = student_matriculations.get(0);
 		
 		Date dd = data.getDate();
 		saved_year = dd.getYear();
@@ -417,8 +446,7 @@ public class HomeWindow extends JPanel implements View {
 				data2 = Integer.toString(dd.getYear()) + "-" +
 						Integer.toString(dd.getMonth() + 1) + "-01";
 			}
-			
-			
+
 			List<Attendance> list_att = attendanceDao.SelectAllByDate(data1, data2);
 			
 			while(model12.getRowCount() > 0) {

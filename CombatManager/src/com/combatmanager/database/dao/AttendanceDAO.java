@@ -27,7 +27,7 @@ public class AttendanceDAO extends MasterDAO{
 								+"  VALUES 					"
 								+"	(						"
 								+"		?, 					"
-								+"		? 					"
+								+"		DEFAULT 					"
 								+"	)";
 	private String update = "UPDATE assiduidade "
 							+ "SET  "
@@ -140,10 +140,9 @@ public class AttendanceDAO extends MasterDAO{
 	public void Insert(Object parameter) throws SQLException {
 		pst_insert.clearParameters();
 		
-		Attendance att = new Attendance();
+		Attendance att = (Attendance) parameter;
 		
-		Set(pst_insert, 1, att.getMatriculation_code());
-		Set(pst_insert, 2, att.getEntry_date());
+		pst_insert.setInt(1, att.getMatriculation_code());
 
 		pst_insert.execute();
 	}
