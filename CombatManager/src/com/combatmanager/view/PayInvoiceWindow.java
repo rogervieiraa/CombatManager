@@ -265,7 +265,29 @@ public class PayInvoiceWindow extends JPanel implements View {
 				
 			}
 		});
-		
+		menuItemdesc.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int index = table.getSelectedRow();
+				Float nValor = Float.parseFloat(JOptionPane.showInputDialog("Informe o novo valor:"));
+				MatriculationInvoices mi = new MatriculationInvoices();
+				MatriculationInvoicesDAO miDao;
+				
+				mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
+				mi.setDue_date(model.getValueAt(index, 2).toString());
+				mi.setValue(nValor);
+				
+				try {
+					miDao = new MatriculationInvoicesDAO(config.getConnection());
+					
+					miDao.Update(mi, mi);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				btnSearch.doClick();
+			}
+		});
 		
 		popMenu.add(menuItempay);
 		popMenu.add(menuItemcancel);
