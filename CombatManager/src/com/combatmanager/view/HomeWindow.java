@@ -55,7 +55,7 @@ import java.awt.event.ActionEvent;
 import javax.sound.midi.Soundbank;
 import javax.swing.ImageIcon;
 
-public class HomeWindow extends JPanel implements View {
+public class HomeWindow extends JInternalFrame implements View {
 	private JTable tableLeftUpBox;
 	private JTextField textFieldName;
 	private JTable tableStudentInfo;
@@ -91,51 +91,47 @@ public class HomeWindow extends JPanel implements View {
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
-		contentPane.setBackground(Color.DARK_GRAY);
-		JInternalFrame internalFrame = new JInternalFrame("Controle de Alunos");
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.getContentPane().setEnabled(false);
-		internalFrame.setBounds(0, 0, 665, 515);
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
+		
+		setBounds(0, 0, 665, 515);
+		setName("Controle Aluno");
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
-		Dimension jInternalFrameSize = internalFrame.getSize();
+		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
-		internalFrame.setLocation(width, height);
+		setLocation(width, height);
 		
 		tableLeftUpBox = new JTable();
 		tableLeftUpBox.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tableLeftUpBox.setBackground(UIManager.getColor("Button.background"));
 		tableLeftUpBox.setBounds(12, 12, 178, 197);
-		internalFrame.getContentPane().add(tableLeftUpBox);
+		add(tableLeftUpBox);
 		
 		textFieldNameSearch = new JTextField();
 		textFieldNameSearch.setBounds(217, 18, 90, 20);
 
-		internalFrame.getContentPane().add(textFieldNameSearch);
+		add(textFieldNameSearch);
 		
 		textFieldName = new JTextField();
 		textFieldName.setFont(new Font("Dialog", Font.BOLD, 12));
 		textFieldName.setEditable(false);
 		textFieldName.setBounds(319, 18, 324, 20);
-		internalFrame.getContentPane().add(textFieldName);
+		add(textFieldName);
 		textFieldName.setColumns(10);
 		
 		JScrollPane scrollPaneStudentInfo = new JScrollPane();
 		scrollPaneStudentInfo.setBounds(217, 50, 426, 104);
-		internalFrame.getContentPane().add(scrollPaneStudentInfo);
+		add(scrollPaneStudentInfo);
 		
 		data = new MasterMonthChooser();
 		data.setBounds(10, 230,  185, 26);
-		internalFrame.getContentPane().add(data);
+		add(data);
 		
 		textFieldCenterData = new JTextField();
 		textFieldCenterData.setEditable(false);
@@ -145,25 +141,25 @@ public class HomeWindow extends JPanel implements View {
 		textFieldCenterData.setText("D\u00E9bitos Pendentes");
 		textFieldCenterData.setBackground(Color.RED);
 		textFieldCenterData.setBounds(218, 166, 425, 43);
-		internalFrame.getContentPane().add(textFieldCenterData);
+		add(textFieldCenterData);
 		textFieldCenterData.setColumns(10);
 		
 		btnStudentsInfo = new JButton("Acessar dados do Aluno");
 		
 		btnStudentsInfo.setBounds(217, 224, 203, 26);
-		internalFrame.getContentPane().add(btnStudentsInfo);
+		add(btnStudentsInfo);
 		
 		btnEnrollmentInfo = new JButton("Acessar dados da Matr\u00EDcula");
 		btnEnrollmentInfo.setBounds(440, 224, 203, 26);
-		internalFrame.getContentPane().add(btnEnrollmentInfo);
+		add(btnEnrollmentInfo);
 		
 		scrollPaneEnrollment = new JScrollPane();
 		scrollPaneEnrollment.setBounds(217, 262, 426, 208);
-		internalFrame.getContentPane().add(scrollPaneEnrollment);
+		add(scrollPaneEnrollment);
 		
 		scrollPaneAssiduity = new JScrollPane();
 		scrollPaneAssiduity.setBounds(12, 262, 178, 208);
-		internalFrame.getContentPane().add(scrollPaneAssiduity);
+		add(scrollPaneAssiduity);
 		
 		tableStudentInfo = new JTable();
 		tableStudentInfo.setColumnSelectionAllowed(true);
@@ -210,6 +206,7 @@ public class HomeWindow extends JPanel implements View {
 				return columnEditables[column];
 			}
 		});
+		scrollPaneAssiduity.add(tableAssiduity);
 		scrollPaneEnrollment.setViewportView(tableEnrollmentInfo);
 		
 		textFieldNameSearch.addActionListener(new ActionListener() {
@@ -268,7 +265,7 @@ public class HomeWindow extends JPanel implements View {
 			public void actionPerformed(ActionEvent arg0) {
 				StudentsWindow sw = new StudentsWindow();
 				
-				internalFrame.setContentPane(sw.run(config));
+				setContentPane(sw.run(config));
 				Student st = new Student();
 				
 				sw.setStudent(saved_student);
@@ -279,17 +276,17 @@ public class HomeWindow extends JPanel implements View {
 			public void actionPerformed(ActionEvent arg0) {
 				RegisterStudentWindow rsw = new RegisterStudentWindow();
 				
-				internalFrame.setContentPane(rsw.run(config));
+				setContentPane(rsw.run(config));
 				rsw.setMatriculation(student_matriculations.get(0));
 			}
 		});
 		
 		scrollPaneAssiduity.setViewportView(tableAssiduity);
-		internalFrame.setVisible(true);
+		setVisible(true);
 		
 		resetWindow();
 
-		return contentPane;
+		return this;
 	}
 	
 	private void resetWindow() {

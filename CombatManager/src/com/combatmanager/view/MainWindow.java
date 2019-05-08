@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.InternalFrameAdapter;
 
 import com.combatmanager.security.Configuration;
 
@@ -61,7 +63,7 @@ public class MainWindow extends JFrame implements View {
 		setIconImage(CombatImage.combatvinte_20x20.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-	
+		setLayout(null);
 
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -75,7 +77,7 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				CreateContentPane(new UsersWindow());
+				//CreateContentPane(new UsersWindow());
 				revalidate();
 			}
 				
@@ -86,7 +88,7 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				CreateContentPane(new HomeWindow());
+				//CreateContentPane(new HomeWindow());
 				revalidate();
 			}
 				
@@ -115,7 +117,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new StudentsWindow());
+					//CreateContentPane(new StudentsWindow());
 					revalidate();
 				}
 					
@@ -131,7 +133,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new ModalityWindow());
+					//CreateContentPane(new ModalityWindow());
 					revalidate();
 				}
 					
@@ -145,7 +147,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new PlansWindow());
+					//CreateContentPane(new PlansWindow());
 					revalidate();
 				}
 					
@@ -168,7 +170,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new RegisterStudentWindow());
+					//CreateContentPane(new RegisterStudentWindow());
 					revalidate();
 				}
 					
@@ -184,7 +186,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new GenerateBillWindow());
+					//CreateContentPane(new GenerateBillWindow());
 					revalidate();
 				}
 				
@@ -199,7 +201,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new CheckInvoiceWindow());
+					//CreateContentPane(new CheckInvoiceWindow());
 					revalidate();
 				}
 					
@@ -213,7 +215,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new PayInvoiceWindow());
+					//CreateContentPane(new PayInvoiceWindow());
 					revalidate();
 				}
 					
@@ -231,7 +233,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new EnrollmentReportWindow());
+					//reateContentPane(new EnrollmentReportWindow());
 					revalidate();
 				}
 				});
@@ -248,7 +250,7 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					CreateContentPane(new BackupWindow());
+					//CreateContentPane(new BackupWindow());
 					revalidate();
 				}
 				});
@@ -261,8 +263,10 @@ public class MainWindow extends JFrame implements View {
 
 		JMenu mnHelp = new JMenu("Ajuda");
 		menuBar.add(mnHelp);
-
-		Container contentPane = this.CreateContentPane(new HomeWindow());
+		
+		HomeWindow hw = new HomeWindow();
+		hw.run(config);
+		add(hw);
 		
 		this.addWindowListener((WindowListener) new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
@@ -274,7 +278,7 @@ public class MainWindow extends JFrame implements View {
 
 
 	}
-
+	/*
 	public Container CreateContentPane(View view) {
 		
 		Container c = view.run(this.config);
@@ -282,10 +286,10 @@ public class MainWindow extends JFrame implements View {
 		config.addToSystemLog(view.getName()+","+"Abriu tela");
 		return c;
 
-	}
+	}*/
 
 	@Override
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		return null;
 	}
 
