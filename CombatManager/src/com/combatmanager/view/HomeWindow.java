@@ -322,13 +322,11 @@ public class HomeWindow extends JPanel implements View {
 		
 		MatriculationDAO matriculationDao = null;
 		MatriculationModalityDAO matriculationModalityDao = null;
-		AttendanceDAO attendanceDao = null;
 		MatriculationInvoicesDAO matriculationInvoicesDao = null;
 		
 		try {
 			matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
 			matriculationDao = new MatriculationDAO(config.getConnection());
-			attendanceDao = new AttendanceDAO(config.getConnection());
 			matriculationInvoicesDao = new MatriculationInvoicesDAO(config.getConnection());
 			
 			student_matriculations = matriculationDao.SelectAllMatriculationByStudent(saved_student);

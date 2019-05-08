@@ -40,12 +40,13 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 								+"		?, 					"
 								+"		? 					"
 								+"	)";
-	private String update = "UPDATE faturas_matriculas"
-							+ "SET"
-							+ "		data_pagamento = ?,   "
+	private String update = "UPDATE faturas_matriculas "
+							+ " SET"
+							+ "		data_pagamento = ? ,   "
 							+ "		data_cancelamento = ? "
 							+ "WHERE					  "
-							+ "		data_vencimento = ?   ";
+							+ "		codigo_matricula = ?  AND"
+							+ " data_vencimento = ? ";
 	private String delete = "DELETE FROM faturas_matriculas WHERE codigo_matricula = ?";
 	
 	
@@ -197,33 +198,21 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 	public void Update(Object last_parameter, Object new_parameter) throws SQLException {
 		pst_update.clearParameters();
 		
-		MatriculationInvoices mi = new MatriculationInvoices();
+		MatriculationInvoices mi = (MatriculationInvoices) new_parameter;
 		
+		System.out.println(mi.toString());
 		
-		mi = (MatriculationInvoices) new_parameter;
-		//Date dt1 = datafixer.fixData(mi.getDue_date(), "-");
-		//Date dt2 = datafixer.fixData(mi.getCancel_date(), "-");
-		//Date dt3 = datafixer.fixData(mi.getPay_date(), "-");
-		
-		//pst_update.setDate( 1, dt1);
 		try {
-			if (mi.getCancel_date().equals(null)) {
-				Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
-				Date dt1 = dataFixer.fixData(mi.getPay_date(), "-");
-				pst_update.setDate(1, dt1);
-				System.out.println(dt1);
-				pst_update.setDate(2, null);
-				pst_update.setDate(3, dt3);
-				System.out.println(dt3);
-			}else {
-				Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
-				pst_update.setDate(1, null);
-				Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
-				pst_update.setDate(2, dt2);
-				System.out.println(dt2);
-				pst_update.setDate(3, dt3);
-				System.out.println(dt3);
-			}
+				
+			Date dt1 = dataFixer.fixData(mi.getPay_date(), "-");
+			Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
+			Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
+			
+			
+			pst_update.setDate(1, dt1);
+			pst_update.setDate(2, dt2);
+			pst_update.setDate(4, dt3);
+			pst_update.setInt(3, mi.getMatriculation_code());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
