@@ -42,8 +42,6 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 								+"	)";
 	private String update = "UPDATE faturas_matriculas"
 							+ "SET"
-							+ "		data_vencimento = ?,  "
-							+ "		valor = ?,			  "
 							+ "		data_pagamento = ?,   "
 							+ "		data_cancelamento = ? "
 							+ "WHERE					  "
@@ -209,17 +207,24 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 		
 		//pst_update.setDate( 1, dt1);
 		try {
-			Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
-			pst_update.setDate(1, dt3);
-			pst_update.setDouble(2, mi.getValue());
-			Date dt1 = dataFixer.fixData(mi.getPay_date(), "-");
-			pst_update.setDate(3, dt1);
-			System.out.println(dt1);
-			Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
-			pst_update.setDate(4, dt2);
-			System.out.println(dt2);
-			pst_update.setDate(5, dt3);
-			System.out.println(dt3);
+			if (mi.getCancel_date().equals(null)) {
+				Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
+				Date dt1 = dataFixer.fixData(mi.getPay_date(), "-");
+				pst_update.setDate(1, dt1);
+				System.out.println(dt1);
+				pst_update.setDate(2, null);
+				pst_update.setDate(3, dt3);
+				System.out.println(dt3);
+			}else {
+				Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
+				pst_update.setDate(1, null);
+				Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
+				pst_update.setDate(2, dt2);
+				System.out.println(dt2);
+				pst_update.setDate(3, dt3);
+				System.out.println(dt3);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
