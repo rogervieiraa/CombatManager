@@ -18,6 +18,7 @@ import controller.CombatImage;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
@@ -100,6 +101,9 @@ public class GenerateBillWindow extends JPanel implements View {
 					matriculationInvoiceDao = new MatriculationInvoicesDAO(config.getConnection());
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
 					List<MatriculationModality> list_mm = matriculationModalityDao.SelectAllActive();
+					if (list_mm.size() == 0) {
+						JOptionPane.showMessageDialog(null, "Nenhuma matricula encontrada!");
+					}else {
 					for(int i=0;i<list_mm.size();i++) {
 						
 						MatriculationInvoices mi = new MatriculationInvoices();
@@ -134,20 +138,24 @@ public class GenerateBillWindow extends JPanel implements View {
 						System.out.println("Aqui");
 						if (aux_mm.getMatriculation_code() != aux_mmm.getMatriculation_code()) {
 							matriculationInvoiceDao.Insert(mi);
+							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
 							aux_valor = 0;
 						}else if(aux_mmm == null) {
 							matriculationInvoiceDao.Insert(mi);
+							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
 							aux_valor = 0;
 						}
 					}
+					}
 					
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Faturas ja geradas para esse mes!");
 					e.printStackTrace();
 				} catch (AccessException e) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Faturas ja geradas para esse mes!");
 					e.printStackTrace();
 				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Faturas ja geradas para esse mes!");
 					e.printStackTrace();
 				}
 				
