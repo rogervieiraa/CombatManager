@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.AncestorEvent;
@@ -34,6 +36,10 @@ import controller.CombatImage;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -89,12 +95,21 @@ public class HomeWindow extends JPanel implements View {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		this.config = config;
+		contentPane.setBackground(Color.DARK_GRAY);
 		JInternalFrame internalFrame = new JInternalFrame("Controle de Alunos");
 		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
 		internalFrame.getContentPane().setEnabled(false);
 		internalFrame.setBounds(0, 0, 665, 515);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = internalFrame.getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		internalFrame.setLocation(width, height);
 		
 		tableLeftUpBox = new JTable();
 		tableLeftUpBox.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));

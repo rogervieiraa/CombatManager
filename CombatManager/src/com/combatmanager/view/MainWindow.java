@@ -104,7 +104,7 @@ public class MainWindow extends JFrame implements View {
 			}
 				
 		});
-		mntmExit.setIcon(CombatImage.alterar_16x16); //COMO USAR AS IMAGENS
+		mntmExit.setIcon(CombatImage.sair_16x16); //COMO USAR AS IMAGENS
 		mnSystem.add(mntmExit);
 
 		JMenu mnRegisted = new JMenu("Cadastros");
