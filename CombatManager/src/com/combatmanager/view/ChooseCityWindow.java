@@ -54,7 +54,7 @@ public class ChooseCityWindow extends JFrame implements View {
 		setLayout(null);
 		
 		this.config = config;
-		
+		setBounds(0, 0, 450, 350);
 		JInternalFrame internalFrame = new JInternalFrame("Escolher Cidade");
 		internalFrame.getContentPane().setLayout(null);
 		internalFrame.setClosable(true);
