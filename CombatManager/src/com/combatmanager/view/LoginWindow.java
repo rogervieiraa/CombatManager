@@ -112,7 +112,6 @@ public class LoginWindow extends JFrame {
 					admin_user.setPassword(passwordField.getText());
 					
 				} catch (Exception e1) {
-					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null,"Usuario ou senha invalido");
 					return;
 				}

@@ -42,7 +42,8 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 								+"	)";
 	private String update = "UPDATE faturas_matriculas "
 							+ " SET"
-							+ "		data_pagamento = ? ,   "
+							+ "		valor = ?,	          "
+							+ "		data_pagamento = ? ,  "
 							+ "		data_cancelamento = ? "
 							+ "WHERE					  "
 							+ "		codigo_matricula = ?  AND"
@@ -208,11 +209,11 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 			Date dt2 = dataFixer.fixData(mi.getCancel_date(), "-");
 			Date dt3 = dataFixer.fixData(mi.getDue_date(), "-");
 			
-			
-			pst_update.setDate(1, dt1);
-			pst_update.setDate(2, dt2);
-			pst_update.setDate(4, dt3);
-			pst_update.setInt(3, mi.getMatriculation_code());
+			pst_update.setDouble(1, mi.getValue());
+			pst_update.setDate(2, dt1);
+			pst_update.setDate(3, dt2);
+			pst_update.setDate(5, dt3);
+			pst_update.setInt(4, mi.getMatriculation_code());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -27,6 +27,7 @@ import com.combatmanager.database.model.Matriculation;
 import com.combatmanager.database.model.MatriculationInvoices;
 import com.combatmanager.database.model.Student;
 import com.combatmanager.security.Configuration;
+import com.combatmanager.util.TableRenderer;
 
 import controller.CombatImage;
 
@@ -42,7 +43,6 @@ public class CheckInvoiceWindow extends JPanel implements View {
 	private List<MatriculationInvoices> listMi;
 	private DefaultTableModel model = new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
 			},
 			new String[] {
 				"Matricula", "Aluno", "Vencimento", "Valor", "Pagamento", "Cancelamento"
@@ -194,6 +194,7 @@ public class CheckInvoiceWindow extends JPanel implements View {
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(5).setResizable(false);
+		table.setDefaultRenderer(Object.class, new TableRenderer(config));
 		scrollPane.setViewportView(table);
 		internalFrame.setVisible(true);
 		
