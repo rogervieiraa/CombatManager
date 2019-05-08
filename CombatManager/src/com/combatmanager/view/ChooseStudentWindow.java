@@ -108,7 +108,7 @@ public class ChooseStudentWindow extends JFrame implements View {
 					Student aux_student = new Student();
 					aux_student.setName(textFieldName.getText());
 					Student st = (Student) studentDao.Select(aux_student);
-					if(!st.getName().equals("")) {
+					if(st != null && st.getName() != null &&!st.getName().equals("")) {
 						addMMToTable(st);
 					}
 					

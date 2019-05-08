@@ -81,6 +81,19 @@ public class MainWindow extends JFrame implements View {
 				
 		});
 		mntmUsers.setIcon(CombatImage.aplicacao_16x16);
+		JMenuItem mntmHome= new JMenuItem( new AbstractAction("Home") {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				CreateContentPane(new HomeWindow());
+				revalidate();
+			}
+				
+		});
+		mntmHome.setIcon(CombatImage.aplicacao_16x16);
+		mnSystem.add(mntmHome);
+		
 		mnSystem.add(mntmUsers);
 
 		JMenuItem mntmExit = new JMenuItem( new AbstractAction("Sair") {

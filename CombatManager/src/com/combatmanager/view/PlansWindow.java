@@ -161,7 +161,22 @@ public class PlansWindow extends JPanel implements View{
 		lblPrice.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPrice.setBounds(10, 125, 92, 20);
 		internalFrame.getContentPane().add(lblPrice);
-		
+		ModalityDAO modalityDao;
+		try {
+			modalityDao = new ModalityDAO(config.getConnection());
+			List<Object> all_modality = modalityDao.SelectAll();
+			
+			
+			for(int i=0;i<all_modality.size();i++) {
+				Modality local_modality = (Modality) all_modality.get(i);
+				comboBox.addItem(local_modality.getModality());
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (AccessException e) {
+			e.printStackTrace();
+		}
 		resetWindow();
 		
 		btnSearch.addActionListener(new ActionListener() {
@@ -368,20 +383,7 @@ public class PlansWindow extends JPanel implements View{
 		comboBox.setEnabled(false);
 		
 		ModalityDAO modalityDao = null;
-		try {
-			modalityDao = new ModalityDAO(config.getConnection());
-			List<Object> all_modality = modalityDao.SelectAll();
-			
-			for(int i=0;i<all_modality.size();i++) {
-				Modality local_modality = (Modality) all_modality.get(i);
-				comboBox.addItem(local_modality.getModality());
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (AccessException e) {
-			e.printStackTrace();
-		}
+		
 		
 	}
 }

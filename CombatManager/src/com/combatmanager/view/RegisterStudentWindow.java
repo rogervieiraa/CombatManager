@@ -317,6 +317,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 			                      
 			                       Student aux_student = csw.getStudentId();
 			                       if(aux_student != null) {
+			                    	   textFieldF9.setText(aux_student.getIndex().toString());
 			                    	   textFieldStudent.setText(aux_student.getName()); 
 				                       textFieldStudent.setEnabled(false);
 			                       }
@@ -470,7 +471,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 					matriculationModalityDao = new MatriculationModalityDAO(config.getConnection());
 					matriculationDao = new MatriculationDAO(config.getConnection());
 					
-					Matriculation auxiliar_matriculation = new Matriculation();
+					
 					
 					studentDao = new StudentDAO(config.getConnection());
 					Student auxiliar_student = new Student();
@@ -478,16 +479,18 @@ public class RegisterStudentWindow extends JPanel implements View{
 					auxiliar_student.setName(textFieldStudent.getText());
 					
 					auxiliar_student = (Student) studentDao.Select(auxiliar_student);
-					
-					List<Matriculation> aux_mmm =  matriculationDao.SelectAllMatriculationByStudent(auxiliar_student);
-					if(aux_mmm.size() > 0) {
-						JOptionPane.showMessageDialog(null, "Aluno ja cadastrado");
-						config.addToSystemLog(getName()+","+"Tentou salvar aluno ja matriculado");
-						resetWindow();
-						return;
+					if(auxiliar_student != null) {
+						List<Matriculation> aux_mmm =  matriculationDao.SelectAllMatriculationByStudent(auxiliar_student);
+						if(aux_mmm.size() > 0) {
+							JOptionPane.showMessageDialog(null, "Aluno ja cadastrado");
+							config.addToSystemLog(getName()+","+"Tentou salvar aluno ja matriculado");
+							resetWindow();
+							return;
+						}
 					}
 					
-					auxiliar_matriculation.setStudent_code(auxiliar_student.getIndex());
+					Matriculation auxiliar_matriculation = new Matriculation();
+					auxiliar_matriculation.setStudent_code(Integer.parseInt(textFieldF9.getText()));
 					auxiliar_matriculation.setMatriculation_date(textFieldRegisterDay.getText());
 					auxiliar_matriculation.setDue_date(Integer.parseInt(textFieldFinishDay.getText()));
 					
