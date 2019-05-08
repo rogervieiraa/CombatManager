@@ -88,6 +88,8 @@ public class GenerateBillWindow extends JPanel implements View {
 				MatriculationInvoicesDAO matriculationInvoiceDao;
 				PlanDAO planDao;
 				MatriculationDAO matriculationDao;
+				float aux_valor = 0;
+				
 				java.util.Date dat = data.getDate();
 				String ddd = Integer.toString(dat.getYear() + 1900) + "-" +
 						Integer.toString(dat.getMonth() + 1) + "-";
@@ -102,16 +104,20 @@ public class GenerateBillWindow extends JPanel implements View {
 						
 						MatriculationInvoices mi = new MatriculationInvoices();
 						MatriculationModality aux_mm = list_mm.get(i);
+						MatriculationModality aux_mmm = i+1 == list_mm.size() ? null :list_mm.get(i+1);
 						mi.setMatriculation_code(aux_mm.getMatriculation_code());
 						Matriculation aux_matriculation = new Matriculation();
 						aux_matriculation.setCode(mi.getMatriculation_code());;
 						
 						Matriculation matriculation = (Matriculation) matriculationDao.Select(aux_matriculation);
+						
 						Plan aux_plan = new Plan();
 						aux_plan.setPlan(aux_mm.getPlan());
 						aux_plan.setModality(aux_mm.getModality());
 						Plan plan = (Plan) planDao.Select(aux_plan);
 						
+						aux_valor += plan.getMonth_value();					
+						plan.setMonth_value(aux_valor);
 						
 						mi.setDue_date(ddd + matriculation.getDue_date());
 						mi.setPay_date(null);
@@ -119,8 +125,14 @@ public class GenerateBillWindow extends JPanel implements View {
 						
 						mi.setValue(plan.getMonth_value()); // pegar do plano
 						mi.setCancel_date(null);
-						
-						matriculationInvoiceDao.Insert(mi);
+						System.out.println("Aqui");
+						if (aux_mm.getMatriculation_code() != aux_mmm.getMatriculation_code()) {
+							matriculationInvoiceDao.Insert(mi);
+							aux_valor = 0;
+						}else if(aux_mmm == null) {
+							matriculationInvoiceDao.Insert(mi);
+							aux_valor = 0;
+						}
 					}
 					
 				} catch (SQLException e) {
@@ -128,6 +140,8 @@ public class GenerateBillWindow extends JPanel implements View {
 					e.printStackTrace();
 				} catch (AccessException e) {
 					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				

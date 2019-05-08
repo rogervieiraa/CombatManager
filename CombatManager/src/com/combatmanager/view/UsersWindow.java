@@ -47,6 +47,7 @@ public class UsersWindow extends JPanel implements View {
 	private final int ACCESS = 11;
 	private Boolean search = false;
 	private String save_user;
+	private DefaultComboBoxModel<String> model = new DefaultComboBoxModel(new String[] {"--selecione--", "Cadastrar", "Matricular", "Financeiro", "Completo"});
 	
 	@Override
 	public int getAccess() {
@@ -397,7 +398,7 @@ public class UsersWindow extends JPanel implements View {
 		internalFrame.getContentPane().add(lblProfile);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--selecione--", "Cadastrar", "Matricular", "Financeiro", "Completo"}));
+		comboBox.setModel(model);
 		comboBox.setBounds(153, 213, 271, 20);
 		internalFrame.getContentPane().add(comboBox);
 		

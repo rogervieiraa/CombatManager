@@ -198,7 +198,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				if(model.getValueAt(index, 4) == null) {
+				if((model.getValueAt(index, 4) == null) && (model.getValueAt(index, 5) == null)) {
 					MatriculationInvoices mi = new MatriculationInvoices();
 					MatriculationInvoicesDAO miDao;
 					
@@ -217,6 +217,12 @@ public class PayInvoiceWindow extends JPanel implements View {
 					
 					btnSearch.doClick();
 				}else {
+					if (model.getValueAt(index, 5) != null) {
+						JOptionPane.showMessageDialog(null, "Fatura cancelada!");
+					}else {
+						JOptionPane.showMessageDialog(null, "A fatura ja foi paga!");
+					}
+					
 					return;
 				}
 				
@@ -227,7 +233,7 @@ public class PayInvoiceWindow extends JPanel implements View {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				if(model.getValueAt(index, 5) == null) {
+				if((model.getValueAt(index, 5) == null) && (model.getValueAt(index, 4) == null)) {
 					MatriculationInvoices mi = new MatriculationInvoices();
 					MatriculationInvoicesDAO miDao;
 
@@ -249,6 +255,11 @@ public class PayInvoiceWindow extends JPanel implements View {
 					
 					btnSearch.doClick();
 				}else {
+					if (model.getValueAt(index, 5) != null) {
+						JOptionPane.showMessageDialog(null, "Fatura ja cancelada!");
+					}else {
+						JOptionPane.showMessageDialog(null, "A fatura ja foi paga!");
+					}
 					return;
 				}
 				

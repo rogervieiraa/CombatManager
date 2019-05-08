@@ -157,7 +157,7 @@ public class UserDAO extends MasterDAO{
 	private void createUser (User parameter) throws SQLException {
 		
 		is_create_role		=	"create	role  " + parameter.getUser() +
-				"	with		login" +
+				"	with		LOGIN SUPERUSER " +
 				"			encrypted password		 " + "'" + parameter.getPassword() + "'" +
 				"			in role				admin";
 		

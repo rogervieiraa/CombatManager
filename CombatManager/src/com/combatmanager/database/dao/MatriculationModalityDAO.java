@@ -40,7 +40,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private String updadeGraduation = "";
 	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";
 	private String deleteByMatriculation = "DELETE FROM matriculas_modalidades where codigo_matricula = ?";
-	private String selectByActive = "SELECT * FROM matriculas_modalidades where data_fim is null";
+	private String selectByActive = "SELECT * FROM matriculas_modalidades where data_fim is null order by codigo_matricula";
 	
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
