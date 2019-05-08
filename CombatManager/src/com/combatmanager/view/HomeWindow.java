@@ -41,9 +41,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
+
+import javax.sound.midi.Soundbank;
 import javax.swing.ImageIcon;
 
 public class HomeWindow extends JPanel implements View {
@@ -227,7 +230,7 @@ public class HomeWindow extends JPanel implements View {
 					textFieldName.setText(saved_student.getName());
 					
 					addTables();
-					
+
 					btnStudentsInfo.setEnabled(true);
 					
 					if (student_matriculations.size() > 0) {
@@ -366,10 +369,16 @@ public class HomeWindow extends JPanel implements View {
 					
 					/* invoices */
 					List<MatriculationInvoices> save_matriculationInvoice = matriculationInvoicesDao.SelectAllByMatriculation(aux_matriculation);
-					
+					boolean hasDebit = false;
 					for(int j=0;j<save_matriculationInvoice.size();j++) {
-						addInvoiceToTable(save_matriculationInvoice.get(j));
+						MatriculationInvoices mi = save_matriculationInvoice.get(j);
+						if(comperDate(mi.getPay_date(),mi.getDue_date(),mi.getCancel_date())) {
+							hasDebit = true;
+						}
+						addInvoiceToTable(mi);
 					}
+					
+					changeMainFrame(hasDebit);
 					
 					Attendance aux_att = new Attendance();
 					attendanceDao = new AttendanceDAO(config.getConnection());
@@ -397,6 +406,49 @@ public class HomeWindow extends JPanel implements View {
 		
 	}
 	
+	private void changeMainFrame(boolean hasDebit) {
+		if(hasDebit) {
+			textFieldCenterData.setForeground(Color.RED);
+			textFieldCenterData.setText("Possui debitos!");
+		}else {
+			textFieldCenterData.setForeground(Color.GREEN);
+			textFieldCenterData.setText("Sem restricoes");
+		}
+		
+	}
+
+	private boolean comperDate(String pay_date, String due_date, String cancel_date) {
+		if(cancel_date != null && !cancel_date.equals("")) {
+			
+			return false;
+		}
+		if(pay_date != null && !pay_date.equals("")) {
+			
+			return false;
+		}
+		
+		LocalDate l = LocalDate.now();
+		int y = l.getYear();
+		int m = l.getMonthValue();
+		int d = l.getDayOfMonth();
+		int y2 = Integer.parseInt(due_date.substring(0, 4));
+		int m2 = Integer.parseInt(due_date.substring(5, 7));
+		int d2 = Integer.parseInt(due_date.substring(8, 9));
+
+		if(y > y2) {
+			return true;
+		}
+		if(y == y2 && m > m2) {
+			return true;
+		}
+		if(y == y2 && m == m2 && d > d2) {
+			return true;
+		}
+		
+		
+		return false;
+	}
+
 	public void addMMToTable(MatriculationModality mm) {
 		if(mm == null) {
 			return;
@@ -471,7 +523,7 @@ public class HomeWindow extends JPanel implements View {
 			return;
 		}
 		DefaultTableModel model12 = (DefaultTableModel) tableEnrollmentInfo.getModel();
-		model12.addRow(new Object[] {mm.getDue_date(),mm.getValue(),mm.getDue_date(),mm.getCancel_date()});
+		model12.addRow(new Object[] {mm.getDue_date(),mm.getValue(),mm.getPay_date(),mm.getCancel_date()});
 		tableEnrollmentInfo.setModel(model12);
 
 	}
