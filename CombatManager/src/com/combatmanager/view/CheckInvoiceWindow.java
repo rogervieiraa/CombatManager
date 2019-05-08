@@ -5,6 +5,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +37,8 @@ public class CheckInvoiceWindow extends JPanel implements View {
 	private JTextField textFieldTo;
 	private JButton btnSearch;
 	private JTable table;
+	private Boolean isAll = false;
+	private MatriculationInvoices miG;
 	private List<MatriculationInvoices> listMi;
 	private DefaultTableModel model = new DefaultTableModel(
 			new Object[][] {
@@ -151,6 +155,8 @@ public class CheckInvoiceWindow extends JPanel implements View {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 						e1.printStackTrace();
 					}
+				}else {
+					isAll = true;
 				}
 				try {
 					matDao = new MatriculationDAO(config.getConnection());
@@ -159,11 +165,15 @@ public class CheckInvoiceWindow extends JPanel implements View {
 					for(int i=0;i<listMi.size();i++) {
 						mat.setCode(listMi.get(i).getMatriculation_code());
 						mat = (Matriculation) matDao.Select(mat);
-						
+						miG = listMi.get(i);
 						student.setIndex(mat.getStudent_code());
 						student = (Student) studentDao.SelectById(student);
 						
 						model.addRow(new Object[] {listMi.get(i).getMatriculation_code(), student.getName(), listMi.get(i).getDue_date(), listMi.get(i).getValue(), listMi.get(i).getPay_date(), listMi.get(i).getCancel_date()});
+						
+						if (isAll) {
+							
+						}
 					}
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -189,4 +199,21 @@ public class CheckInvoiceWindow extends JPanel implements View {
 		
 		return contentPane;
 	}
+	
+	public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column)
+	{
+
+	 	if(miG.getPay_date().equals(""))
+		{
+		       setForeground(Color.GREEN);	
+		}
+		else if(miG.getCancel_date().equals(""))
+		{
+		       setForeground(Color.BLACK);		
+		}
+	 
+	 	
+		return this;   	
+	}
+
 }
