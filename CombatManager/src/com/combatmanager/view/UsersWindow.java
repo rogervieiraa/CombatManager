@@ -47,7 +47,7 @@ public class UsersWindow extends JPanel implements View {
 	private final int ACCESS = 11;
 	private Boolean search = false;
 	private String save_user;
-	private DefaultComboBoxModel<String> model = new DefaultComboBoxModel(new String[] {"--selecione--", "Cadastrar", "Matricular", "Financeiro", "Completo"});
+	private DefaultComboBoxModel<String> model = new DefaultComboBoxModel(new String[] {"--selecione--", "Cadastral", "Matricular", "Financeiro", "Completo"});
 	
 	@Override
 	public int getAccess() {

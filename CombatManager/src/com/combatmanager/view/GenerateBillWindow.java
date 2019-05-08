@@ -104,7 +104,13 @@ public class GenerateBillWindow extends JPanel implements View {
 						
 						MatriculationInvoices mi = new MatriculationInvoices();
 						MatriculationModality aux_mm = list_mm.get(i);
-						MatriculationModality aux_mmm = i+1 == list_mm.size() ? null :list_mm.get(i+1);
+						MatriculationModality aux_mmm;
+						if (i != list_mm.size()-1) {
+							aux_mmm = list_mm.get(i+1);
+						} else {
+							aux_mmm = new MatriculationModality();
+							aux_mmm.setMatriculation_code(-1);
+						}
 						mi.setMatriculation_code(aux_mm.getMatriculation_code());
 						Matriculation aux_matriculation = new Matriculation();
 						aux_matriculation.setCode(mi.getMatriculation_code());;
