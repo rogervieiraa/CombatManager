@@ -64,7 +64,7 @@ import javax.swing.JTextArea;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-public class StudentsWindow extends JPanel implements View {
+public class StudentsWindow extends JInternalFrame implements View {
 	
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
@@ -113,35 +113,31 @@ public class StudentsWindow extends JPanel implements View {
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		
 		this.config = config;
+		setName("Cadastro Alunos");
+		setLayout(null);
+		setBounds(0, 0, 546, 520);
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		getContentPane().setLayout(null);
 		
 		
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
-		contentPane.setBackground(Color.DARK_GRAY);
-		JInternalFrame internalFrame = new JInternalFrame("Cadastro de alunos");
-		internalFrame.setBounds(0, 0, 546, 520);
-		
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
-		contentPane.add(internalFrame, BorderLayout.CENTER);
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
+	
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
 	
-		Dimension jInternalFrameSize = internalFrame.getSize();
+		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
-		internalFrame.setLocation(width, height);
+		setLocation(width, height);
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBounds(10, 11, 424, 39);
 		toolBar.setFloatable(false);
-		internalFrame.getContentPane().add(toolBar);
+		getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(CombatImage.localizar_22x22);
@@ -177,11 +173,11 @@ public class StudentsWindow extends JPanel implements View {
 		JLabel lblStudent = new JLabel("Aluno:");
 		lblStudent.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblStudent.setBounds(10, 63, 46, 14);
-		internalFrame.getContentPane().add(lblStudent);
+		getContentPane().add(lblStudent);
 		
 		textFieldStudent = new JTextField();
 		textFieldStudent.setBounds(143, 61, 377, 20);
-		internalFrame.getContentPane().add(textFieldStudent);
+		getContentPane().add(textFieldStudent);
 		textFieldStudent.setColumns(10);
 		
 		//MaskFormatter maskFormatter = new MaskFormatter("##/##/##");
@@ -192,61 +188,61 @@ public class StudentsWindow extends JPanel implements View {
 		formattedTextFieldDate.setLocation(143, 92);
 		formattedTextFieldDate.setSize(new Dimension(148, 20));
 
-		internalFrame.getContentPane().add(formattedTextFieldDate);
+		getContentPane().add(formattedTextFieldDate);
 		
 		comboBoxSex = new JComboBox();
 		comboBoxSex.setEnabled(false);
 		comboBoxSex.setBounds(372, 92, 148, 20);
 		comboBoxSex.addItem("M");
 		comboBoxSex.addItem("F");
-		internalFrame.getContentPane().add(comboBoxSex);
+		getContentPane().add(comboBoxSex);
 		
 		JLabel lblBirthDate = new JLabel("Data de nascimento:");
 		lblBirthDate.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblBirthDate.setBounds(10, 94, 153, 14);
-		internalFrame.getContentPane().add(lblBirthDate);
+		getContentPane().add(lblBirthDate);
 		
 		JLabel lblSex = new JLabel("Sexo:");
 		lblSex.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblSex.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblSex.setBounds(301, 94, 61, 14);
-		internalFrame.getContentPane().add(lblSex);
+		getContentPane().add(lblSex);
 		
 		JLabel lblPhone = new JLabel("Telefone:");
 		lblPhone.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPhone.setBounds(10, 125, 153, 14);
-		internalFrame.getContentPane().add(lblPhone);
+		getContentPane().add(lblPhone);
 		
 		JLabel lblCellPhone = new JLabel("Celular:");
 		lblCellPhone.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCellPhone.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblCellPhone.setBounds(301, 125, 61, 14);
-		internalFrame.getContentPane().add(lblCellPhone);
+		getContentPane().add(lblCellPhone);
 		
 		textFieldEmail = new JTextField();
 		textFieldEmail.setColumns(10);
 		textFieldEmail.setBounds(143, 154, 377, 20);
-		internalFrame.getContentPane().add(textFieldEmail);
+		getContentPane().add(textFieldEmail);
 		
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblEmail.setBounds(10, 157, 153, 14);
-		internalFrame.getContentPane().add(lblEmail);
+		getContentPane().add(lblEmail);
 		
 		JLabel lblObs = new JLabel("Observa\u00E7\u00F5es:");
 		lblObs.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblObs.setBounds(10, 185, 153, 14);
-		internalFrame.getContentPane().add(lblObs);
+		getContentPane().add(lblObs);
 		
 		textFieldObs = new JTextField();
 		textFieldObs.setBounds(10, 210, 510, 59);
-		internalFrame.getContentPane().add(textFieldObs);
+		getContentPane().add(textFieldObs);
 		textFieldObs.setColumns(10);
 		
 		JTabbedPane tabbedPaneAddress = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPaneAddress.setBounds(10, 280, 510, 195);
-		internalFrame.getContentPane().add(tabbedPaneAddress);
-		internalFrame.setVisible(true);
+		getContentPane().add(tabbedPaneAddress);
+		setVisible(true);
 
 		JPanel addressPanel = new JPanel();
 		tabbedPaneAddress.addTab("Endereco", null, addressPanel, null);
@@ -343,12 +339,12 @@ public class StudentsWindow extends JPanel implements View {
 		textFieldPhone = new JTextField();
 		textFieldPhone.setColumns(10);
 		textFieldPhone.setBounds(143, 123, 148, 20);
-		internalFrame.getContentPane().add(textFieldPhone);
+		getContentPane().add(textFieldPhone);
 		
 		textFieldCellPhone = new JTextField();
 		textFieldCellPhone.setColumns(10);
 		textFieldCellPhone.setBounds(372, 123, 148, 20);
-		internalFrame.getContentPane().add(textFieldCellPhone);
+		getContentPane().add(textFieldCellPhone);
 		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -646,7 +642,7 @@ public class StudentsWindow extends JPanel implements View {
 		
 		resetWindow();
 		
-		return contentPane;
+		return this;
 	}
 	
 	private void resetWindow() {

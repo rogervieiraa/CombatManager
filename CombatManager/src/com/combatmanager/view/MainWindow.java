@@ -32,6 +32,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyVetoException;
 
 public class MainWindow extends JFrame implements View {
 	private Configuration config;
@@ -58,6 +59,7 @@ public class MainWindow extends JFrame implements View {
 
 		
 		
+		
 		this.config = config; // TO DO
 		setTitle("Combat Manager 1.0");
 		setIconImage(CombatImage.combatvinte_20x20.getImage());
@@ -77,8 +79,12 @@ public class MainWindow extends JFrame implements View {
 			public void actionPerformed(ActionEvent e)
 			{
 			
-				//CreateContentPane(new UsersWindow());
-				revalidate();
+				UsersWindow users = new UsersWindow();
+				users.run(config);
+				
+				add(users);
+				setComponentZOrder(users, 100);
+		
 			}
 				
 		});
@@ -116,9 +122,29 @@ public class MainWindow extends JFrame implements View {
 				
 				public void actionPerformed(ActionEvent e)
 				{
+					
+					StudentsWindow students = new StudentsWindow();
 				
-					//CreateContentPane(new StudentsWindow());
-					revalidate();
+					students.run(config);
+					add(students);
+					
+					HomeWindow hw = new HomeWindow();
+					hw.run(config);
+					add(hw);
+					validate();
+		            repaint();
+					students.moveToFront();
+					try {
+						students.setSelected(true);
+					} catch (PropertyVetoException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					students.requestFocus();
+					students.show();
+					validate();
+		            repaint();
+					
 				}
 					
 			});
@@ -264,9 +290,7 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnHelp = new JMenu("Ajuda");
 		menuBar.add(mnHelp);
 		
-		HomeWindow hw = new HomeWindow();
-		hw.run(config);
-		add(hw);
+		
 		
 		this.addWindowListener((WindowListener) new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
@@ -276,7 +300,8 @@ public class MainWindow extends JFrame implements View {
 			}
 		});
 
-
+		
+		
 	}
 	/*
 	public Container CreateContentPane(View view) {

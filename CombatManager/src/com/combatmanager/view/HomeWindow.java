@@ -96,9 +96,7 @@ public class HomeWindow extends JInternalFrame implements View {
 		
 		setBounds(0, 0, 665, 515);
 		setName("Controle Aluno");
-		setFrameIcon(CombatImage.combatvinte_20x20);
-		
-		
+		setFrameIcon(CombatImage.combatvinte_20x20);		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
@@ -153,13 +151,9 @@ public class HomeWindow extends JInternalFrame implements View {
 		btnEnrollmentInfo.setBounds(440, 224, 203, 26);
 		add(btnEnrollmentInfo);
 		
-		scrollPaneEnrollment = new JScrollPane();
-		scrollPaneEnrollment.setBounds(217, 262, 426, 208);
-		add(scrollPaneEnrollment);
 		
-		scrollPaneAssiduity = new JScrollPane();
-		scrollPaneAssiduity.setBounds(12, 262, 178, 208);
-		add(scrollPaneAssiduity);
+		
+		
 		
 		tableStudentInfo = new JTable();
 		tableStudentInfo.setColumnSelectionAllowed(true);
@@ -181,6 +175,10 @@ public class HomeWindow extends JInternalFrame implements View {
 		tableStudentInfo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tableStudentInfo.setBackground(new Color(255, 255, 255));
 		
+		scrollPaneAssiduity = new JScrollPane();
+		scrollPaneAssiduity.setBounds(12, 262, 178, 208);
+		add(scrollPaneAssiduity);
+		
 		tableAssiduity = new JTable();
 		tableAssiduity.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -189,6 +187,11 @@ public class HomeWindow extends JInternalFrame implements View {
 				"Assiduidade"
 			}
 		));
+		scrollPaneAssiduity.setViewportView(tableAssiduity);
+		
+		scrollPaneEnrollment = new JScrollPane();
+		scrollPaneEnrollment.setBounds(217, 262, 426, 208);
+		add(scrollPaneEnrollment);
 		
 		tableEnrollmentInfo = new JTable();
 		tableEnrollmentInfo.setEnabled(false);
@@ -206,7 +209,7 @@ public class HomeWindow extends JInternalFrame implements View {
 				return columnEditables[column];
 			}
 		});
-		scrollPaneAssiduity.add(tableAssiduity);
+		
 		scrollPaneEnrollment.setViewportView(tableEnrollmentInfo);
 		
 		textFieldNameSearch.addActionListener(new ActionListener() {
@@ -281,7 +284,7 @@ public class HomeWindow extends JInternalFrame implements View {
 			}
 		});
 		
-		scrollPaneAssiduity.setViewportView(tableAssiduity);
+
 		setVisible(true);
 		
 		resetWindow();

@@ -39,7 +39,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class UsersWindow extends JPanel implements View {
+public class UsersWindow extends JInternalFrame implements View {
 	public UsersWindow() {
 	}
 	
@@ -67,47 +67,41 @@ public class UsersWindow extends JPanel implements View {
 	private JButton btnRemove;
 	private JButton btnSave;
 	private JComboBox comboBox;
-	private JInternalFrame internalFrame;
 	
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
-		internalFrame = new JInternalFrame("Tela Usuarios");	
-		internalFrame.setBounds(0, 0, 450, 300);
-		contentPane.add(internalFrame);
-		internalFrame.setVisible(true);
-		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 450, 300);
 		
-		BasicInternalFrameUI ui = (BasicInternalFrameUI)internalFrame.getUI();
+		setVisible(true);
+		getContentPane().setLayout(null);
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		
+		BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
 
 		Component north = ui.getNorthPane();
 		MouseMotionListener[] actions =
 		(MouseMotionListener[])north.getListeners(MouseMotionListener.class);
 
-		for (int i = 0; i < actions.length; i++)
-		north.removeMouseMotionListener( actions[i] );
 		
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
-	
-		Dimension jInternalFrameSize = internalFrame.getSize();
+		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
-		internalFrame.setLocation(width, height);
-		
+		setLocation(width, height);
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		toolBar.setBounds(10, 11, 414, 50);
 		toolBar.setFloatable(false);
-		internalFrame.getContentPane().add(toolBar);
+		getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(CombatImage.localizar_22x22);
@@ -366,45 +360,48 @@ public class UsersWindow extends JPanel implements View {
 		
 		textField = new JTextField();
 		textField.setBounds(150, 90, 274, 20);
-		internalFrame.getContentPane().add(textField);
+		getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblUser = new JLabel("Usuario:");
 		lblUser.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblUser.setBounds(20, 91, 63, 14);
-		internalFrame.getContentPane().add(lblUser);
+		getContentPane().add(lblUser);
 		
 		pwdPassword = new JPasswordField();
 		pwdPassword.setBounds(150, 129, 274, 20);
-		internalFrame.getContentPane().add(pwdPassword);
+		getContentPane().add(pwdPassword);
 		
 		JLabel lblPassword = new JLabel("Senha: ");
 		lblPassword.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPassword.setBounds(20, 130, 63, 14);
-		internalFrame.getContentPane().add(lblPassword);
+		getContentPane().add(lblPassword);
 		
 		pwdConfirmPassword = new JPasswordField();
 		pwdConfirmPassword.setBounds(150, 172, 274, 20);
-		internalFrame.getContentPane().add(pwdConfirmPassword);
+		getContentPane().add(pwdConfirmPassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirmar Senha:");
 		lblConfirmPassword.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblConfirmPassword.setBounds(20, 173, 133, 14);
-		internalFrame.getContentPane().add(lblConfirmPassword);
+		getContentPane().add(lblConfirmPassword);
 		
 		JLabel lblProfile = new JLabel("Perfil:");
 		lblProfile.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblProfile.setBounds(20, 214, 133, 14);
-		internalFrame.getContentPane().add(lblProfile);
+		getContentPane().add(lblProfile);
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(model);
 		comboBox.setBounds(153, 213, 271, 20);
-		internalFrame.getContentPane().add(comboBox);
+		getContentPane().add(comboBox);
 		
+		setVisible(true);
+		
+	
 		resetWindow();
 		
-		return contentPane;
+		return this;
 		
 	}
 	
