@@ -57,7 +57,9 @@ public class MainWindow extends JFrame implements View {
 	 */
 	public MainWindow(Configuration config) {
 
-		
+		HomeWindow hw = new HomeWindow();
+		hw.run(config);
+		add(hw);
 		
 		
 		this.config = config; // TO DO
@@ -128,18 +130,11 @@ public class MainWindow extends JFrame implements View {
 					students.run(config);
 					add(students);
 					
-					HomeWindow hw = new HomeWindow();
-					hw.run(config);
-					add(hw);
+					
 					validate();
 		            repaint();
 					students.moveToFront();
-					try {
-						students.setSelected(true);
-					} catch (PropertyVetoException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					
 					students.requestFocus();
 					students.show();
 					validate();
@@ -158,9 +153,21 @@ public class MainWindow extends JFrame implements View {
 				
 				public void actionPerformed(ActionEvent e)
 				{
-				
-					//CreateContentPane(new ModalityWindow());
+					ModalityWindow modality = new ModalityWindow();
+					
+					modality.run(config);
+					add(modality);
+					
+					
+					validate();
+		            repaint();
+		            modality.moveToFront();
+		            modality.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
+					
 				}
 					
 			});
@@ -173,8 +180,21 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					//CreateContentPane(new PlansWindow());
-					revalidate();
+					PlansWindow plans = new PlansWindow();
+					
+					plans.run(config);
+					add(plans);
+					
+					
+					validate();
+		            repaint();
+					plans.moveToFront();
+					
+					plans.requestFocus();
+					plans.show();
+					validate();
+		            repaint();
+		            
 				}
 					
 			});
@@ -196,7 +216,19 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					//CreateContentPane(new RegisterStudentWindow());
+					RegisterStudentWindow registerStudent = new RegisterStudentWindow();
+					
+					registerStudent.run(config);
+					add(registerStudent);
+					
+					
+					validate();
+		            repaint();
+		            registerStudent.moveToFront();
+		            registerStudent.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
 				}
 					
@@ -211,9 +243,22 @@ public class MainWindow extends JFrame implements View {
 			JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){
 				public void actionPerformed(ActionEvent e)
 				{
-				
-					//CreateContentPane(new GenerateBillWindow());
+					
+					GenerateBillWindow generate = new GenerateBillWindow();
+					
+					generate.run(config);
+					add(generate);
+					
+					
+					validate();
+		            repaint();
+		            generate.moveToFront();
+		            generate.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
+				
 				}
 				
 			});
@@ -227,7 +272,19 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					//CreateContentPane(new CheckInvoiceWindow());
+					CheckInvoiceWindow checkInvoice = new CheckInvoiceWindow();
+					
+					checkInvoice.run(config);
+					add(checkInvoice);
+					
+					
+					validate();
+		            repaint();
+		            checkInvoice.moveToFront();
+		            checkInvoice.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
 				}
 					
@@ -241,8 +298,21 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					//CreateContentPane(new PayInvoiceWindow());
+					PayInvoiceWindow payInvoice = new PayInvoiceWindow();
+					
+					payInvoice.run(config);
+					add(payInvoice);
+					
+					
+					validate();
+		            repaint();
+		            payInvoice.moveToFront();
+		            payInvoice.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
+					
 				}
 					
 			});
@@ -259,7 +329,19 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					//reateContentPane(new EnrollmentReportWindow());
+					EnrollmentReportWindow report = new EnrollmentReportWindow();
+					
+					report.run(config);
+					add(report);
+					
+					
+					validate();
+		            repaint();
+		            report.moveToFront();
+		            report.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
 				}
 				});
@@ -275,8 +357,19 @@ public class MainWindow extends JFrame implements View {
 			JMenuItem mntmBackup = new JMenuItem(new AbstractAction("Backup"){
 				public void actionPerformed(ActionEvent e)
 				{
-				
-					//CreateContentPane(new BackupWindow());
+					
+					BackupWindow backup = new BackupWindow();
+					backup.run(config);
+					add(backup);
+					
+					
+					validate();
+		            repaint();
+		            backup.moveToFront();
+		            backup.requestFocus();
+					validate();
+		            repaint();
+		            
 					revalidate();
 				}
 				});

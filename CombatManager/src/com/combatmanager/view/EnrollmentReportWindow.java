@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class EnrollmentReportWindow extends JPanel implements View {
+public class EnrollmentReportWindow extends JInternalFrame implements View {
 	
 	private final String NAME = "Tela Relatorio";
 	private final int ACCESS = 7*11;
@@ -38,46 +38,46 @@ public class EnrollmentReportWindow extends JPanel implements View {
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
+	public JInternalFrame run(Configuration config) {
 		
-		JInternalFrame internalFrame = new JInternalFrame("Relat\u00F3rio de Matricula ");
-		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 270, 217);
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
+		setLayout(null);
+
+		setClosable(true);
+		setTitle("Relat\\u00F3rio de Matricula");
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 270, 217);
+		
+		getContentPane().setLayout(null);
 		
 		JLabel lblPeriod = new JLabel("Perido");
 		lblPeriod.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPeriod.setBounds(101, 11, 46, 14);
-		internalFrame.getContentPane().add(lblPeriod);
+		getContentPane().add(lblPeriod);
 		
 		JLabel lblfrom = new JLabel("De:");
 		lblfrom.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblfrom.setBounds(65, 60, 46, 14);
-		internalFrame.getContentPane().add(lblfrom);
+		getContentPane().add(lblfrom);
 		
 		JLabel lblTo = new JLabel("At\u00E9:");
 		lblTo.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTo.setBounds(65, 102, 46, 14);
-		internalFrame.getContentPane().add(lblTo);
+		getContentPane().add(lblTo);
 		
 		textFieldFrom = new JTextField();
 		textFieldFrom.setBounds(117, 58, 86, 20);
-		internalFrame.getContentPane().add(textFieldFrom);
+		getContentPane().add(textFieldFrom);
 		textFieldFrom.setColumns(10);
 		
 		textFieldTo = new JTextField();
 		textFieldTo.setColumns(10);
 		textFieldTo.setBounds(117, 100, 86, 20);
-		internalFrame.getContentPane().add(textFieldTo);
+		getContentPane().add(textFieldTo);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"HTML"}));
 		comboBox.setBounds(10, 152, 101, 20);
-		internalFrame.getContentPane().add(comboBox);
+		getContentPane().add(comboBox);
 		
 		JButton btnProcess = new JButton("Processar");
 		btnProcess.addActionListener(new ActionListener() {
@@ -85,8 +85,8 @@ public class EnrollmentReportWindow extends JPanel implements View {
 			}
 		});
 		btnProcess.setBounds(120, 151, 124, 23);
-		internalFrame.getContentPane().add(btnProcess);
-		internalFrame.setVisible(true);
-		return contentPane;
+		getContentPane().add(btnProcess);
+		setVisible(true);
+		return this;
 	}
 }

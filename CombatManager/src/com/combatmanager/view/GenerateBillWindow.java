@@ -31,7 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class GenerateBillWindow extends JPanel implements View {
+public class GenerateBillWindow extends JInternalFrame implements View {
 
 	private MasterMonthChooser data;
 	private final String NAME = "Tela Gerar Fatura";
@@ -56,31 +56,31 @@ public class GenerateBillWindow extends JPanel implements View {
 	}
 	
 	@Override
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
-		JInternalFrame internalFrame = new JInternalFrame("Gerar Faturas");
-		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 336, 132);
-		add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
+
+		setLayout(null);
+	
+		setTitle("Gerar Fatura");
+		setClosable(true);
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 336, 132);
+
+		getContentPane().setLayout(null);
 		
 		data = new MasterMonthChooser();
 		data.setBounds(129, 12, 185, 26);
-		internalFrame.getContentPane().add(data);
+		getContentPane().add(data);
 		
 		JLabel lblDadosDaFatura = new JLabel("Dados da Fatura:");
 		lblDadosDaFatura.setBounds(12, 12, 101, 16);
-		internalFrame.getContentPane().add(lblDadosDaFatura);
+		getContentPane().add(lblDadosDaFatura);
 		
 		btnNewButton = new JButton("Gerar Faturas");
 		btnNewButton.setIcon(CombatImage.novo_16x16);
 		btnNewButton.setBounds(129, 61, 185, 26);
-		internalFrame.getContentPane().add(btnNewButton);
-		internalFrame.setVisible(true);
-		contentPane.add(internalFrame);
+		getContentPane().add(btnNewButton);
+		setVisible(true);
 		
 		btnNewButton.addActionListener(new ActionListener(){
 
@@ -163,6 +163,6 @@ public class GenerateBillWindow extends JPanel implements View {
 			
 		});
 		
-		return contentPane;
+		return this;
 	}
 }

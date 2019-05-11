@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 
-public class BackupWindow extends JPanel implements View{
+public class BackupWindow extends JInternalFrame implements View{
 	public BackupWindow() {
 	}
 	private JTextField textFieldLocal;
@@ -47,16 +47,16 @@ public class BackupWindow extends JPanel implements View{
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config){
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
+	public JInternalFrame run(Configuration config){
+		setLayout(null);
 		
-		JInternalFrame internalFrame = new JInternalFrame("Fazer Backup");
-		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 358, 145);
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
+		
+		setClosable(true);
+		setTitle("Fazer Backup");
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 358, 145);
+	
+		getContentPane().setLayout(null);
 		
 		JButton btnBackup = new JButton("Backup");
 		btnBackup.setIcon(CombatImage.confirmar_16x16);
@@ -78,12 +78,12 @@ public class BackupWindow extends JPanel implements View{
 		
 		
 		btnBackup.setBounds(10, 71, 326, 23);
-		internalFrame.getContentPane().add(btnBackup);
+		getContentPane().add(btnBackup);
 		
         
         textFieldLocal = new JTextField();
         textFieldLocal.setBounds(102, 27, 114, 20);
-        internalFrame.getContentPane().add(textFieldLocal);
+        getContentPane().add(textFieldLocal);
         textFieldLocal.setColumns(10);
         
         JButton btnSearch = new JButton("Procurar");
@@ -100,15 +100,15 @@ public class BackupWindow extends JPanel implements View{
 			}
         });
         btnSearch.setBounds(228, 24, 108, 26);
-        internalFrame.getContentPane().add(btnSearch);
+        getContentPane().add(btnSearch);
         
         JLabel lblSave = new JLabel("Salvar em:");
         lblSave.setFont(new Font("Dialog", Font.BOLD, 12));
         lblSave.setBounds(12, 29, 94, 16);
-        internalFrame.getContentPane().add(lblSave);
-		internalFrame.setVisible(true);
+        getContentPane().add(lblSave);
+		setVisible(true);
 		
-		return contentPane;
+		return this;
 
 	}
 	

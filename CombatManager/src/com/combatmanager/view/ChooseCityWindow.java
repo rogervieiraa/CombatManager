@@ -148,7 +148,7 @@ btnSearch.addActionListener(new ActionListener() {
 	}
 
 	@Override
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
 		return null;
 	}

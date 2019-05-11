@@ -154,7 +154,7 @@ public class ChooseStudentWindow extends JFrame implements View {
 		return NAME;
 	}
 	@Override
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
 		return null;
 	}

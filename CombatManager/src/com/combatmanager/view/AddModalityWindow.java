@@ -254,7 +254,7 @@ public class AddModalityWindow extends JFrame implements View {
 	}
 
 	@Override
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
 		return null;
 	}

@@ -47,7 +47,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import java.awt.ComponentOrientation;
 
-public class ModalityWindow extends JPanel implements View{
+public class ModalityWindow extends JInternalFrame implements View{
 	public ModalityWindow() {
 	}
 	private Modality save_modality;
@@ -86,32 +86,31 @@ public class ModalityWindow extends JPanel implements View{
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
-		contentPane.setBackground(Color.DARK_GRAY);
-		JInternalFrame internalFrame = new JInternalFrame("Modalidades e Gradua\u00E7\u00F5es");
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 450, 344);
+	public JInternalFrame run(Configuration config) {
+		
+		setLayout(null);
+		setTitle("Modalidades e Graduacoes");
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 450, 344);
 	
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
 	
-		Dimension jInternalFrameSize = internalFrame.getSize();
+		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
-		internalFrame.setLocation(width, height);
+		setLocation(width, height);
 		
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setVisible(true);
+	
+		getContentPane().setLayout(null);
+		setVisible(true);
 		
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBounds(10, 11, 415, 39);
 		toolBar.setFloatable(false);
-		internalFrame.getContentPane().add(toolBar);
+		getContentPane().add(toolBar);
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(CombatImage.localizar_22x22);
 	
@@ -149,28 +148,28 @@ public class ModalityWindow extends JPanel implements View{
 		JLabel lblModality = new JLabel("Modalidade: ");
 		lblModality.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblModality.setBounds(10, 63, 78, 14);
-		internalFrame.getContentPane().add(lblModality);
+		getContentPane().add(lblModality);
 		
 		textFieldModality = new JTextField();
 		textFieldModality.setBounds(98, 61, 326, 20);
-		internalFrame.getContentPane().add(textFieldModality);
+		getContentPane().add(textFieldModality);
 		textFieldModality.setColumns(10);
 		
 		
 		JLabel lblGraduation = new JLabel("Gradua\u00E7\u00E3o:  ");
 		lblGraduation.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblGraduation.setBounds(10, 100, 78, 14);
-		internalFrame.getContentPane().add(lblGraduation);
+		getContentPane().add(lblGraduation);
 		
 		textFieldGraduation = new JTextField();
 		textFieldGraduation.setColumns(10);
 		textFieldGraduation.setBounds(98, 98, 266, 20);
 		
-		internalFrame.getContentPane().add(textFieldGraduation);
+		getContentPane().add(textFieldGraduation);
 		
 		btnOk = new JButton("OK");
 		btnOk.setBounds(370, 92, 53, 29);
-		internalFrame.getContentPane().add(btnOk);
+		getContentPane().add(btnOk);
 		
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -179,11 +178,11 @@ public class ModalityWindow extends JPanel implements View{
 		JLabel lblWarning = new JLabel("Duplo Clique na linha da gradua\u00E7\u00E3o para remov\u00EA-la");
 		lblWarning.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblWarning.setBounds(10, 289, 414, 14);
-		internalFrame.getContentPane().add(lblWarning);
+		getContentPane().add(lblWarning);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 133, 414, 148);
-		internalFrame.getContentPane().add(scrollPane);
+		getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		model = new DefaultTableModel();
@@ -483,7 +482,7 @@ public class ModalityWindow extends JPanel implements View{
 
 		});
 		
-		return contentPane;
+		return this;
 	}
 	
 	private void resetWindow() {

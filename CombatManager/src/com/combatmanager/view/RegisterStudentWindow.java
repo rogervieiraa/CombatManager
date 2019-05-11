@@ -55,7 +55,7 @@ import com.combatmanager.security.Configuration;
 
 import controller.CombatImage;
 
-public class RegisterStudentWindow extends JPanel implements View{
+public class RegisterStudentWindow extends JInternalFrame implements View{
 	private JTextField textFieldRegistration;
 	private JTextField textFieldF9;
 	private JTextField textFieldStudent;
@@ -94,32 +94,29 @@ public class RegisterStudentWindow extends JPanel implements View{
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
 		searchOrAdd = false;
 		newers_mm = new ArrayList<MatriculationModality>();
-		JPanel contentPane= new JPanel();
-		contentPane.setFocusable(true);
-		contentPane.setLayout(null);
-		contentPane.setBackground(Color.DARK_GRAY);
-		JInternalFrame internalFrame = new JInternalFrame("Matricular Aluno");
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 526, 396);
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setVisible(true);
+		setFocusable(true);
+		setLayout(null);
+		setTitle("Matricular Aluno");
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 526, 396);
+		getContentPane().setLayout(null);
+		setVisible(true);
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
-		Dimension jInternalFrameSize = internalFrame.getSize();
+		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
 		
-		internalFrame.setLocation(width, height);
+		setLocation(width, height);
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBounds(10, 11, 415, 39);
 		toolBar.setFloatable(false);
-		internalFrame.getContentPane().add(toolBar);
+		getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(CombatImage.localizar_22x22);
@@ -156,17 +153,17 @@ public class RegisterStudentWindow extends JPanel implements View{
 		JLabel lblMatrcula = new JLabel("Matr\u00EDcula: ");
 		lblMatrcula.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblMatrcula.setBounds(10, 62, 84, 22);
-		internalFrame.getContentPane().add(lblMatrcula);
+		getContentPane().add(lblMatrcula);
 		
 		textFieldRegistration = new JTextField();
 		textFieldRegistration.setBounds(143, 61, 84, 19);
-		internalFrame.getContentPane().add(textFieldRegistration);
+		getContentPane().add(textFieldRegistration);
 		textFieldRegistration.setColumns(10);
 		
 		JLabel lblAluno = new JLabel("Aluno: ");
 		lblAluno.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblAluno.setBounds(10, 94, 84, 22);
-		internalFrame.getContentPane().add(lblAluno);
+		getContentPane().add(lblAluno);
 		
 		textFieldF9 = new JTextField();
 		textFieldF9.setHorizontalAlignment(SwingConstants.CENTER);
@@ -174,41 +171,41 @@ public class RegisterStudentWindow extends JPanel implements View{
 		textFieldF9.setForeground(Color.BLACK);
 		textFieldF9.setColumns(10);
 		textFieldF9.setBounds(143, 97, 84, 19);
-		internalFrame.getContentPane().add(textFieldF9);
+		getContentPane().add(textFieldF9);
 		
 		textFieldStudent = new JTextField();
 		textFieldStudent.setEnabled(false);
 		textFieldStudent.setColumns(10);
 		textFieldStudent.setBounds(237, 97, 263, 19);
-		internalFrame.getContentPane().add(textFieldStudent);
+		getContentPane().add(textFieldStudent);
 		
 		textFieldRegisterDay = new JTextField();
 		textFieldRegisterDay.setColumns(10);
 		textFieldRegisterDay.setBounds(143, 127, 84, 19);
-		internalFrame.getContentPane().add(textFieldRegisterDay);
+		getContentPane().add(textFieldRegisterDay);
 		
 		JLabel lblRegisterDay = new JLabel("Data da matr\u00EDcula: ");
 		lblRegisterDay.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblRegisterDay.setBounds(10, 124, 116, 22);
-		internalFrame.getContentPane().add(lblRegisterDay);
+		getContentPane().add(lblRegisterDay);
 		
 		JLabel lblDiaDoVencimento = new JLabel("Dia do vencimento da fatura: ");
 		lblDiaDoVencimento.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDiaDoVencimento.setBounds(237, 124, 183, 22);
-		internalFrame.getContentPane().add(lblDiaDoVencimento);
+		getContentPane().add(lblDiaDoVencimento);
 		
 		textFieldFinishDay = new JTextField();
 		textFieldFinishDay.setBounds(422, 127, 78, 20);
-		internalFrame.getContentPane().add(textFieldFinishDay);
+		getContentPane().add(textFieldFinishDay);
 		textFieldFinishDay.setColumns(10);
 		
 		btnAdicionarModalidade = new JButton("Adicionar Modalidade");
 		btnAdicionarModalidade.setBounds(10, 157, 217, 23);
-		internalFrame.getContentPane().add(btnAdicionarModalidade);
+		getContentPane().add(btnAdicionarModalidade);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 191, 490, 160);
-		internalFrame.getContentPane().add(scrollPane);
+		getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -542,7 +539,7 @@ public class RegisterStudentWindow extends JPanel implements View{
 		
 		
 		
-		return contentPane;
+		return this;
 	}
 	
 	public void resetTable() {

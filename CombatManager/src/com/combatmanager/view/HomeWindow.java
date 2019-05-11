@@ -95,7 +95,7 @@ public class HomeWindow extends JInternalFrame implements View {
 		this.config = config;
 		
 		setBounds(0, 0, 665, 515);
-		setName("Controle Aluno");
+		setTitle("Controle Aluno");
 		setFrameIcon(CombatImage.combatvinte_20x20);		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();

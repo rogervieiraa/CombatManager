@@ -40,7 +40,7 @@ import controller.CombatImage;
 
 import javax.swing.ImageIcon;
 
-public class PayInvoiceWindow extends JPanel implements View {
+public class PayInvoiceWindow extends JInternalFrame implements View {
 	private JTextField textFieldFrom;
 	private JTextField textFieldTo;
 	private JTable table;
@@ -81,47 +81,46 @@ public class PayInvoiceWindow extends JPanel implements View {
 	/**
 	 * Create the panel.
 	 */
-	public JPanel run(Configuration config) {
-		JPanel contentPane= new JPanel(); 
-		contentPane.setLayout(null);
+	public JInternalFrame run(Configuration config) {
+		setLayout(null);
 		
-		JInternalFrame internalFrame = new JInternalFrame("Pagamento de Faturas");
-		internalFrame.setResizable(true);
-		internalFrame.setClosable(true);
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 600, 575);
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
+		
+		setTitle("Pagamento de Faturas");
+		setClosable(true);
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 600, 575);
+	
+		getContentPane().setLayout(null);
 		
 		JLabel lblDe = new JLabel("De: ");
 		lblDe.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDe.setBounds(10, 11, 46, 14);
-		internalFrame.getContentPane().add(lblDe);
+		getContentPane().add(lblDe);
 		
 		textFieldFrom = new JTextField();
 		textFieldFrom.setBounds(35, 9, 86, 20);
-		internalFrame.getContentPane().add(textFieldFrom);
+		getContentPane().add(textFieldFrom);
 		textFieldFrom.setColumns(10);
 		
 		JLabel lblTo = new JLabel("At\u00E9: ");
 		lblTo.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTo.setBounds(133, 12, 46, 14);
-		internalFrame.getContentPane().add(lblTo);
+		getContentPane().add(lblTo);
 		
 		textFieldTo = new JTextField();
 		textFieldTo.setColumns(10);
 		textFieldTo.setBounds(163, 9, 86, 20);
-		internalFrame.getContentPane().add(textFieldTo);
+		getContentPane().add(textFieldTo);
 		
 		JLabel lblStatus = new JLabel("Situa\u00E7\u00E3o: ");
 		lblStatus.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblStatus.setBounds(259, 12, 68, 14);
-		internalFrame.getContentPane().add(lblStatus);
+		getContentPane().add(lblStatus);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Todas", "Em aberto", "Pagas", "Canceladas"}));
 		comboBox.setBounds(325, 9, 100, 20);
-		internalFrame.getContentPane().add(comboBox);
+		getContentPane().add(comboBox);
 		
 		btnSearch = new JButton("Pesquisar");
 		btnSearch.setBounds(435, 4, 145, 31);
@@ -182,11 +181,11 @@ public class PayInvoiceWindow extends JPanel implements View {
 				
 			}
 		});
-		internalFrame.getContentPane().add(btnSearch);
+		getContentPane().add(btnSearch);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 47, 558, 483);
-		internalFrame.getContentPane().add(scrollPane);
+		getContentPane().add(scrollPane);
 		
 		popMenu = new JPopupMenu();
 		menuItempay = new JMenuItem("Pagar Fatura");
@@ -324,9 +323,9 @@ public class PayInvoiceWindow extends JPanel implements View {
 			
 		});
 		scrollPane.setViewportView(table);
-		internalFrame.setVisible(true);
+		setVisible(true);
 		
-		return contentPane;
+		return this;
 	}
 	private  LocalDate getDataAtual(){
 		LocalDate ld = LocalDate.now();

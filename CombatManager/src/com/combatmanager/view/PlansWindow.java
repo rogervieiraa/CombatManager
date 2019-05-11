@@ -36,7 +36,7 @@ import com.combatmanager.security.Configuration;
 
 import controller.CombatImage;
 
-public class PlansWindow extends JPanel implements View{
+public class PlansWindow extends JInternalFrame implements View{
 	private JTextField textFieldPlans;
 	private JTextField textFieldPrice;
 	
@@ -71,31 +71,30 @@ public class PlansWindow extends JPanel implements View{
 	 * Create the panel.
 	 */
 	
-	public JPanel run(Configuration config) {
+	public JInternalFrame run(Configuration config) {
 		this.config = config;
-		JPanel contentPane= new JPanel();
-		contentPane.setLayout(null);
-		contentPane.setBackground(Color.DARK_GRAY);
-		JInternalFrame internalFrame = new JInternalFrame("Planos");
-		internalFrame.setFrameIcon(CombatImage.combatvinte_20x20);
-		internalFrame.setBounds(0, 0, 450, 200);
+		
+		setFrameIcon(CombatImage.combatvinte_20x20);
+		setBounds(0, 0, 450, 200);
+
+		setTitle("Planos");
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		
-		Dimension jInternalFrameSize = internalFrame.getSize();
+		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
-		internalFrame.setLocation(width, height);
+		setLocation(width, height);
 		
-		contentPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setVisible(true);
+		
+		getContentPane().setLayout(null);
+		setVisible(true);
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		toolBar.setBounds(10, 11, 415, 39);
-		internalFrame.getContentPane().add(toolBar);
+		getContentPane().add(toolBar);
 		
 		btnSearch = new JButton("Buscar");
 		btnSearch.setIcon(CombatImage.localizar_22x22);
@@ -133,34 +132,34 @@ public class PlansWindow extends JPanel implements View{
 		comboBox.setEnabled(false);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--Selecione--"}));
 		comboBox.setBounds(105, 63, 319, 20);
-		internalFrame.getContentPane().add(comboBox);
+		getContentPane().add(comboBox);
 		
 		JLabel lblModality = new JLabel("Modalidade:");
 		lblModality.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblModality.setBounds(10, 61, 92, 20);
-		internalFrame.getContentPane().add(lblModality);
+		getContentPane().add(lblModality);
 		
 		textFieldPlans= new JTextField();
 		textFieldPlans.setBounds(105, 95, 320, 20);
-		internalFrame.getContentPane().add(textFieldPlans);
+		getContentPane().add(textFieldPlans);
 		textFieldPlans.setColumns(10);
 		
 		JLabel lblPlano = new JLabel("Plano:");
 		lblPlano.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPlano.setBounds(10, 93, 92, 20);
-		internalFrame.getContentPane().add(lblPlano);
+		getContentPane().add(lblPlano);
 		
 		textFieldPrice = new JTextField();
 		textFieldPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFieldPrice.setText("0,00");
 		textFieldPrice.setColumns(10);
 		textFieldPrice.setBounds(105, 127, 140, 20);
-		internalFrame.getContentPane().add(textFieldPrice);
+		getContentPane().add(textFieldPrice);
 		
 		JLabel lblPrice = new JLabel("Valor:");
 		lblPrice.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPrice.setBounds(10, 125, 92, 20);
-		internalFrame.getContentPane().add(lblPrice);
+		getContentPane().add(lblPrice);
 		ModalityDAO modalityDao;
 		try {
 			modalityDao = new ModalityDAO(config.getConnection());
@@ -366,7 +365,7 @@ public class PlansWindow extends JPanel implements View{
 			}
 		});
 		
-		return contentPane;
+		return this;
 	}
 	
 	private void resetWindow() {
