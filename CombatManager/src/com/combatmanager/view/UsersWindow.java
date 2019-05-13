@@ -76,7 +76,7 @@ public class UsersWindow extends JInternalFrame implements View {
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
 		setBounds(0, 0, 450, 300);
-		setTitle("Usuários");
+		setTitle("Usuarios");
 		setVisible(true);
 		getContentPane().setLayout(null);
 		setFrameIcon(CombatImage.combatvinte_20x20);
