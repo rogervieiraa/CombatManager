@@ -200,6 +200,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				if((model.getValueAt(index, 4) == null) && (model.getValueAt(index, 5) == null)) {
 					MatriculationInvoices mi = new MatriculationInvoices();
 					MatriculationInvoicesDAO miDao;
+					HomeWindow hw = new HomeWindow();
 					
 					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
 					mi.setDue_date(model.getValueAt(index, 2).toString());
@@ -215,6 +216,8 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 					}
 					
 					btnSearch.doClick();
+					
+					hw.is_saved = true;
 				}else {
 					if (model.getValueAt(index, 5) != null) {
 						JOptionPane.showMessageDialog(null, "Fatura cancelada!");
@@ -235,6 +238,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				if((model.getValueAt(index, 5) == null) && (model.getValueAt(index, 4) == null)) {
 					MatriculationInvoices mi = new MatriculationInvoices();
 					MatriculationInvoicesDAO miDao;
+					HomeWindow hw = new HomeWindow();
 
 					
 					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
@@ -253,6 +257,8 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 					}
 					
 					btnSearch.doClick();
+					
+					hw.is_saved = true;
 				}else {
 					if (model.getValueAt(index, 5) != null) {
 						JOptionPane.showMessageDialog(null, "Fatura ja cancelada!");
@@ -272,6 +278,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				Float nValor = Float.parseFloat(JOptionPane.showInputDialog("Informe o novo valor:"));
 				MatriculationInvoices mi = new MatriculationInvoices();
 				MatriculationInvoicesDAO miDao;
+				HomeWindow hw = new HomeWindow();
 				
 				mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
 				mi.setDue_date(model.getValueAt(index, 2).toString());
@@ -285,6 +292,8 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 					e.printStackTrace();
 				}
 				btnSearch.doClick();
+				
+				hw.is_saved = true;
 			}
 		});
 		

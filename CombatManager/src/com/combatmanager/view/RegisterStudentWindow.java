@@ -392,6 +392,8 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				MatriculationModalityDAO matriculationModalityDao = null;
 				MatriculationDAO matriculationDao = null;
 				StudentDAO studentDao = null;
+				HomeWindow hw = new HomeWindow();
+				
 				if(textFieldStudent.isEnabled()) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de aluno utilizando F9");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
@@ -453,6 +455,8 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
+						
+						hw.is_saved = true;
 					} catch (SQLException e1) {
 						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
@@ -503,6 +507,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+auxiliar_matriculation.toString());
 					
+					hw.is_saved = true;
 				} catch (SQLException e1) {
 					
 					config.addToSystemLog(getName()+","+"Erro ao salvar");

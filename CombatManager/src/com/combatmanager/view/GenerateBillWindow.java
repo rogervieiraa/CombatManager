@@ -89,6 +89,7 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 				MatriculationInvoicesDAO matriculationInvoiceDao;
 				PlanDAO planDao;
 				MatriculationDAO matriculationDao;
+				HomeWindow hw = new HomeWindow();
 				float aux_valor = 0;
 				
 				java.util.Date dat = data.getDate();
@@ -140,10 +141,14 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 							matriculationInvoiceDao.Insert(mi);
 							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
 							aux_valor = 0;
+							
+							hw.is_saved = true;
 						}else if(aux_mmm == null) {
 							matriculationInvoiceDao.Insert(mi);
 							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
 							aux_valor = 0;
+							
+							hw.is_saved = true;
 						}
 					}
 					}

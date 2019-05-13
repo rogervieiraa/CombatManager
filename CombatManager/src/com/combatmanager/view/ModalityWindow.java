@@ -373,6 +373,7 @@ public class ModalityWindow extends JInternalFrame implements View{
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
+				HomeWindow hw = new HomeWindow();
 				if(textFieldModality.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de modalidade");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
@@ -422,6 +423,8 @@ public class ModalityWindow extends JInternalFrame implements View{
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
+						
+						hw.is_saved = true;
 					} catch (SQLException e1) {
 						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
@@ -466,6 +469,9 @@ public class ModalityWindow extends JInternalFrame implements View{
 						
 					}
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
+					
+					hw.is_saved = true;
+					
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_modality.toString());
 					
 				} catch (SQLException e1) {

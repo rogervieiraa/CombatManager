@@ -74,6 +74,7 @@ public class HomeWindow extends JInternalFrame implements View {
 	List<Matriculation> student_matriculations;
 	private int saved_year;
 	private int saved_mounth;
+	public Boolean is_saved = false;
 	
 	private final String NAME = "Tela Controle Estudantes";
 	private final int ACCESS = 3*5*7*11;
@@ -245,6 +246,9 @@ public class HomeWindow extends JInternalFrame implements View {
 					textFieldName.setText(saved_student.getName());
 					
 					addTables();
+					
+					/* assuidade */
+					genereteAttendance();
 
 					btnStudentsInfo.setEnabled(true);
 					
@@ -338,13 +342,36 @@ public class HomeWindow extends JInternalFrame implements View {
 					while (!Thread.currentThread().isInterrupted()) {
 
 						if(saved_mounth != data.getDate().getMonth() && 
-								saved_year != data.getDate().getMonth()) {
+								saved_year != data.getDate().getYear()) {
 							genereteAttendance();
 						}
 						
 						if(saved_student == null) {
 							System.out.println("parou thread");
 							break;
+						}
+						if (is_saved) {
+							DefaultTableModel model1 = (DefaultTableModel) tableAssiduity.getModel();
+							while(model1.getRowCount() > 0) {
+								model1.removeRow(0);
+							}
+							tableAssiduity.setModel(model1);
+							
+							DefaultTableModel model2 = (DefaultTableModel) tableEnrollmentInfo.getModel();
+							while(model2.getRowCount() > 0) {
+								model2.removeRow(0);
+							}
+							tableEnrollmentInfo.setModel(model2);
+							
+							DefaultTableModel model3 = (DefaultTableModel) tableStudentInfo.getModel();
+							while(model3.getRowCount() > 0) {
+								model3.removeRow(0);
+							}
+							tableStudentInfo.setModel(model3);
+							
+							addTables();
+							
+							is_saved = false;
 						}
 						
 						Thread.sleep(2000);
@@ -399,9 +426,7 @@ public class HomeWindow extends JInternalFrame implements View {
 					attendanceDao = new AttendanceDAO(config.getConnection());
 					aux_att.setMatriculation_code(aux_matriculation.getCode());
 					attendanceDao.Insert(aux_att);
-					
-					/* assuidade */
-					genereteAttendance();
+										
 				}
 			}
 			else {

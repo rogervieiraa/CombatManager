@@ -284,6 +284,7 @@ public class PlansWindow extends JInternalFrame implements View{
 			
 			public void actionPerformed(ActionEvent e) {
 				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
+				HomeWindow hw = new HomeWindow();
 				if(textFieldPlans.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Planos");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
@@ -325,6 +326,9 @@ public class PlansWindow extends JInternalFrame implements View{
 						e1.printStackTrace();
 					}
 					resetWindow();
+					
+					hw.is_saved = true;
+					
 					return;
 				}
 				
@@ -353,6 +357,8 @@ public class PlansWindow extends JInternalFrame implements View{
 					}
 					planDao.Insert(local_plan);
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_plan.toString());
+					
+					hw.is_saved = true;
 				} catch (SQLException e1) {
 					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();
