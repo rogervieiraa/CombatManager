@@ -76,7 +76,7 @@ public class PlansWindow extends JInternalFrame implements View{
 		
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 450, 200);
-
+		setClosable(true);
 		setTitle("Planos");
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();

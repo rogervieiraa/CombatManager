@@ -44,7 +44,7 @@ public class LoginWindow extends JFrame {
 	public LoginWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(CombatImage.combatvinte_20x20.getImage());
-		
+	
 		setResizable(false);
 		setTitle("Combat Manager 1.0");
 		getContentPane().setLayout(null);

@@ -121,7 +121,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		setBounds(0, 0, 546, 520);
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		getContentPane().setLayout(null);
-		
+		setClosable(true);
 		
 	
 		

@@ -133,20 +133,11 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 					
-					StudentsWindow students = new StudentsWindow();
-				
+					StudentsWindow students = new StudentsWindow();		
 					students.run(config);
-					add(students);
-					
-					
-					validate();
-		            repaint();
-					students.moveToFront();
-					
-					students.requestFocus();
-					students.show();
-					validate();
-		            repaint();
+					students.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(students);
+
 					
 				}
 					
@@ -164,17 +155,8 @@ public class MainWindow extends JFrame implements View {
 					ModalityWindow modality = new ModalityWindow();
 					
 					modality.run(config);
-					add(modality);
-					
-					
-					validate();
-		            repaint();
-		            modality.moveToFront();
-		            modality.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					modality.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(modality);
 					
 				}
 					
@@ -191,17 +173,8 @@ public class MainWindow extends JFrame implements View {
 					PlansWindow plans = new PlansWindow();
 					
 					plans.run(config);
-					add(plans);
-					
-					
-					validate();
-		            repaint();
-					plans.moveToFront();
-					
-					plans.requestFocus();
-					plans.show();
-					validate();
-		            repaint();
+					plans.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(plans);
 		            
 				}
 					
@@ -224,20 +197,10 @@ public class MainWindow extends JFrame implements View {
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					RegisterStudentWindow registerStudent = new RegisterStudentWindow();
-					
+					RegisterStudentWindow registerStudent = new RegisterStudentWindow();			
 					registerStudent.run(config);
-					add(registerStudent);
-					
-					
-					validate();
-		            repaint();
-		            registerStudent.moveToFront();
-		            registerStudent.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					registerStudent.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(registerStudent);
 				}
 					
 			});
@@ -255,17 +218,8 @@ public class MainWindow extends JFrame implements View {
 					GenerateBillWindow generate = new GenerateBillWindow();
 					
 					generate.run(config);
-					add(generate);
-					
-					
-					validate();
-		            repaint();
-		            generate.moveToFront();
-		            generate.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					generate.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(generate);
 				
 				}
 				
@@ -283,17 +237,9 @@ public class MainWindow extends JFrame implements View {
 					CheckInvoiceWindow checkInvoice = new CheckInvoiceWindow();
 					
 					checkInvoice.run(config);
-					add(checkInvoice);
 					
-					
-					validate();
-		            repaint();
-		            checkInvoice.moveToFront();
-		            checkInvoice.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					checkInvoice.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(checkInvoice);
 				}
 					
 			});
@@ -309,17 +255,9 @@ public class MainWindow extends JFrame implements View {
 					PayInvoiceWindow payInvoice = new PayInvoiceWindow();
 					
 					payInvoice.run(config);
-					add(payInvoice);
 					
-					
-					validate();
-		            repaint();
-		            payInvoice.moveToFront();
-		            payInvoice.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					payInvoice.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(payInvoice);
 					
 				}
 					
@@ -340,17 +278,8 @@ public class MainWindow extends JFrame implements View {
 					EnrollmentReportWindow report = new EnrollmentReportWindow();
 					
 					report.run(config);
-					add(report);
-					
-					
-					validate();
-		            repaint();
-		            report.moveToFront();
-		            report.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					report.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(report);
 				}
 				});
 			mnReports.add(mntmMtrcula);
@@ -368,17 +297,8 @@ public class MainWindow extends JFrame implements View {
 					
 					BackupWindow backup = new BackupWindow();
 					backup.run(config);
-					add(backup);
-					
-					
-					validate();
-		            repaint();
-		            backup.moveToFront();
-		            backup.requestFocus();
-					validate();
-		            repaint();
-		            
-					revalidate();
+					backup.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					openWindow(backup);
 				}
 				});
 			mnUtilities.add(mntmBackup);
@@ -415,7 +335,7 @@ public class MainWindow extends JFrame implements View {
 			
 			if(window.getName() == contentPane.getComponent(i).getName()) {
 				try {
-					frames[i].setSelected(true);
+					window.setSelected(true);
 				} catch (PropertyVetoException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -444,11 +364,8 @@ public class MainWindow extends JFrame implements View {
 				e1.printStackTrace();
 			}
 			
-			contentPane.setComponentZOrder(window, 0);
-		
-			
 			int j = 0;
-			
+	
 			while(j < frames.length) {
 				
 				try {
@@ -471,14 +388,6 @@ public class MainWindow extends JFrame implements View {
 			frames[i]= window;
 			contentPane.add(frames[i]);
 		
-			
-			try {
-				frames[i].setSelected(true);
-			} catch (PropertyVetoException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
 			contentPane.setComponentZOrder(frames[i], 0);
 			int j = 0;
 			
@@ -493,6 +402,14 @@ public class MainWindow extends JFrame implements View {
 				j++;
 			}
 			
+			try {
+				window.setSelected(true);
+			} catch (PropertyVetoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+
 			validate();
 	        repaint();
 		}

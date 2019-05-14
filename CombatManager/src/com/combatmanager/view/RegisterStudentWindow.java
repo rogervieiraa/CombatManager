@@ -107,7 +107,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		setVisible(true);
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
-		
+		setClosable(true);
 		Dimension jInternalFrameSize = getSize();
 		int width= (bounds.width - jInternalFrameSize.width)/2;
 		int height= (bounds.height - jInternalFrameSize.height)/2;
