@@ -63,7 +63,8 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 	private JTextField textFieldStudent;
 	private JFormattedTextField textFieldRegisterDay;
 	private MaskFormatter maskDate;
-	private JTextField textFieldFinishDay;
+	private JFormattedTextField textFieldFinishDay;
+	private MaskFormatter maskDay;
 	private JTable table;
 	private JButton btnSave;
 	private JButton btnSearch;
@@ -101,8 +102,10 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		
 		try {
 			maskDate = new MaskFormatter("####/##/##");
+			maskDay = new MaskFormatter("##");
 			
 			maskDate.setValidCharacters("0123456789");
+			maskDay.setValidCharacters("0123456789");
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -206,7 +209,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		lblDiaDoVencimento.setBounds(237, 124, 183, 22);
 		getContentPane().add(lblDiaDoVencimento);
 		
-		textFieldFinishDay = new JTextField();
+		textFieldFinishDay = new JFormattedTextField(maskDay);
 		textFieldFinishDay.setBounds(422, 127, 78, 20);
 		getContentPane().add(textFieldFinishDay);
 		textFieldFinishDay.setColumns(10);

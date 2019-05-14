@@ -21,11 +21,13 @@ import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import com.combatmanager.database.dao.MatriculationDAO;
 import com.combatmanager.database.dao.MatriculationInvoicesDAO;
@@ -41,8 +43,10 @@ import controller.CombatImage;
 import javax.swing.ImageIcon;
 
 public class PayInvoiceWindow extends JInternalFrame implements View {
-	private JTextField textFieldFrom;
-	private JTextField textFieldTo;
+	private JFormattedTextField textFieldFrom;
+	private JFormattedTextField textFieldTo;
+	private MaskFormatter maskDate1;
+	private MaskFormatter maskDate2;
 	private JTable table;
 	private JButton btnSearch;
 	private JPopupMenu popMenu;
@@ -82,6 +86,17 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 	 * Create the panel.
 	 */
 	public JInternalFrame run(Configuration config) {
+		
+		try {
+			maskDate1 = new MaskFormatter("##/##/####");
+			maskDate2 = new MaskFormatter("##/##/####");
+			
+			maskDate1.setValidCharacters("0123456789");
+			maskDate2.setValidCharacters("0123456789");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		setLayout(null);
 		
 		
@@ -97,7 +112,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 		lblDe.setBounds(10, 11, 46, 14);
 		getContentPane().add(lblDe);
 		
-		textFieldFrom = new JTextField();
+		textFieldFrom = new JFormattedTextField(maskDate1);
 		textFieldFrom.setBounds(35, 9, 86, 20);
 		getContentPane().add(textFieldFrom);
 		textFieldFrom.setColumns(10);
@@ -107,7 +122,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 		lblTo.setBounds(133, 12, 46, 14);
 		getContentPane().add(lblTo);
 		
-		textFieldTo = new JTextField();
+		textFieldTo = new JFormattedTextField(maskDate2);
 		textFieldTo.setColumns(10);
 		textFieldTo.setBounds(163, 9, 86, 20);
 		getContentPane().add(textFieldTo);
@@ -139,7 +154,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				StudentDAO studentDao;
 				MatriculationInvoicesDAO miDao;
 				
-				if (!textFieldFrom.getText().equals("") && (!textFieldTo.getText().equals(""))) {
+				if ((textFieldFrom.isEditValid()) && (textFieldTo.isEditValid())) {
 					if (comboBox.getSelectedIndex() != -1) {
 						try {
 							miDao = new MatriculationInvoicesDAO(config.getConnection());
@@ -147,8 +162,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 							listMi = miDao.SelectFilter(textFieldFrom.getText(), textFieldTo.getText(), comboBox.getSelectedItem().toString());
 							
 						}catch (Exception e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage());
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Erro ao pesquisar!");
 						}
 					}
 				}else if(comboBox.getSelectedIndex() != -1) {
@@ -158,8 +172,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 						listMi = miDao.SelectAlll(comboBox.getSelectedItem().toString());
 						
 					}catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage());
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Erro as pesquisar!");
 					}
 				}
 				try {
@@ -176,7 +189,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 						model.addRow(new Object[] {listMi.get(i).getMatriculation_code(), student.getName(), listMi.get(i).getDue_date(), listMi.get(i).getValue(), listMi.get(i).getPay_date(), listMi.get(i).getCancel_date()});
 					}
 				} catch (Exception e2) {
-					e2.printStackTrace();
+					JOptionPane.showConfirmDialog(null, "Erro ao pesquisar!");
 				}
 				
 			}

@@ -3,6 +3,7 @@ package com.combatmanager.view;
 import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import com.combatmanager.database.dao.GraduationDAO;
 import com.combatmanager.database.dao.ModalityDAO;
@@ -31,8 +33,10 @@ import com.combatmanager.security.Configuration;
 import javax.swing.JButton;
 
 public class AddModalityWindow extends JFrame implements View {
-	private JTextField textFieldStart;
-	private JTextField textFieldEnd;
+	private JFormattedTextField textFieldStart;
+	private JFormattedTextField textFieldEnd;
+	private MaskFormatter maskDate1;
+	private MaskFormatter maskDate2;
 	private JComboBox comboModality;
 	private JComboBox comboGraduation;
 	private JComboBox comboPlan;
@@ -47,6 +51,17 @@ public class AddModalityWindow extends JFrame implements View {
 	 * Create the panel.
 	 */
 	public AddModalityWindow(Configuration config) {
+		try {
+			maskDate1 = new MaskFormatter("####/##/##");
+			maskDate2 = new MaskFormatter("####/##/##");
+			
+			maskDate1.setValidCharacters("0123456789");
+			maskDate2.setValidCharacters("0123456789");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
 		this.config = config;
 		save_matriculationModality = null;
 		setLayout(null);
@@ -105,12 +120,12 @@ public class AddModalityWindow extends JFrame implements View {
 		lblDataFim.setBounds(10, 137, 164, 14);
 		internalFrame.getContentPane().add(lblDataFim);
 		
-		textFieldStart = new JTextField();
+		textFieldStart = new JFormattedTextField(maskDate1);
 		textFieldStart.setBounds(95, 104, 177, 20);
 		internalFrame.getContentPane().add(textFieldStart);
 		textFieldStart.setColumns(10);
 		
-		textFieldEnd = new JTextField();
+		textFieldEnd = new JFormattedTextField(maskDate2);
 		textFieldEnd.setColumns(10);
 		textFieldEnd.setBounds(95, 135, 177, 20);
 		internalFrame.getContentPane().add(textFieldEnd);
