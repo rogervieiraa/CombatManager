@@ -28,11 +28,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 
 public class LoginWindow extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private JButton btnNewButton;
 	private User local_user;
 	/**
 	 * Create the panel.
@@ -69,6 +73,28 @@ public class LoginWindow extends JFrame {
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(167, 249, 165, 20);
+		passwordField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER) {
+					btnNewButton.doClick();
+				}
+				
+			}
+		});
 		contentPane.add(passwordField);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
@@ -77,7 +103,7 @@ public class LoginWindow extends JFrame {
 		lblNewLabel_1.setBounds(0, 11, 444, 180);
 		contentPane.add(lblNewLabel_1);
 		
-		JButton btnNewButton = new JButton("Entrar");
+		btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserDAO userDao = null;

@@ -107,7 +107,7 @@ public class StudentDAO extends MasterDAO {
 			Student student = new Student();
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			student.setName(rst.getString("aluno"));
-			student.setBirthday(rst.getString("data_nascimento"));
+			student.setBirthday(rst.getString("data_nascimento").replace("-", "/"));
 			student.setAdress(rst.getString("endereco"));
 			student.setCellPhoneNumber(rst.getString("telefone"));
 			student.setEmail(rst.getString("email"));
@@ -152,7 +152,7 @@ public class StudentDAO extends MasterDAO {
 			student = new Student();
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			student.setName(rst.getString("aluno"));
-			aux = rst.getString("data_nascimento");
+			aux = rst.getString("data_nascimento").replace("-", "/");
 			
 			student.setBirthday(aux);
 			student.setSex(rst.getString("sexo"));
@@ -193,7 +193,7 @@ public class StudentDAO extends MasterDAO {
 			Student return_student = new Student();
 			return_student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			return_student.setName(rst.getString("aluno"));
-			return_student.setBirthday(rst.getString("data_nascimento"));
+			return_student.setBirthday(rst.getString("data_nascimento").replace("-", "/"));
 			return_student.setSex(rst.getString("sexo"));
 			return_student.setPhoneNumber(rst.getString("telefone"));
 			return_student.setCellPhoneNumber(rst.getString("celular"));
@@ -244,6 +244,8 @@ public class StudentDAO extends MasterDAO {
 		
 		//Creating city object
 		City city = new City();
+		
+		city = student.getCity();
 		
 		//city = student.getCity();
 		//End

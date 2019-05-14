@@ -64,7 +64,7 @@ import javax.swing.JTextArea;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-public class StudentsWindow extends JInternalFrame implements View {
+public class StudentsWindow extends JInternalFrame implements View, KeyListener {
 	
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
@@ -290,6 +290,31 @@ public class StudentsWindow extends JInternalFrame implements View {
 		txtTeclarF.setText("Teclar F9");
 		txtTeclarF.setColumns(10);
 		txtTeclarF.setBounds(350, 71, 145, 20);
+		txtTeclarF.setToolTipText("Teclar F9");
+		txtTeclarF.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ChooseCityWindow ccw = new ChooseCityWindow(config);
+				ccw.setVisible(true);
+				ccw.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                      
+                       City aux_city = ccw.getCity();
+                       if(aux_city.getName() != null) {
+                    	   System.out.println(aux_city.toString());
+                    	   txtTeclarF.setText(aux_city.getName());
+                    	   txtTeclarF.setEnabled(false);
+                    	   textFieldState.setText(aux_city.getState());
+                    	   textFieldCountry.setText(aux_city.getCountry());
+                       }
+                     
+                    }
+                });
+				
+			}
+		});
 		addressPanel.add(txtTeclarF);
 		
 		textFieldState = new JTextField();
@@ -364,7 +389,6 @@ public class StudentsWindow extends JInternalFrame implements View {
 					
 					studentDao = new StudentDAO(config.getConnection());
 					Student auxiliar_student = (Student) studentDao.Select(student);
-					System.out.println(auxiliar_student.toString());
 					City city = new City();
 					if(auxiliar_student.getName().equals("")) {
 						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
@@ -385,6 +409,15 @@ public class StudentsWindow extends JInternalFrame implements View {
 					textFieldCep.setText(auxiliar_student.getCep());
 					textFieldStudent.setText(auxiliar_student.getName());
 					textFieldCountry.setText(city.getCountry());
+					if (city.getName().equals("")) {
+						
+					}else {
+						txtTeclarF.setText(city.getName());
+						txtTeclarF.setBackground(Color.WHITE);
+						txtTeclarF.setEditable(false);
+					}
+					
+					
 					formattedTextFieldDate.setText(auxiliar_student.getBirthday());	
 					textFieldHomeNumber.setText(auxiliar_student.getHomeNumber());
 					savedcity = city.getName();
@@ -545,10 +578,10 @@ public class StudentsWindow extends JInternalFrame implements View {
 						new_student.setCellPhoneNumber(textFieldCellPhone.getText());
 						new_student.setCep(textFieldCep.getText());
 						
-						if(txtTeclarF.isEnabled()) {
-							city.setName(savedcity);
-							city.setCountry(textFieldCountry.getText());
-							city.setState(textFieldState.getText());
+						if(textFieldCountry.getText().equals("")) {
+							city.setName("");
+							city.setCountry("");
+							city.setState("");
 						}
 						else {
 							city.setName(txtTeclarF.getText());
@@ -594,12 +627,17 @@ public class StudentsWindow extends JInternalFrame implements View {
 					
 					student.setName(textFieldStudent.getText());
 					student.setAdress(textFieldAddress.getText());
-					student.setBirthday(formattedTextFieldDate.getText().toString());
+					student.setBirthday(formattedTextFieldDate.getText());
 					student.setCellPhoneNumber(textFieldCellPhone.getText());
 					student.setCep(textFieldCep.getText());
 					
 					
-					if(!txtTeclarF.isEnabled()) {
+					if(textFieldCountry.getText().equals("")) {
+						city.setName("");
+						city.setCountry("");
+						city.setState("");
+					}
+					else {
 						city.setName(txtTeclarF.getText());
 						city.setCountry(textFieldCountry.getText());
 						city.setState(textFieldState.getText());
@@ -680,6 +718,8 @@ public class StudentsWindow extends JInternalFrame implements View {
 		textFieldCep.setEnabled(false);
 		textFieldStudent.setEnabled(false);
 		textFieldStudent.setEnabled(false);
+		txtTeclarF.setEnabled(false);
+		txtTeclarF.setBackground(Color.YELLOW);
 		formattedTextFieldDate.setEnabled(false);
 		comboBoxSex.setEnabled(false);
 	}
@@ -701,6 +741,7 @@ public class StudentsWindow extends JInternalFrame implements View {
 		textFieldStudent.setEnabled(true);
 		textFieldLocal.setEnabled(true);
 		formattedTextFieldDate.setEnabled(true);
+		txtTeclarF.setEditable(false);
 		comboBoxSex.setEnabled(true);
 		
 	}
@@ -748,6 +789,63 @@ public class StudentsWindow extends JInternalFrame implements View {
 		}else {
 			comboBoxSex.setSelectedIndex(1);
 		}
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		if (arg0.getKeyCode() == KeyEvent.VK_F9) {
+			ChooseCityWindow ccw = new ChooseCityWindow(config);
+			ccw.setVisible(true);
+			ccw.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                  
+                   if(ccw == null) {
+                	   return;
+                   }
+                	City aux_city = ccw.getCity();
+                   if(aux_city != null) {
+                	   System.out.println(aux_city.toString());
+                	   txtTeclarF.setText(aux_city.getName());
+                	   txtTeclarF.setEnabled(false);
+                	   textFieldState.setText(aux_city.getState());
+                	   textFieldCountry.setText(aux_city.getCountry());
+                   }
+                 
+                }
+            });
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		if (arg0.getKeyCode() == KeyEvent.VK_F9) {
+			ChooseCityWindow ccw = new ChooseCityWindow(config);
+			ccw.setVisible(true);
+			ccw.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                  
+                   City aux_city = ccw.getCity();
+                   if(aux_city != null) {
+                	   System.out.println(aux_city.toString());
+                	   txtTeclarF.setText(aux_city.getName());
+                	   txtTeclarF.setEnabled(false);
+                	   textFieldState.setText(aux_city.getState());
+                	   textFieldCountry.setText(aux_city.getCountry());
+                   }
+                 
+                }
+            });
+		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 
