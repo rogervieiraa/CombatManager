@@ -65,7 +65,7 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 		setClosable(true);
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 336, 132);
-
+		
 		getContentPane().setLayout(null);
 		
 		data = new MasterMonthChooser();

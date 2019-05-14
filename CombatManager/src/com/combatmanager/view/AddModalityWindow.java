@@ -51,7 +51,7 @@ public class AddModalityWindow extends JFrame implements View {
 		save_matriculationModality = null;
 		setLayout(null);
 		setBounds(0, 0, 450, 403);
-		
+		setClosable(true);admad
 		JInternalFrame internalFrame = new JInternalFrame("Adicionar Modalidades");
 		internalFrame.setBounds(0, 0, 298, 232);
 		add(internalFrame);
