@@ -291,30 +291,6 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		txtTeclarF.setColumns(10);
 		txtTeclarF.setBounds(350, 71, 145, 20);
 		txtTeclarF.setToolTipText("Teclar F9");
-		txtTeclarF.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				ChooseCityWindow ccw = new ChooseCityWindow(config);
-				ccw.setVisible(true);
-				ccw.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                      
-                       City aux_city = ccw.getCity();
-                       if(aux_city.getName() != null) {
-                    	   System.out.println(aux_city.toString());
-                    	   txtTeclarF.setText(aux_city.getName());
-                    	   txtTeclarF.setEnabled(false);
-                    	   textFieldState.setText(aux_city.getState());
-                    	   textFieldCountry.setText(aux_city.getCountry());
-                       }
-                     
-                    }
-                });
-				
-			}
-		});
 		addressPanel.add(txtTeclarF);
 		
 		textFieldState = new JTextField();
