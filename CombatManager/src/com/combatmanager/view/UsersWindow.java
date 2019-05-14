@@ -80,7 +80,7 @@ public class UsersWindow extends JInternalFrame implements View {
 		setVisible(true);
 		getContentPane().setLayout(null);
 		setFrameIcon(CombatImage.combatvinte_20x20);
-		
+		setClosable(true);
 		BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
 
 		Component north = ui.getNorthPane();

@@ -40,6 +40,7 @@ public class MainWindow extends JFrame implements View {
 
 	private final String NAME = "Tela Principal";
 	private final int ACCESS = 3 * 5 * 7 * 11;
+	private JInternalFrame[] frames= new JInternalFrame[100];
 
 	@Override
 	public int getAccess() {
@@ -56,11 +57,16 @@ public class MainWindow extends JFrame implements View {
 	 * @author Romulo Create the frame.
 	 */
 	public MainWindow(Configuration config) {
-
+		
+		contentPane= new JPanel();
+		
+		contentPane.setLayout(null);
+		
 		HomeWindow hw = new HomeWindow();
 		hw.run(config);
-		add(hw);
+		contentPane.add(hw);
 		
+		frames[0]= hw;
 		
 		this.config = config; // TO DO
 		setTitle("Combat Manager 1.0");
@@ -83,9 +89,11 @@ public class MainWindow extends JFrame implements View {
 			
 				UsersWindow users = new UsersWindow();
 				users.run(config);
-				
-				add(users);
-				setComponentZOrder(users, 100);
+				users.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				openWindow(users);
+	            
+		
+	
 		
 			}
 				
@@ -394,17 +402,107 @@ public class MainWindow extends JFrame implements View {
 		});
 
 		
-		
+		setContentPane(contentPane);	
 	}
-	/*
-	public Container CreateContentPane(View view) {
+	
+	public void openWindow(JInternalFrame window) {
+		int i = 0;
+		int c= 0;
+		boolean exist= false;
 		
-		Container c = view.run(this.config);
-		setContentPane(c);
-		config.addToSystemLog(view.getName()+","+"Abriu tela");
-		return c;
+		while(i < contentPane.getComponents().length) {
+			
+			
+			if(window.getName() == contentPane.getComponent(i).getName()) {
+				try {
+					frames[i].setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				exist= true;
+				c= i;
+				i = contentPane.getComponents().length;
+			
+			}else {
+				exist= false;
+			}
+			i++;
+			
+		}
+		
+		if(contentPane.getComponent(c).isVisible() == false && exist == true){
+			
+			
+			contentPane.remove(window);
+			contentPane.add(window);
+			
+			try {
+				window.setSelected(true);
+			} catch (PropertyVetoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			contentPane.setComponentZOrder(window, 0);
+		
+			
+			int j = 0;
+			
+			while(j < frames.length) {
+				
+				try {
+					frames[j].setSelected(false);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				j++;
+			}
+			
+			validate();
+	        repaint();
+	        return;
+			
+		}
+		
+		
+		if(exist == false) {
+			frames[i]= window;
+			contentPane.add(frames[i]);
+		
+			
+			try {
+				frames[i].setSelected(true);
+			} catch (PropertyVetoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			contentPane.setComponentZOrder(frames[i], 0);
+			int j = 0;
+			
+			while(j < i) {
+				
+				try {
+					frames[j].setSelected(false);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				j++;
+			}
+			
+			validate();
+	        repaint();
+		}
+		
+        
+		return;
 
-	}*/
+	}
+	
+	
 
 	@Override
 	public JInternalFrame run(Configuration config) {
