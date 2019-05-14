@@ -69,17 +69,21 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 	private JTextField textFieldStudent;
 	private JTextField textFieldEmail;
 	private JTextField textFieldObs;
-	private JTextField textFieldPhone;
-	private JTextField textFieldCellPhone;
+	private JFormattedTextField textFieldPhone;
+	private JFormattedTextField textFieldCellPhone;
 	private JTextField textFieldAddress;
 	private JTextField textFieldComplement;
 	private JTextField textFieldHomeNumber;
 	private JTextField textFieldLocal;
 	private JTextField txtTeclarF;
 	private JTextField textFieldState;
-	private JTextField textFieldCep;
+	private JFormattedTextField textFieldCep;
 	private JTextField textFieldCountry;
 	private JFormattedTextField formattedTextFieldDate;
+	private MaskFormatter maskDate;
+	private MaskFormatter maskPhone;
+	private MaskFormatter maskCellPhone;
+	private MaskFormatter maskCep;
 	private JButton btnRemove;
 	private JButton btnAdd;
 	private JButton btnSave;
@@ -112,8 +116,24 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 	
 	/**
 	 * Create the panel.
+	 * @throws ParseException 
 	 */
 	public JInternalFrame run(Configuration config) {
+		try {
+			maskDate = new MaskFormatter("####/##/##");
+			maskPhone = new MaskFormatter("(##) ####-####");
+			maskCellPhone = new MaskFormatter("(##) #####-####");
+			maskCep = new MaskFormatter("#####-###");
+			
+			maskDate.setValidCharacters("0123456789");
+			maskPhone.setValidCharacters("0123456789");
+			maskCellPhone.setValidCharacters("0123456789");
+			maskCep.setValidCharacters("0123456789");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		
 		this.config = config;
 		setName("Cadastro Alunos");
@@ -177,17 +197,36 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		
 		textFieldStudent = new JTextField();
 		textFieldStudent.setBounds(143, 61, 377, 20);
+		textFieldStudent.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER)
+					btnSearch.doClick();
+			}
+		});
 		getContentPane().add(textFieldStudent);
 		textFieldStudent.setColumns(10);
 		
-		//MaskFormatter maskFormatter = new MaskFormatter("##/##/##");
+		
 	
 		
-		formattedTextFieldDate = new JFormattedTextField();
-		//formattedTextFieldDate.setFormatterFactory(tf);
+		formattedTextFieldDate = new JFormattedTextField(maskDate);
 		formattedTextFieldDate.setLocation(143, 92);
 		formattedTextFieldDate.setSize(new Dimension(148, 20));
-
+		
 		getContentPane().add(formattedTextFieldDate);
 		
 		comboBoxSex = new JComboBox();
@@ -327,7 +366,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		lblEstado.setBounds(10, 105, 93, 15);
 		addressPanel.add(lblEstado);
 		
-		textFieldCep = new JTextField();
+		textFieldCep = new JFormattedTextField(maskCep);
 		textFieldCep.setColumns(10);
 		textFieldCep.setBounds(109, 133, 145, 20);
 		addressPanel.add(textFieldCep);
@@ -337,12 +376,13 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		lblCep.setBounds(10, 136, 93, 15);
 		addressPanel.add(lblCep);
 		
-		textFieldPhone = new JTextField();
+		textFieldPhone = new JFormattedTextField(maskPhone);
 		textFieldPhone.setColumns(10);
 		textFieldPhone.setBounds(143, 123, 148, 20);
+		
 		getContentPane().add(textFieldPhone);
 		
-		textFieldCellPhone = new JTextField();
+		textFieldCellPhone = new JFormattedTextField(maskCellPhone);
 		textFieldCellPhone.setColumns(10);
 		textFieldCellPhone.setBounds(372, 123, 148, 20);
 		getContentPane().add(textFieldCellPhone);
@@ -409,7 +449,10 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 				                    @Override
 				                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				                      
-				                       City aux_city = ccw.getCity();
+				                    	if(ccw.getCity() == null) 
+				                    		return;				                    	
+				                       
+				                    	City aux_city = ccw.getCity();
 				                       if(aux_city.getName() != null) {
 				                    	   System.out.println(aux_city.toString());
 				                    	   txtTeclarF.setText(aux_city.getName());
@@ -460,6 +503,9 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 			                    @Override
 			                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 			                      
+			                       if(ccw.getCity() == null)
+			                    	   return;
+			                    	
 			                       City aux_city = ccw.getCity();
 			                       if(aux_city != null) {
 			                    	   System.out.println(aux_city.toString());
@@ -719,6 +765,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		formattedTextFieldDate.setEnabled(true);
 		txtTeclarF.setEditable(false);
 		comboBoxSex.setEnabled(true);
+		textFieldStudent.setFocusable(true);
 		
 	}
 
