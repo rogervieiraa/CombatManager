@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.JTextField;
@@ -118,6 +120,27 @@ public class CheckInvoiceWindow extends JInternalFrame implements View {
 		textFieldTo = new JFormattedTextField(maskDate2);
 		textFieldTo.setColumns(10);
 		textFieldTo.setBounds(163, 9, 86, 20);
+		textFieldTo.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER)
+					btnSearch.doClick();
+				
+			}
+		});
 		getContentPane().add(textFieldTo);
 		
 		JLabel lblStatus = new JLabel("Situa\u00E7\u00E3o: ");
@@ -128,6 +151,27 @@ public class CheckInvoiceWindow extends JInternalFrame implements View {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Todas", "Em aberto", "Pagas", "Canceladas"}));
 		comboBox.setBounds(325, 9, 100, 20);
+		comboBox.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER)
+					btnSearch.doClick();
+				
+			}
+		});
 		getContentPane().add(comboBox);
 		
 		btnSearch = new JButton("Pesquisar");

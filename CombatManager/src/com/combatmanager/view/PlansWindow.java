@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -141,6 +143,27 @@ public class PlansWindow extends JInternalFrame implements View{
 		
 		textFieldPlans= new JTextField();
 		textFieldPlans.setBounds(105, 95, 320, 20);
+		textFieldPlans.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER)
+					btnSearch.doClick();
+				
+			}
+		});
 		getContentPane().add(textFieldPlans);
 		textFieldPlans.setColumns(10);
 		

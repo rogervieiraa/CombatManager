@@ -13,6 +13,8 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -152,6 +154,27 @@ public class ModalityWindow extends JInternalFrame implements View{
 		
 		textFieldModality = new JTextField();
 		textFieldModality.setBounds(98, 61, 326, 20);
+		textFieldModality.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER)
+					btnSearch.doClick();
+				
+			}
+		});
 		getContentPane().add(textFieldModality);
 		textFieldModality.setColumns(10);
 		
