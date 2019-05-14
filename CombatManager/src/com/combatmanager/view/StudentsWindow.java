@@ -399,18 +399,21 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 				StudentDAO studentDao = null;
 				
 				Student student = new Student();
-				student.setName(textFieldStudent.getText());
-				student.setEmail(textFieldEmail.getText());
+				
 				try {
 					
-					studentDao = new StudentDAO(config.getConnection());
-					Student auxiliar_student = (Student) studentDao.Select(student);
-					City city = new City();
-					if(auxiliar_student.getName().equals("")) {
+					if(textFieldStudent.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
 						resetWindow();
 						return;
 					}
+					student.setName(textFieldStudent.getText());
+					student.setEmail(textFieldEmail.getText());
+					
+					studentDao = new StudentDAO(config.getConnection());
+					Student auxiliar_student = (Student) studentDao.Select(student);
+					City city = new City();
+					
 					
 					city = auxiliar_student.getCity();	
 					textFieldAddress.setText(auxiliar_student.getAdress());
@@ -479,7 +482,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
 					resetWindow();
 				} catch (AccessException e1) {
-					e1.showAcessWindowDenied();
+					JOptionPane.showMessageDialog(null, "Aluno nao encontrado.");
 					resetWindow();
 				}
 							

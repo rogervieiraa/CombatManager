@@ -21,6 +21,7 @@ import java.util.ListIterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,6 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.MaskFormatter;
 
 import com.combatmanager.database.dao.AttendanceDAO;
 import com.combatmanager.database.dao.GraduationDAO;
@@ -59,7 +61,8 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 	private JTextField textFieldRegistration;
 	private JTextField textFieldF9;
 	private JTextField textFieldStudent;
-	private JTextField textFieldRegisterDay;
+	private JFormattedTextField textFieldRegisterDay;
+	private MaskFormatter maskDate;
 	private JTextField textFieldFinishDay;
 	private JTable table;
 	private JButton btnSave;
@@ -95,6 +98,15 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 	 * Create the panel.
 	 */
 	public JInternalFrame run(Configuration config) {
+		
+		try {
+			maskDate = new MaskFormatter("####/##/##");
+			
+			maskDate.setValidCharacters("0123456789");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		this.config = config;
 		searchOrAdd = false;
 		newers_mm = new ArrayList<MatriculationModality>();
@@ -179,7 +191,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		textFieldStudent.setBounds(237, 97, 263, 19);
 		getContentPane().add(textFieldStudent);
 		
-		textFieldRegisterDay = new JTextField();
+		textFieldRegisterDay = new JFormattedTextField(maskDate);
 		textFieldRegisterDay.setColumns(10);
 		textFieldRegisterDay.setBounds(143, 127, 84, 19);
 		getContentPane().add(textFieldRegisterDay);
@@ -312,6 +324,9 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 			                    @Override
 			                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 			                      
+			                    	if(csw.getStudentId() == null)
+			                    		return;			                    	
+			                    	
 			                       Student aux_student = csw.getStudentId();
 			                       if(aux_student != null) {
 			                    	   textFieldF9.setText(aux_student.getIndex().toString());
@@ -412,7 +427,9 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 					return;
 				}
 				
-				if(Integer.parseInt(textFieldFinishDay.getText()) > 29 || Integer.parseInt(textFieldFinishDay.getText()) < 0) {
+				if (textFieldFinishDay.getText().equals("")) {
+					
+				}else if(Integer.parseInt(textFieldFinishDay.getText()) > 29 || Integer.parseInt(textFieldFinishDay.getText()) < 0) {
 					JOptionPane.showMessageDialog(null, "Dia de encerramento incorreto");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em incorreto");
 					return;
@@ -530,7 +547,11 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				addModalityWindow.addWindowListener(new java.awt.event.WindowAdapter() {
 				    @Override
 				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				        MatriculationModality mm = addModalityWindow.getMatriculationModality();
+				        
+				    	if(addModalityWindow.getMatriculationModality() == null)
+				    		return;			
+				    	
+				    	MatriculationModality mm = addModalityWindow.getMatriculationModality();
 				        
 				        if(!mm.equals(null)) {
 				        	addMMToTable(mm);

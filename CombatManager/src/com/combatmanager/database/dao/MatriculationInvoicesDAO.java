@@ -108,7 +108,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 				
 				pst_selectAll = io_connection.prepareStatement(selectAll);
 			}else if (opt.equals("Em aberto")) {
-				selectAll += " where data_pagamento is null order by data_vencimento";
+				selectAll += " where data_pagamento is null and data_cancelamento is null order by data_vencimento";
 				
 				pst_selectAll = io_connection.prepareStatement(selectAll);
 			}else if (opt.equals("Pagas")) {
@@ -154,7 +154,7 @@ public class MatriculationInvoicesDAO extends MasterDAO{
 			pst_select = io_connection.prepareStatement(select);
 			pst_select.clearParameters();
 		}else if (opt.equals("Em aberto")) {
-			select += " and data_pagamento is null order by data_vencimento";
+			select += " and data_pagamento is null and data_cancelamento is null order by data_vencimento";
 			
 			pst_select = io_connection.prepareStatement(select);
 			pst_select.clearParameters();

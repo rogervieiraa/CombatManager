@@ -188,6 +188,10 @@ public class PlansWindow extends JInternalFrame implements View{
 					config.addToSystemLog(getName()+","+"Iniciou a operacao de busca");
 					return;
 				}
+				if(comboBox.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Você precisa selecionar uma modalidade!");
+					return;
+				}
 				
 				PlanDAO planDao = null;
 				save_plan = new Plan();
