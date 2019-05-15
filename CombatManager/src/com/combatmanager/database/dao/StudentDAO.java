@@ -152,9 +152,11 @@ public class StudentDAO extends MasterDAO {
 			student = new Student();
 			student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			student.setName(rst.getString("aluno"));
-			aux = rst.getString("data_nascimento").replace("-", "/");
+			if(rst.getString("data_nascimento") != null) {
+				aux = rst.getString("data_nascimento").replace("-", "/");
+				student.setBirthday(aux);
+			}
 			
-			student.setBirthday(aux);
 			student.setSex(rst.getString("sexo"));
 			student.setPhoneNumber(rst.getString("telefone"));
 			student.setCellPhoneNumber(rst.getString("celular"));
@@ -193,7 +195,9 @@ public class StudentDAO extends MasterDAO {
 			Student return_student = new Student();
 			return_student.setIndex(Integer.parseInt(rst.getString("codigo_aluno")));
 			return_student.setName(rst.getString("aluno"));
-			return_student.setBirthday(rst.getString("data_nascimento").replace("-", "/"));
+			if(rst.getString("data_nascimento") != null) {
+				return_student.setBirthday(rst.getString("data_nascimento").replace("-", "/"));
+			}
 			return_student.setSex(rst.getString("sexo"));
 			return_student.setPhoneNumber(rst.getString("telefone"));
 			return_student.setCellPhoneNumber(rst.getString("celular"));
@@ -231,7 +235,12 @@ public class StudentDAO extends MasterDAO {
 		
 		
 		Set(pst_update, 1, student.getName());
-		pst_update.setDate(2, df.fixData(student.getBirthday(), "/"));
+		if(student.getBirthday().charAt(0) >= '0' && student.getBirthday().charAt(0) <= '0') {
+			pst_update.setDate(2, df.fixData(student.getBirthday(), "/"));
+		}else {
+			pst_update.setDate(2, null);
+		}
+		
 		Set(pst_update, 3, student.getSex());
 		Set(pst_update, 4, student.getPhoneNumber());
 		Set(pst_update, 5, student.getCellPhoneNumber());
@@ -242,17 +251,20 @@ public class StudentDAO extends MasterDAO {
 		Set(pst_update, 10, student.getExtraInformation());
 		Set(pst_update, 11, student.getLocal());
 		
-		//Creating city object
 		City city = new City();
 		
 		city = student.getCity();
 		
-		//city = student.getCity();
-		//End
-		
-		Set(pst_update, 12, city.getName());
-		Set(pst_update, 13, city.getState());
-		Set(pst_update, 14, city.getCountry());
+		if(city != null && city.getName() != null && (!city.getName().equals(""))) {
+			Set(pst_update, 12, city.getName());
+			Set(pst_update, 13, city.getState());
+			Set(pst_update, 14, city.getCountry());
+		}
+		else {
+			Set(pst_update, 12, null);
+			Set(pst_update, 13, null);
+			Set(pst_update, 14, null);
+		}
 		
 		Set(pst_update, 15, student.getCep());
 		
@@ -293,10 +305,16 @@ public class StudentDAO extends MasterDAO {
 		
 		city = student.getCity();
 		//End
-		
-		Set(pst_insert, 12, city.getName());
-		Set(pst_insert, 13, city.getState());
-		Set(pst_insert, 14, city.getCountry());
+		if(!city.getName().equals("")) {
+			Set(pst_insert, 12, city.getName());
+			Set(pst_insert, 13, city.getState());
+			Set(pst_insert, 14, city.getCountry());
+		}
+		else {
+			Set(pst_insert, 12, null);
+			Set(pst_insert, 13, null);
+			Set(pst_insert, 14, null);
+		}
 		
 		Set(pst_insert, 15, student.getCep());
 

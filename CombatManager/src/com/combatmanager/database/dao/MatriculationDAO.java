@@ -43,8 +43,7 @@ public class MatriculationDAO extends MasterDAO{
 							+ " WHERE"
 							+ "		codigo_matricula = ?";
 	private String delete = "DELETE FROM matriculas WHERE codigo_matricula = ?";
-	private String getcode = "select * from matriculas where codigo_aluno = ? "
-			+ "												and data_matricula = ? and dia_vencimento = ?";
+	private String getcode = "select * from matriculas where codigo_aluno = ? ";
 	
 	
 	private String selectAllMatriculationByStudent = "select * from matriculas where codigo_aluno = ?";
@@ -116,8 +115,6 @@ public class MatriculationDAO extends MasterDAO{
 		pst_getcode.clearParameters();
 		
 		pst_getcode.setInt(1, m.getStudent_code());
-		pst_getcode.setDate(2, dataFixer.fixData(m.getMatriculation_date(), "-"));
-		pst_getcode.setInt(3, m.getDue_date());
 		
 		ResultSet rst = pst_getcode.executeQuery();
 		
