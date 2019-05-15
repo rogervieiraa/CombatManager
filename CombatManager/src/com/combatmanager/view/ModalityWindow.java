@@ -68,7 +68,14 @@ public class ModalityWindow extends JInternalFrame implements View{
 	private final String NAME = "Tela Modalidades";
 	private final int ACCESS = 3*11;
 	private Boolean search;
+	private HomeWindow hw;
 	
+	/**
+	 * Create the panel.
+	 */
+	public ModalityWindow(HomeWindow hw) {
+		this.hw = hw;
+	}
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -397,7 +404,6 @@ public class ModalityWindow extends JInternalFrame implements View{
 				ModalityDAO modalityDao = null;
 				GraduationDAO graduationDao = null;
 				MatriculationModalityDAO matriculationModalityDao = null;
-				HomeWindow hw = new HomeWindow();
 				if(textFieldModality.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de modalidade");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");

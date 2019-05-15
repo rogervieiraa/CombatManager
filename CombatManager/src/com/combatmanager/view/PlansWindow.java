@@ -64,7 +64,14 @@ public class PlansWindow extends JInternalFrame implements View{
 		return this.NAME;
 	}
 	
-
+	private HomeWindow hw;
+	
+	/**
+	 * Create the panel.
+	 */
+	public PlansWindow(HomeWindow hw) {
+		this.hw = hw;
+	}
 	/**
 	 * @author Romulo Create the frame.
 	 */
@@ -311,7 +318,7 @@ public class PlansWindow extends JInternalFrame implements View{
 			
 			public void actionPerformed(ActionEvent e) {
 				config.addToSystemLog(getName()+","+"Incio operacao de salvar");
-				HomeWindow hw = new HomeWindow();
+
 				if(textFieldPlans.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de Planos");
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");

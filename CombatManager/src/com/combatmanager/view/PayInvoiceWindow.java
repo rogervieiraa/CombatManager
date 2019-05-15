@@ -74,9 +74,17 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 			}
 		};
 
+		
 	private final String NAME = "Tela Pagar Fatura";
 	private final int ACCESS = 7*11;
-
+	private HomeWindow hw;
+		
+	/**
+	 * Create the panel.
+	 */
+	public PayInvoiceWindow(HomeWindow hw) {
+		this.hw = hw;
+	}
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -268,7 +276,6 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				if((model.getValueAt(index, 4) == null) && (model.getValueAt(index, 5) == null)) {
 					MatriculationInvoices mi = new MatriculationInvoices();
 					MatriculationInvoicesDAO miDao;
-					HomeWindow hw = new HomeWindow();
 					
 					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
 					mi.setDue_date(model.getValueAt(index, 2).toString());
@@ -306,7 +313,6 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				if((model.getValueAt(index, 5) == null) && (model.getValueAt(index, 4) == null)) {
 					MatriculationInvoices mi = new MatriculationInvoices();
 					MatriculationInvoicesDAO miDao;
-					HomeWindow hw = new HomeWindow();
 
 					
 					mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
@@ -346,7 +352,6 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				Float nValor = Float.parseFloat(JOptionPane.showInputDialog("Informe o novo valor:"));
 				MatriculationInvoices mi = new MatriculationInvoices();
 				MatriculationInvoicesDAO miDao;
-				HomeWindow hw = new HomeWindow();
 				
 				mi.setMatriculation_code(Integer.parseInt(model.getValueAt(index, 0).toString()));
 				mi.setDue_date(model.getValueAt(index, 2).toString());

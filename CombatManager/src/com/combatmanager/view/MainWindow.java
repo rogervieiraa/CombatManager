@@ -41,7 +41,8 @@ public class MainWindow extends JFrame implements View {
 	private final String NAME = "Tela Principal";
 	private final int ACCESS = 3 * 5 * 7 * 11;
 	private JInternalFrame[] frames= new JInternalFrame[100];
-
+	private HomeWindow hw;
+	
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -62,7 +63,7 @@ public class MainWindow extends JFrame implements View {
 		
 		contentPane.setLayout(null);
 		
-		HomeWindow hw = new HomeWindow();
+		hw = new HomeWindow(contentPane);
 		hw.run(config);
 		contentPane.add(hw);
 		
@@ -164,13 +165,13 @@ public class MainWindow extends JFrame implements View {
 			mntmModalities.setIcon(CombatImage.aplicacao_16x16);
 			mnRegisted.add(mntmModalities);
 		}
-		if(new PlansWindow().getAccess()%config.getPermissionValue() == 0) {
+		if(new PlansWindow(hw).getAccess()%config.getPermissionValue() == 0) {
 			JMenuItem mntmPlans = new JMenuItem(new AbstractAction("Planos"){
 				
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					PlansWindow plans = new PlansWindow();
+					PlansWindow plans = new PlansWindow(hw);
 					
 					plans.run(config);
 					plans.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -191,13 +192,13 @@ public class MainWindow extends JFrame implements View {
 		mnRegister.setIcon(CombatImage.aplicacao_16x16);
 		mnRegister.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProcesses.add(mnRegister);
-		if(new RegisterStudentWindow().getAccess()%config.getPermissionValue() == 0) {
+		if(new RegisterStudentWindow(hw).getAccess()%config.getPermissionValue() == 0) {
 			JMenuItem mntmStudent = new JMenuItem(new AbstractAction("Aluno"){
 				
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					RegisterStudentWindow registerStudent = new RegisterStudentWindow();			
+					RegisterStudentWindow registerStudent = new RegisterStudentWindow(hw);			
 					registerStudent.run(config);
 					registerStudent.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(registerStudent);
@@ -210,12 +211,12 @@ public class MainWindow extends JFrame implements View {
 		JMenu mnBilling = new JMenu("Faturamento");
 		mnBilling.setIcon(CombatImage.aplicacao_16x16);
 		mnProcesses.add(mnBilling);
-		if(new GenerateBillWindow().getAccess()%config.getPermissionValue() == 0) {
+		if(new GenerateBillWindow(hw).getAccess()%config.getPermissionValue() == 0) {
 			JMenuItem mntmGenerateBill = new JMenuItem(new AbstractAction("Gerar fatura"){
 				public void actionPerformed(ActionEvent e)
 				{
 					
-					GenerateBillWindow generate = new GenerateBillWindow();
+					GenerateBillWindow generate = new GenerateBillWindow(hw);
 					
 					generate.run(config);
 					generate.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -246,13 +247,13 @@ public class MainWindow extends JFrame implements View {
 			mnBilling.add(mntmCheckBills);
 		}
 		
-		if(new PayInvoiceWindow().getAccess()%config.getPermissionValue() == 0) {
+		if(new PayInvoiceWindow(hw).getAccess()%config.getPermissionValue() == 0) {
 			JMenuItem mntmMakePayment = new JMenuItem(new AbstractAction("Pagamento de Faturas"){
 				
 				public void actionPerformed(ActionEvent e)
 				{
 				
-					PayInvoiceWindow payInvoice = new PayInvoiceWindow();
+					PayInvoiceWindow payInvoice = new PayInvoiceWindow(hw);
 					
 					payInvoice.run(config);
 					

@@ -41,12 +41,13 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 	private final int ACCESS = 7*11;
 	private JButton btnNewButton;
 	private Configuration config;
+	private HomeWindow hw;
 	
 	/**
 	 * Create the panel.
 	 */
-	public GenerateBillWindow() {
-
+	public GenerateBillWindow(HomeWindow hw) {
+		this.hw = hw;
 	}
 	@Override
 	public int getAccess() {
@@ -100,7 +101,7 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 				MatriculationInvoicesDAO matriculationInvoiceDao;
 				PlanDAO planDao;
 				MatriculationDAO matriculationDao;
-				HomeWindow hw = new HomeWindow();
+
 				float aux_valor = 0;
 				
 				java.util.Date dat = data.getDate();
