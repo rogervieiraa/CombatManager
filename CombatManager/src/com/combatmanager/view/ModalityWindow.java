@@ -461,8 +461,7 @@ public class ModalityWindow extends JInternalFrame implements View{
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");
 						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
-						
-						hw.is_saved = true;
+
 					} catch (SQLException e1) {
 						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
@@ -507,8 +506,6 @@ public class ModalityWindow extends JInternalFrame implements View{
 						
 					}
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
-					
-					hw.is_saved = true;
 					
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_modality.toString());
 					

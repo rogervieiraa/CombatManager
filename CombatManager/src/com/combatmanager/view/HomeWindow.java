@@ -346,15 +346,15 @@ public class HomeWindow extends JInternalFrame implements View {
 					while (!Thread.currentThread().isInterrupted()) {
 
 						if(saved_mounth != data.getDate().getMonth() && 
-								saved_year != data.getDate().getYear()) {
+							saved_year != data.getDate().getYear()) {
 							genereteAttendance();
 						}
 						
-						if(saved_student == null) {
+						else if(saved_student == null) {
 							System.out.println("parou thread");
 							break;
 						}
-						if (is_saved) {
+						else {
 							DefaultTableModel model1 = (DefaultTableModel) tableAssiduity.getModel();
 							while(model1.getRowCount() > 0) {
 								model1.removeRow(0);
@@ -374,8 +374,6 @@ public class HomeWindow extends JInternalFrame implements View {
 							tableStudentInfo.setModel(model3);
 							
 							addTables();
-							
-							is_saved = false;
 						}
 						
 						Thread.sleep(2000);

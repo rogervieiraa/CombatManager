@@ -612,7 +612,6 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 						JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 						resetWindow();
 						
-						hw.is_saved = true;
 					} catch (SQLException e1) {
 						config.addToSystemLog(getName()+","+"Erro ao salvar");
 						e1.printStackTrace();
@@ -632,10 +631,10 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 					
 					studentDao = new StudentDAO(config.getConnection());
 					Student auxiliar_student = new Student();
-					
+					auxiliar_student.setIndex(Integer.parseInt(textFieldF9.getText()));
 					auxiliar_student.setName(textFieldStudent.getText());
 					
-					auxiliar_student = (Student) studentDao.Select(auxiliar_student);
+					auxiliar_student = (Student) studentDao.SelectById(auxiliar_student);
 					if(auxiliar_student != null) {
 						List<Matriculation> aux_mmm =  matriculationDao.SelectAllMatriculationByStudent(auxiliar_student);
 						if(aux_mmm.size() > 0) {
@@ -662,8 +661,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 					
 					JOptionPane.showMessageDialog(null, "Operacao de salvar realizada com sucesso.");
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+auxiliar_matriculation.toString());
-					
-					hw.is_saved = true;
+
 				} catch (SQLException e1) {
 					
 					config.addToSystemLog(getName()+","+"Erro ao salvar");

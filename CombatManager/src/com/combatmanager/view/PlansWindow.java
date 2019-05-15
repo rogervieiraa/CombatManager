@@ -368,8 +368,6 @@ public class PlansWindow extends JInternalFrame implements View{
 					}
 					resetWindow();
 					
-					hw.is_saved = true;
-					
 					return;
 				}
 				
@@ -399,7 +397,6 @@ public class PlansWindow extends JInternalFrame implements View{
 					planDao.Insert(local_plan);
 					config.addToSystemLog(getName()+","+"Salvou/inserio com sucesso"+","+local_plan.toString());
 					
-					hw.is_saved = true;
 				} catch (SQLException e1) {
 					config.addToSystemLog(getName()+","+"Erro ao salvar");
 					e1.printStackTrace();

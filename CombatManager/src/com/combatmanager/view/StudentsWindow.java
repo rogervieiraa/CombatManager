@@ -436,7 +436,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 					textFieldCep.setText(auxiliar_student.getCep());
 					textFieldStudent.setText(auxiliar_student.getName());
 					textFieldCountry.setText(city.getCountry());
-					if (city.getName().equals("")) {
+					if (city.getName() == null || city.getName().equals("")) {
 						
 					}else {
 						txtTeclarF.setText(city.getName());
@@ -580,6 +580,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 					config.addToSystemLog(getName()+","+"Tentou salvar com campo em branco");
 					return;
 				}
+				
 				// 0=yes, 1=no, 2=cancel
 				int save_option = JOptionPane.showConfirmDialog(null, "Deseja salvar as alteracoes?");
 				if (save_option == 1) {

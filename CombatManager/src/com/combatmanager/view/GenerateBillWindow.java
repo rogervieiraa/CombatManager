@@ -165,13 +165,11 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
 							aux_valor = 0;
 							
-							hw.is_saved = true;
 						}else if(aux_mmm == null) {
 							matriculationInvoiceDao.Insert(mi);
 							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
 							aux_valor = 0;
 							
-							hw.is_saved = true;
 						}
 					}
 					}

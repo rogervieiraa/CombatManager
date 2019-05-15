@@ -300,8 +300,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 					}
 					
 					btnSearch.doClick();
-					
-					hw.is_saved = true;
+				
 				}else {
 					if (model.getValueAt(index, 5) != null) {
 						JOptionPane.showMessageDialog(null, "Fatura cancelada!");
@@ -341,7 +340,6 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 					
 					btnSearch.doClick();
 					
-					hw.is_saved = true;
 				}else {
 					if (model.getValueAt(index, 5) != null) {
 						JOptionPane.showMessageDialog(null, "Fatura ja cancelada!");
@@ -375,7 +373,6 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 				}
 				btnSearch.doClick();
 				
-				hw.is_saved = true;
 			}
 		});
 		
