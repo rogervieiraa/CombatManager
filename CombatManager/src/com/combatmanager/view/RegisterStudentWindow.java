@@ -286,7 +286,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				int index = table.getSelectedRow();
 				
 				if (model.getValueAt(index, 0) != null) {
-					String resp = JOptionPane.showInputDialog(maskDate, "Inform a nova data final:");
+					String resp = JOptionPane.showInputDialog("Informe a nova data final:");
 					
 					model.setValueAt(resp, index, 4);
 				}
