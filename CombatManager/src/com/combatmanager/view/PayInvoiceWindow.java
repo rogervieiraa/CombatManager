@@ -67,7 +67,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, true, false
+				false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -376,6 +376,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(4).setResizable(false);
 		table.getColumnModel().getColumn(5).setResizable(false);
 		table.setDefaultRenderer(Object.class, new TableRenderer(config));
 		table.addMouseListener(new MouseAdapter() {

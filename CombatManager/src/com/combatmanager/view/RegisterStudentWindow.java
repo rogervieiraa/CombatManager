@@ -1,6 +1,7 @@
 package com.combatmanager.view;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import java.awt.Dimension;
@@ -24,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
@@ -72,6 +74,9 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 	private JButton btnAdd;
 	private JButton btnAdicionarModalidade;
 	private Boolean search;
+	private JPopupMenu popMenu;
+	private JMenuItem menuItemRemove;
+	private JMenuItem menuItemAltera;
 	private Matriculation save_matriculation;
 	private List<MatriculationModality> save_matriculationModality;
 	private List<MatriculationModality> newers_mm;
@@ -79,6 +84,20 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 	private final int ACCESS = 5*11;
 	private Boolean searchOrAdd;
 	private Configuration config;
+	private DefaultTableModel model = new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Modalidade", "Gradua\u00E7\u00E3o", "Plano", "Data In\u00EDcio", "Data Fim"
+			}
+		){
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		};
 	
 	@Override
 	public int getAccess() {
@@ -243,14 +262,65 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		scrollPane.setBounds(10, 191, 490, 160);
 		getContentPane().add(scrollPane);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Modalidade", "Gradua\u00E7\u00E3o", "Plano", "Data In\u00EDcio", "Data Fim"
+		popMenu = new JPopupMenu();
+		menuItemRemove = new JMenuItem("Remover");
+		menuItemAltera = new JMenuItem("Alterar data fim");
+		
+		menuItemRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int index = table.getSelectedRow();
+				
+				if (model.getValueAt(index, 0) != null) {
+					model.removeRow(index);
+				}
+				
+				
 			}
-		));
+		});
+		menuItemAltera.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int index = table.getSelectedRow();
+				
+				if (model.getValueAt(index, 0) != null) {
+					String resp = JOptionPane.showInputDialog(maskDate, "Inform a nova data final:");
+					
+					model.setValueAt(resp, index, 4);
+				}
+				
+			}
+		});
+		popMenu.add(menuItemAltera);
+		popMenu.add(menuItemRemove);
+		
+		
+		table = new JTable();
+		table.setModel(model);
+		table.setEnabled(true);
+		table.addMouseListener(new MouseAdapter() {
+			
+			public void mousePressed(MouseEvent e) {
+				if (table.getSelectedRow() != -1) {
+					if (e.isPopupTrigger()) {
+			            popMenu.show(e.getComponent(),
+			                       e.getX(), e.getY());
+			        }
+				}
+				
+		    }
+			public void mouseReleased(MouseEvent e) {
+				if (table.getSelectedRow() != -1) {
+					if (e.isPopupTrigger()) {
+			            popMenu.show(e.getComponent(),
+			                       e.getX(), e.getY());
+			        }
+				}
+		    }
+			
+		});
 		scrollPane.setViewportView(table);
 		
 		
@@ -320,6 +390,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				textFieldStudent.setEnabled(false);
 				textFieldRegistration.setEnabled(false);
 				btnAdicionarModalidade.setEnabled(true);
+				table.setEnabled(true);				
 			}
 		});
 		

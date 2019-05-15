@@ -58,7 +58,7 @@ public class CheckInvoiceWindow extends JInternalFrame implements View {
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, true, false
+				false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -257,28 +257,13 @@ public class CheckInvoiceWindow extends JInternalFrame implements View {
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(4).setResizable(false);
 		table.getColumnModel().getColumn(5).setResizable(false);
 		table.setDefaultRenderer(Object.class, new TableRenderer(config));
 		scrollPane.setViewportView(table);
 		setVisible(true);
 		
 		return this;
-	}
-	
-	public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column)
-	{
-
-	 	if(miG.getPay_date().equals(""))
-		{
-		       setForeground(Color.GREEN);	
-		}
-		else if(miG.getCancel_date().equals(""))
-		{
-		       setForeground(Color.BLACK);		
-		}
-	 
-	 	
-		return this;   	
 	}
 
 }

@@ -210,7 +210,7 @@ public class HomeWindow extends JInternalFrame implements View {
 				return columnEditables[column];
 			}
 		});
-		
+		tableEnrollmentInfo.setBounds(217, 262, 426, 208);
 		scrollPaneEnrollment.setViewportView(tableEnrollmentInfo);
 		
 		textFieldNameSearch.addActionListener(new ActionListener() {
@@ -273,9 +273,11 @@ public class HomeWindow extends JInternalFrame implements View {
 				StudentsWindow sw = new StudentsWindow();
 				
 				setContentPane(sw.run(config));
-				Student st = new Student();
 				
 				sw.setStudent(saved_student);
+				
+				
+				Student st = new Student();							
 			}
 		});
 		
