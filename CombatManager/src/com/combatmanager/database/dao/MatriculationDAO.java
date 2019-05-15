@@ -141,7 +141,7 @@ public class MatriculationDAO extends MasterDAO{
 			mat = new Matriculation();
 			mat.setCode(Integer.parseInt(rst.getString("codigo_matricula")));
 			mat.setStudent_code(Integer.parseInt(rst.getString("codigo_aluno")));
-			mat.setMatriculation_date(rst.getString("data_matricula"));
+			mat.setMatriculation_date(rst.getString("data_matricula").replace("-", ""));
 			mat.setDue_date(Integer.parseInt(rst.getString("dia_vencimento")));
 			mat.setClosing_date(rst.getString("data_encerramento"));
 			

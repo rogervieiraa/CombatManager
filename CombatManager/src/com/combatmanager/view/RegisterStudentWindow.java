@@ -571,16 +571,10 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 							aux_mm.setGraduation(model.getValueAt(i, 1).toString());
 							aux_mm.setPlan(model.getValueAt(i, 2).toString());
 							aux_mm.setBegin_date(model.getValueAt(i, 3).toString());
-							aux_mm.setEnd_date(model.getValueAt(i, 4) == null ? null : model.getValueAt(i, 4).toString());
+							aux_mm.setEnd_date(model.getValueAt(i, 4) == null ? "" : model.getValueAt(i, 4).toString());
 							
 							
 							matriculationModalityDao.Update(aux_mm, aux_mm);
-						}
-						for(int i=0;i<newers_mm.size();i++) {
-							MatriculationModality aux_mm = newers_mm.get(i);
-							
-							aux_mm.setMatriculation_code(auxiliar_matriculation.getCode());
-							matriculationModalityDao.Insert(aux_mm);
 						}
 
 						
