@@ -7,7 +7,7 @@ public class DataFixer {
 
 	
 	public Date fixData(String s, String divisor) {
-		if(s == null) {
+		if(s == null || s.equals("")) {
 			return null;
 		}
 		String[] aux = s.split(divisor);

@@ -171,14 +171,14 @@ public class AddModalityWindow extends JFrame implements View {
 				}
 				
 				if(!textFieldEnd.isEditValid()) {
-					matriculationModality.setEnd_date(null);
+					matriculationModality.setEnd_date("");
 				}
 				else {
 					matriculationModality.setEnd_date(textFieldEnd.getText());
 				}
 				
 				if(!textFieldStart.isEditValid()) {
-					matriculationModality.setEnd_date(null);
+					matriculationModality.setEnd_date("");
 				}
 				else {
 					matriculationModality.setBegin_date(textFieldStart.getText());

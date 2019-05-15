@@ -180,9 +180,9 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		Set(pst_insert, 2, mm.getModality());
 		Set(pst_insert, 3, mm.getGraduation());
 		Set(pst_insert, 4, mm.getPlan());
-		Date dt1 = dataFixer.fixData(mm.getBegin_date().replace("/", "-"), "-");
+		Date dt1 = dataFixer.fixData(mm.getBegin_date(), "/");
 		pst_insert.setDate(5, dt1);
-		Date dt2 = dataFixer.fixData(mm.getEnd_date().replace("/", "-"), "-");
+		Date dt2 = dataFixer.fixData(mm.getEnd_date(), "/");
 		pst_insert.setDate(6, dt2);
 
 
