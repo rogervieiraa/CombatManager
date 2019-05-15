@@ -128,50 +128,49 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 					if (list_mm.size() == 0) {
 						JOptionPane.showMessageDialog(null, "Nenhuma matricula encontrada!");
 					}else {
-					for(int i=0;i<list_mm.size();i++) {
-						
-						MatriculationInvoices mi = new MatriculationInvoices();
-						MatriculationModality aux_mm = list_mm.get(i);
-						MatriculationModality aux_mmm;
-						if (i != list_mm.size()-1) {
-							aux_mmm = list_mm.get(i+1);
-						} else {
-							aux_mmm = new MatriculationModality();
-							aux_mmm.setMatriculation_code(-1);
-						}
-						mi.setMatriculation_code(aux_mm.getMatriculation_code());
-						Matriculation aux_matriculation = new Matriculation();
-						aux_matriculation.setCode(mi.getMatriculation_code());;
-						
-						Matriculation matriculation = (Matriculation) matriculationDao.Select(aux_matriculation);
-						
-						Plan aux_plan = new Plan();
-						aux_plan.setPlan(aux_mm.getPlan());
-						aux_plan.setModality(aux_mm.getModality());
-						Plan plan = (Plan) planDao.Select(aux_plan);
-						
-						aux_valor += plan.getMonth_value();					
-						plan.setMonth_value(aux_valor);
-						
-						mi.setDue_date(ddd + matriculation.getDue_date());
-						mi.setPay_date(null);
-						
-						
-						mi.setValue(plan.getMonth_value()); // pegar do plano
-						mi.setCancel_date(null);
-						System.out.println("Aqui");
-						if (aux_mm.getMatriculation_code() != aux_mmm.getMatriculation_code()) {
-							matriculationInvoiceDao.Insert(mi);
-							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
-							aux_valor = 0;
+						for(int i=0;i<list_mm.size();i++) {
 							
-						}else if(aux_mmm == null) {
-							matriculationInvoiceDao.Insert(mi);
-							JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
-							aux_valor = 0;
+							MatriculationInvoices mi = new MatriculationInvoices();
+							MatriculationModality aux_mm = list_mm.get(i);
+							MatriculationModality aux_mmm;
+							if (i != list_mm.size()-1) {
+								aux_mmm = list_mm.get(i+1);
+							} else {
+								aux_mmm = new MatriculationModality();
+								aux_mmm.setMatriculation_code(-1);
+							}
+							mi.setMatriculation_code(aux_mm.getMatriculation_code());
+							Matriculation aux_matriculation = new Matriculation();
+							aux_matriculation.setCode(mi.getMatriculation_code());;
 							
+							Matriculation matriculation = (Matriculation) matriculationDao.Select(aux_matriculation);
+							
+							Plan aux_plan = new Plan();
+							aux_plan.setPlan(aux_mm.getPlan());
+							aux_plan.setModality(aux_mm.getModality());
+							Plan plan = (Plan) planDao.Select(aux_plan);
+							
+							aux_valor += plan.getMonth_value();					
+							plan.setMonth_value(aux_valor);
+							
+							mi.setDue_date(ddd + matriculation.getDue_date());
+							mi.setPay_date(null);
+							
+							
+							mi.setValue(plan.getMonth_value()); // pegar do plano
+							mi.setCancel_date(null);
+							System.out.println("Aqui");
+							try {
+								matriculationInvoiceDao.Insert(mi);
+							}
+							catch(Exception e) {
+								
+							}
+							aux_valor = 0;
 						}
-					}
+
+						JOptionPane.showMessageDialog(null, "Faturas geradas com sucesso!");
+							
 					}
 					
 				} catch (SQLException e) {
