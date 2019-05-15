@@ -178,7 +178,7 @@ public class StudentDAO extends MasterDAO {
 			return student;
 		}
 		
-		return null;
+		throw new SQLException("Estutante nao encontrado");
 	}
 	
 	public Object SelectById(Object parameter) throws SQLException {
