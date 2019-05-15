@@ -172,6 +172,27 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		
 		textFieldRegistration = new JTextField();
 		textFieldRegistration.setBounds(143, 61, 84, 19);
+		textFieldRegistration.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == arg0.VK_ENTER)
+					btnSearch.doClick();
+				
+			}
+		});
 		getContentPane().add(textFieldRegistration);
 		textFieldRegistration.setColumns(10);
 		
