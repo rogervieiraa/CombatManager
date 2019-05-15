@@ -131,7 +131,6 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		
 		try {
 			maskDate = new MaskFormatter("####/##/##");
-			maskDay = new MaskFormatter("##");
 			
 			maskDate.setValidCharacters("0123456789");
 			maskDay.setValidCharacters("0123456789");
@@ -289,6 +288,20 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				int index = table.getSelectedRow();
 				
 				if (model.getValueAt(index, 0) != null) {
+					Modality mm = new Modality();
+					MatriculationModalityDAO mmDao;
+					
+					mm.setModality(model.getValueAt(index, 0).toString());
+					
+					try {
+						mmDao = new MatriculationModalityDAO(config.getConnection());
+						
+						mmDao.DeleteByModality(mm);
+						
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Erro ao gravar!");
+						return;
+					}
 					model.removeRow(index);
 				}
 				
@@ -574,6 +587,14 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 												
 						for(int i=0;i<model.getRowCount();i++) {
 							MatriculationModality aux_mm = new MatriculationModality();
+							for (int j = 0; j < newers_mm.size(); j++) {
+								if (newers_mm.get(j).getModality().equals(model.getValueAt(i, 0).toString())) {
+									MatriculationModality aux_mmm = newers_mm.get(j);
+									aux_mmm.setMatriculation_code(auxiliar_matriculation.getCode());
+									matriculationModalityDao.Insert(aux_mmm);
+									return;
+								}
+							}
 							
 							aux_mm.setMatriculation_code(Integer.parseInt(textFieldRegistration.getText()));
 							aux_mm.setModality(model.getValueAt(i, 0).toString());
