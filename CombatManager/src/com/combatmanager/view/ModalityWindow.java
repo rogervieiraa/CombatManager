@@ -455,7 +455,7 @@ public class ModalityWindow extends JInternalFrame implements View{
 						}
 						//delete
 						for(int i=0;i<save_graduation.size();i++) {
-							matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
+							//matriculationModalityDao.UpdateGraduation(save_graduation.get(i),null);
 							graduationDao.Delete(save_graduation.get(i));
 						}
 						config.addToSystemLog(getName()+","+"Salvou com sucesso");

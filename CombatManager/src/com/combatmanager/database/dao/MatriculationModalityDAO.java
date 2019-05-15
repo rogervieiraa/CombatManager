@@ -37,7 +37,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 								+"		? 					"
 								+"	)";
 	private String selectByMatriculation = "select * from matriculas_modalidades where codigo_matricula = ? order by modalidade";
-	private String updadeGraduation = "";
+	private String update = "UPDATE matriculas_modalidades SET data_fim = ? WHERE codigo_matricula = ?";
 	private String deleteByModality = "DELETE FROM matriculas_modalidades where modalidade = ?";
 	private String deleteByMatriculation = "DELETE FROM matriculas_modalidades where codigo_matricula = ?";
 	private String selectByActive = "SELECT * FROM matriculas_modalidades where data_fim is null order by codigo_matricula";
@@ -45,7 +45,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	private PreparedStatement pst_selectAll;
 	private PreparedStatement pst_select;
 	private PreparedStatement pst_insert;
-	private PreparedStatement pst_updadeGraduatio;
+	private PreparedStatement pst_update;
 	private PreparedStatement pst_deleteByModality;
 	private PreparedStatement pst_selectByMatriculation;
 	private PreparedStatement pst_deleteByMatriculation;
@@ -62,7 +62,7 @@ public class MatriculationModalityDAO  extends MasterDAO{
 		pst_selectByMatriculation = connection.prepareStatement(selectByMatriculation);
 		pst_select = connection.prepareStatement(select);
 		pst_insert = connection.prepareStatement(insert);
-		pst_updadeGraduatio = connection.prepareStatement(updadeGraduation);
+		pst_update = connection.prepareStatement(update);
 		pst_deleteByModality = connection.prepareStatement(deleteByModality);
 		pst_deleteByMatriculation = connection.prepareStatement(deleteByMatriculation);
 		pst_selectByActive = connection.prepareStatement(selectByActive);
@@ -160,13 +160,14 @@ public class MatriculationModalityDAO  extends MasterDAO{
 	
 	@Override
 	public void Update(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+		pst_update.clearParameters();
 		
-	}
-
-	public void UpdateGraduation(Object parameter, Object new_parameter) throws SQLException {
-		//TO DO
+		MatriculationModality mm = (MatriculationModality) parameter;
 		
+		pst_update.setInt(2, mm.getMatriculation_code());
+		pst_update.setDate(1, dataFixer.fixData(mm.getEnd_date().replace("/", "-"), "-"));
+		
+		pst_update.execute();
 	}
 	
 	@Override
