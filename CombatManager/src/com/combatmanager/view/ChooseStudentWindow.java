@@ -3,6 +3,9 @@ package com.combatmanager.view;
 import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -50,7 +53,7 @@ public class ChooseStudentWindow extends JFrame implements View {
 		internalFrame.setBounds(0, 0, 450, 300);
 		add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
-		
+
 		textFieldName = new JTextField();
 		textFieldName.setBounds(72, 12, 230, 20);
 		internalFrame.getContentPane().add(textFieldName);
@@ -167,5 +170,11 @@ public class ChooseStudentWindow extends JFrame implements View {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.addRow(new Object[] {ss.getName(),ss.getIndex()});
 		table.setModel(model);
+	}
+
+	@Override
+	public void resetWindow() {
+		// TODO Auto-generated method stub
+		
 	}
 }

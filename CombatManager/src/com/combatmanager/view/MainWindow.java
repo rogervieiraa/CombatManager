@@ -53,6 +53,9 @@ public class MainWindow extends JFrame implements View {
 		return this.NAME;
 	}
 	
+	public void resetWindow() {
+		
+	}
 
 	/**
 	 * @author Romulo Create the frame.
@@ -90,7 +93,6 @@ public class MainWindow extends JFrame implements View {
 			
 				UsersWindow users = new UsersWindow();
 				users.run(config);
-				users.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				openWindow(users);
 	            
 		
@@ -136,7 +138,6 @@ public class MainWindow extends JFrame implements View {
 					
 					StudentsWindow students = new StudentsWindow();		
 					students.run(config);
-					students.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(students);
 
 					
@@ -156,7 +157,6 @@ public class MainWindow extends JFrame implements View {
 					ModalityWindow modality = new ModalityWindow();
 					
 					modality.run(config);
-					modality.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(modality);
 					
 				}
@@ -174,7 +174,6 @@ public class MainWindow extends JFrame implements View {
 					PlansWindow plans = new PlansWindow(hw);
 					
 					plans.run(config);
-					plans.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(plans);
 		            
 				}
@@ -200,7 +199,6 @@ public class MainWindow extends JFrame implements View {
 				
 					RegisterStudentWindow registerStudent = new RegisterStudentWindow(hw);			
 					registerStudent.run(config);
-					registerStudent.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(registerStudent);
 				}
 					
@@ -219,7 +217,6 @@ public class MainWindow extends JFrame implements View {
 					GenerateBillWindow generate = new GenerateBillWindow(hw);
 					
 					generate.run(config);
-					generate.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(generate);
 				
 				}
@@ -239,7 +236,6 @@ public class MainWindow extends JFrame implements View {
 					
 					checkInvoice.run(config);
 					
-					checkInvoice.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(checkInvoice);
 				}
 					
@@ -257,7 +253,6 @@ public class MainWindow extends JFrame implements View {
 					
 					payInvoice.run(config);
 					
-					payInvoice.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(payInvoice);
 					
 				}
@@ -279,7 +274,6 @@ public class MainWindow extends JFrame implements View {
 					EnrollmentReportWindow report = new EnrollmentReportWindow();
 					
 					report.run(config);
-					report.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(report);
 				}
 				});
@@ -298,7 +292,6 @@ public class MainWindow extends JFrame implements View {
 					
 					BackupWindow backup = new BackupWindow();
 					backup.run(config);
-					backup.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					openWindow(backup);
 				}
 				});
@@ -330,6 +323,7 @@ public class MainWindow extends JFrame implements View {
 		int i = 0;
 		int c= 0;
 		boolean exist= false;
+		
 		
 		while(i < contentPane.getComponents().length) {
 			
@@ -374,6 +368,7 @@ public class MainWindow extends JFrame implements View {
 		
 		
 		if(exist == false) {
+
 			frames[i]= window;
 			contentPane.add(frames[i]);
 		
@@ -407,7 +402,6 @@ public class MainWindow extends JFrame implements View {
 				e1.printStackTrace();
 			}
 			
-
 			validate();
 	        repaint();
 		}

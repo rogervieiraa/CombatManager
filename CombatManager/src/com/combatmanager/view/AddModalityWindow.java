@@ -200,7 +200,7 @@ public class AddModalityWindow extends JFrame implements View {
 		return this.save_matriculationModality;
 	}
 	
-	void resetWindow() {
+	public void resetWindow() {
 		comboGraduation = new JComboBox();
 		comboGraduation.setBounds(95, 42, 177, 20);
 		comboPlan = new JComboBox();

@@ -43,6 +43,10 @@ import com.combatmanager.security.Configuration;
 import controller.CombatImage;
 
 import javax.swing.border.LineBorder;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.ListSelectionModel;
@@ -96,7 +100,11 @@ public class ModalityWindow extends JInternalFrame implements View{
 	 * Create the panel.
 	 */
 	public JInternalFrame run(Configuration config) {
-		
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		setLayout(null);
 		setTitle("Modalidades e Graduacoes");
 		setFrameIcon(CombatImage.combatvinte_20x20);
@@ -521,7 +529,7 @@ public class ModalityWindow extends JInternalFrame implements View{
 		return this;
 	}
 	
-	private void resetWindow() {
+	public void resetWindow() {
 		textFieldGraduation.setText("");
 		textFieldModality.setText("");
 		btnOk.setEnabled(false);

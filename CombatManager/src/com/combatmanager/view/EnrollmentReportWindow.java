@@ -11,6 +11,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
 import javax.swing.JTextField;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import com.combatmanager.security.Configuration;
 
@@ -46,7 +49,11 @@ public class EnrollmentReportWindow extends JInternalFrame implements View {
 	public JInternalFrame run(Configuration config) {
 		
 		setLayout(null);
-
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		setClosable(true);
 		setTitle("Relat\\u00F3rio de Matricula");
 		setFrameIcon(CombatImage.combatvinte_20x20);
@@ -101,5 +108,11 @@ public class EnrollmentReportWindow extends JInternalFrame implements View {
 		getContentPane().add(btnProcess);
 		setVisible(true);
 		return this;
+	}
+
+	@Override
+	public void resetWindow() {
+		// TODO Auto-generated method stub
+		
 	}
 }

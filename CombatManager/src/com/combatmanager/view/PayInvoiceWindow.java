@@ -25,6 +25,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
@@ -109,6 +112,12 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		
 		setLayout(null);
 		
@@ -414,5 +423,9 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 		LocalDate ld = LocalDate.now();
 		
 		return ld;
+	}
+	
+	public void resetWindow() {
+		
 	}
 }
