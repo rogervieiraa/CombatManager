@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.UIManager;
@@ -151,11 +152,7 @@ public class HomeWindow extends JInternalFrame implements View {
 		btnEnrollmentInfo = new JButton("Acessar dados da Matr\u00EDcula");
 		btnEnrollmentInfo.setBounds(440, 224, 203, 26);
 		add(btnEnrollmentInfo);
-		
-		
-		
-		
-		
+			
 		tableStudentInfo = new JTable();
 		tableStudentInfo.setColumnSelectionAllowed(true);
 		tableStudentInfo.setCellSelectionEnabled(true);
@@ -195,7 +192,6 @@ public class HomeWindow extends JInternalFrame implements View {
 		add(scrollPaneEnrollment);
 		
 		tableEnrollmentInfo = new JTable();
-		tableEnrollmentInfo.setEnabled(false);
 		tableEnrollmentInfo.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -210,8 +206,10 @@ public class HomeWindow extends JInternalFrame implements View {
 				return columnEditables[column];
 			}
 		});
-		tableEnrollmentInfo.setBounds(217, 262, 426, 208);
 		scrollPaneEnrollment.setViewportView(tableEnrollmentInfo);
+		
+		add(new Component() {
+		});
 		
 		textFieldNameSearch.addActionListener(new ActionListener() {
 			
