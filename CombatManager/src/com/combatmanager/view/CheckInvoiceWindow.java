@@ -7,7 +7,10 @@ import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -94,13 +97,21 @@ public class CheckInvoiceWindow extends JInternalFrame implements View {
 		
 		setLayout(null);
 		
-		setResizable(true);
+		
 		setTitle("Consultar Faturas");
 		setClosable(true);
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 600, 575);
 
 		getContentPane().setLayout(null);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		setLocation(width, height);
 		
 		JLabel lblDe = new JLabel("De: ");
 		lblDe.setFont(new Font("Dialog", Font.BOLD, 12));

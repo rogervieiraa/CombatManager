@@ -95,6 +95,7 @@ public class ModalityWindow extends JInternalFrame implements View{
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 450, 344);
 		setClosable(true);
+		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		

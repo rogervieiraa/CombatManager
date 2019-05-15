@@ -119,7 +119,7 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 526, 396);
 		getContentPane().setLayout(null);
-		setVisible(true);
+		setVisible(true);	
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = env.getMaximumWindowBounds();
 		setClosable(true);

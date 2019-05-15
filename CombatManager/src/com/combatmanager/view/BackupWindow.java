@@ -17,7 +17,11 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,6 +60,14 @@ public class BackupWindow extends JInternalFrame implements View{
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 358, 145);
 	
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		setLocation(width, height);
+		
 		getContentPane().setLayout(null);
 		
 		JButton btnBackup = new JButton("Backup");

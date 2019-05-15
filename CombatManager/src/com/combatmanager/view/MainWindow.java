@@ -354,27 +354,15 @@ public class MainWindow extends JFrame implements View {
 		if(contentPane.getComponent(c).isVisible() == false && exist == true){
 			
 			
-			contentPane.remove(window);
-			contentPane.add(window);
 			
+			contentPane.getComponent(c).setVisible(true);
+			
+	
 			try {
 				window.setSelected(true);
 			} catch (PropertyVetoException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-			
-			int j = 0;
-	
-			while(j < frames.length) {
-				
-				try {
-					frames[j].setSelected(false);
-				} catch (PropertyVetoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				j++;
 			}
 			
 			validate();
@@ -389,6 +377,15 @@ public class MainWindow extends JFrame implements View {
 			contentPane.add(frames[i]);
 		
 			contentPane.setComponentZOrder(frames[i], 0);
+			
+			int z= 0;
+			while(i < 0) {
+				contentPane.setComponentZOrder(frames[i], z);
+				contentPane.setComponentZOrder(frames[i-1], z+1);
+				i--;
+				z++;
+			}
+			
 			int j = 0;
 			
 			while(j < i) {

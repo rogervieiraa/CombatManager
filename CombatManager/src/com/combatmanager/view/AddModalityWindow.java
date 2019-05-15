@@ -8,8 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -71,6 +74,14 @@ public class AddModalityWindow extends JFrame implements View {
 		internalFrame.setBounds(0, 0, 298, 232);
 		add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		setLocation(width, height);
 		
 		comboModality = new JComboBox();
 		comboModality.setBounds(95, 9, 177, 20);

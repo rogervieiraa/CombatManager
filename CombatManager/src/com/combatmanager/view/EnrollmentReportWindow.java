@@ -4,7 +4,12 @@ import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 import javax.swing.JTextField;
 
 import com.combatmanager.security.Configuration;
@@ -46,6 +51,14 @@ public class EnrollmentReportWindow extends JInternalFrame implements View {
 		setTitle("Relat\\u00F3rio de Matricula");
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 270, 217);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		setLocation(width, height);
 		
 		getContentPane().setLayout(null);
 		

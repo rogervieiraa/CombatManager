@@ -22,6 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -65,6 +68,14 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 		setClosable(true);
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 336, 132);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		setLocation(width, height);
 		
 		getContentPane().setLayout(null);
 		

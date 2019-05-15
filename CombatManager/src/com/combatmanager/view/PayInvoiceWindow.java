@@ -7,7 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -71,7 +74,7 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 			}
 		};
 
-	private final String NAME = "Tela Consultar Fatura";
+	private final String NAME = "Tela Pagar Fatura";
 	private final int ACCESS = 7*11;
 
 	@Override
@@ -108,6 +111,14 @@ public class PayInvoiceWindow extends JInternalFrame implements View {
 		setBounds(0, 0, 600, 575);
 	
 		getContentPane().setLayout(null);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = env.getMaximumWindowBounds();
+		
+		Dimension jInternalFrameSize = getSize();
+		int width= (bounds.width - jInternalFrameSize.width)/2;
+		int height= (bounds.height - jInternalFrameSize.height)/2;
+		setLocation(width, height);
 		
 		JLabel lblDe = new JLabel("De: ");
 		lblDe.setFont(new Font("Dialog", Font.BOLD, 12));
