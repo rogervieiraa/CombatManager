@@ -98,7 +98,14 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				return columnEditables[column];
 			}
 		};
+	private HomeWindow hw;
 	
+	/**
+	 * Create the panel.
+	 */
+	public RegisterStudentWindow(HomeWindow hw) {
+		this.hw = hw;
+	}
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -502,7 +509,6 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 				MatriculationModalityDAO matriculationModalityDao = null;
 				MatriculationDAO matriculationDao = null;
 				StudentDAO studentDao = null;
-				HomeWindow hw = new HomeWindow();
 				
 				if(textFieldStudent.isEnabled()) {
 					JOptionPane.showMessageDialog(null, "Favor preencher o campo de aluno utilizando F9");

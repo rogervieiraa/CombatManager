@@ -46,6 +46,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -76,10 +77,16 @@ public class HomeWindow extends JInternalFrame implements View {
 	private int saved_year;
 	private int saved_mounth;
 	public Boolean is_saved = false;
+	private JPanel mainWindowPanel;
+	private HomeWindow hw;
 	
 	private final String NAME = "Tela Controle Estudantes";
 	private final int ACCESS = 3*5*7*11;
 	
+	public HomeWindow(JPanel contentPane) {
+		this.mainWindowPanel = contentPane;
+	}
+
 	@Override
 	public int getAccess() {
 		return this.ACCESS;
@@ -92,10 +99,11 @@ public class HomeWindow extends JInternalFrame implements View {
 	
 	/**
 	 * Create the panel.
+	 * @param contentPane 
 	 */
 	public JInternalFrame run(Configuration config) {
 		this.config = config;
-		
+		hw = this;
 		setBounds(0, 0, 665, 515);
 		setTitle("Controle Aluno");
 		setFrameIcon(CombatImage.combatvinte_20x20);		
@@ -269,22 +277,18 @@ public class HomeWindow extends JInternalFrame implements View {
 		btnStudentsInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StudentsWindow sw = new StudentsWindow();
-				
-				setContentPane(sw.run(config));
-				
+				sw.run(config);				
 				sw.setStudent(saved_student);
-				
-				
-				Student st = new Student();							
+				mainWindowPanel.add(sw);
 			}
 		});
 		
 		btnEnrollmentInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				RegisterStudentWindow rsw = new RegisterStudentWindow();
-				
-				setContentPane(rsw.run(config));
+				RegisterStudentWindow rsw = new RegisterStudentWindow(hw);
+				rsw.run(config);
 				rsw.setMatriculation(student_matriculations.get(0));
+				mainWindowPanel.add(rsw);
 			}
 		});
 		
