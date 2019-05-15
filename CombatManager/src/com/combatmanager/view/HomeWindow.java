@@ -300,7 +300,7 @@ public class HomeWindow extends JInternalFrame implements View {
 		return this;
 	}
 	
-	private void resetWindow() {
+	public void resetWindow() {
 		saved_student = null;
 		student_matriculations = null;
 		textFieldCenterData.setText("Aguardando Consulta");

@@ -2,6 +2,9 @@ package com.combatmanager.view;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import com.combatmanager.security.Backup;
 import com.combatmanager.security.Configuration;
@@ -53,7 +56,11 @@ public class BackupWindow extends JInternalFrame implements View{
 	 */
 	public JInternalFrame run(Configuration config){
 		setLayout(null);
-		
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		
 		setClosable(true);
 		setTitle("Fazer Backup");

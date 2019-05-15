@@ -1,6 +1,9 @@
 package com.combatmanager.view;
 
 import javax.swing.JPanel;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import com.combatmanager.database.dao.MatriculationDAO;
 import com.combatmanager.database.dao.MatriculationInvoicesDAO;
@@ -43,6 +46,10 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 	private Configuration config;
 	private HomeWindow hw;
 	
+	public void resetWindow() {
+		
+	}
+	
 	/**
 	 * Create the panel.
 	 */
@@ -64,7 +71,11 @@ public class GenerateBillWindow extends JInternalFrame implements View {
 		this.config = config;
 
 		setLayout(null);
-	
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		setTitle("Gerar Fatura");
 		setClosable(true);
 		setFrameIcon(CombatImage.combatvinte_20x20);

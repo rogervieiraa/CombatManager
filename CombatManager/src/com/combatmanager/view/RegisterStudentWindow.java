@@ -35,6 +35,9 @@ import java.awt.Rectangle;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -135,6 +138,12 @@ public class RegisterStudentWindow extends JInternalFrame implements View{
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		
 		this.config = config;
 		searchOrAdd = false;

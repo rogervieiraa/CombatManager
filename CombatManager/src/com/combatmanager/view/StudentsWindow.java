@@ -18,6 +18,9 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.text.MaskFormatter;
 
 import com.combatmanager.database.dao.GraduationDAO;
@@ -134,6 +137,11 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 			// TODO: handle exception
 		}
 		
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		
 		this.config = config;
 		setName("Cadastro Alunos");
@@ -708,7 +716,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 		return this;
 	}
 	
-	private void resetWindow() {
+	public void resetWindow() {
 		txtTeclarF.setText("Teclar F9");
 		textFieldEmail.setText("");
 		textFieldAddress.setText("");
@@ -773,6 +781,7 @@ public class StudentsWindow extends JInternalFrame implements View, KeyListener 
 	}
 
 	public void setStudent(Student auxiliar_student) {
+		System.out.println("Resetou");
 		btnRemove.setEnabled(false);
 		btnSave.setEnabled(false);
 		btnAdd.setEnabled(true);

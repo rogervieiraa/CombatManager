@@ -25,6 +25,9 @@ import java.awt.Rectangle;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import com.combatmanager.database.dao.GraduationDAO;
 import com.combatmanager.database.dao.MatriculationModalityDAO;
@@ -82,7 +85,11 @@ public class PlansWindow extends JInternalFrame implements View{
 	
 	public JInternalFrame run(Configuration config) {
 		this.config = config;
-		
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		setFrameIcon(CombatImage.combatvinte_20x20);
 		setBounds(0, 0, 450, 200);
 		setClosable(true);
@@ -408,7 +415,7 @@ public class PlansWindow extends JInternalFrame implements View{
 		return this;
 	}
 	
-	private void resetWindow() {
+	public void resetWindow() {
 		textFieldPlans.setText("");
 		textFieldPrice.setText("");
 		btnRemove.setEnabled(false);

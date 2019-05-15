@@ -9,4 +9,5 @@ public interface View {
 	public abstract int getAccess();
 	public abstract String getName();
 	public abstract JInternalFrame run(Configuration config);
+	public void resetWindow();
 }

@@ -6,6 +6,9 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import com.combatmanager.security.Configuration;
@@ -74,6 +77,11 @@ public class UsersWindow extends JInternalFrame implements View {
 	 * Create the panel.
 	 */
 	public JInternalFrame run(Configuration config) {
+		addInternalFrameListener((InternalFrameListener) new InternalFrameAdapter(){
+	        public void internalFrameClosing(InternalFrameEvent e) {
+	            resetWindow();
+	        }
+	    });
 		JPanel contentPane= new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
@@ -428,7 +436,7 @@ public class UsersWindow extends JInternalFrame implements View {
 		
 	}
 	
-	private void resetWindow () {
+	public void resetWindow () {
 
 		textField.setText("");
 		pwdPassword.setText("");

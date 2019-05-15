@@ -156,5 +156,11 @@ btnSearch.addActionListener(new ActionListener() {
 	public City getCity() {
 		return selectedCity;
 	}
+
+	@Override
+	public void resetWindow() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
